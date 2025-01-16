@@ -1,0 +1,24 @@
+{
+  "name": "talentbridge-mern-app",
+  "version": "1.0.0",
+  "description": "Swipe. Match. Hire : A MERN stack web application that connects developers with companies (and other developers) through a Tinder-style matchmaking system.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongodb": "^6.12.0",
+    "mongoose": "^8.9.5",
+    "talentbridge-mern-app": "file:"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
