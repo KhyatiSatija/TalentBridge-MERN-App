@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const morgan = require('morgan');
 // Cross Origin Resource Sharing is used for the communication between the backend and frontend
 const connectDB = require('./config/database'); //Database connection
 
@@ -15,6 +16,7 @@ const PORT = process.env.PORT || 5000;
 //Middleware
 app.use(cors())
 app.use(bodyParser.json())
+app.use(morgan('dev')); //HTTP request logger middleware for Node.js(helps to debig and monitor the server)
 
 //Connect to MongoDB
 connectDB();
