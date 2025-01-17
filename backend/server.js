@@ -25,9 +25,10 @@ connectDB();
 app.get('/', (req, res) => {
     res.send('Welcome to the TalentBridge API!');
   });
-// app.use('/api/developers', require('./routes/developerRoutes'));
-// app.use('/api/companies', require('./routes/companyRoutes'));
-
+app.use('/api/auth/developer', require('./routes/auth/developerAuthRoutes'));
+app.use('/api/auth/company', require('./routes/auth/companyAuthRoutes'));
+app.use('/api/auth/forgot-password', require('./routes/auth/forgotPasswordRoutes'));
+app.use('/api/auth/reset-password', require('./routes/auth/resetPasswordRoutes'));
 //Start server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
