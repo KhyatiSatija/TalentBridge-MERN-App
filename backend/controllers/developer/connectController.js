@@ -1,58 +1,97 @@
 const Developer = require('../../models/developer');
 const DeveloperProfile = require('../../models/developerProfile');
 const DeveloperConnections = require('../../models/developerConnections');
+
 // @desc Fetch developers excluding signed-in user, rejected, requested, and matched developers
 // @route GET /api/developer/connect
 const getDeveloperCards = async (req, res) => {
     try {
         const loggedInUserId = req.user.id;
-    
-        // Fetch IDs of developers to exclude based on connection status
-        const excludedDeveloperConnections = await DeveloperConnection.find({
-          $or: [
-            { senderId: loggedInUserId, status: 'rejected' }, // Developers rejected by the user
-            { receiverId: loggedInUserId, status: 'rejected' }, // Developers who rejected the user
-            { senderId: loggedInUserId, status: 'requested' }, // Developers the user has swiped right on (requested)
-            { receiverId: loggedInUserId, status: 'requested' }, // Developers who swiped right on the user
-            { senderId: loggedInUserId, status: 'accepted' }, // Matched developers
-            { receiverId: loggedInUserId, status: 'accepted' }, // Matched developers
-          ],
-        }).lean();
-    
-        // Extract IDs to exclude
-        const excludedDeveloperIds = new Set(
-          excludedDeveloperConnections.flatMap((connection) => [
-            connection.senderId.toString(),
-            connection.receiverId.toString(),
-          ])
+        console.log('Logged in user ID:', loggedInUserId);
+
+        // Fetch the connection data for the logged-in user
+        let loggedInUserConnection = await DeveloperConnections.findOne({ developerId: loggedInUserId }).lean();
+
+        // If connection data doesn't exist, initialize it
+        if (!loggedInUserConnection) {
+          console.log('No connection data found for the logged-in user. Initializing...');
+          loggedInUserConnection = {
+            connections: {
+              rejected: [],
+              requested: [],
+              matched: [],
+              connectionRequests: [],
+            },
+          };
+          // Optionally, create a new DeveloperConnections document
+          await DeveloperConnections.create({
+            developerId: loggedInUserId,
+            connections: {
+              rejected: [],
+              requested: [],
+              matched: [],
+              connectionRequests: [],
+            },
+          });
+        }
+
+
+        // Fetch developers who have rejected the logged-in user
+        const developersWhoRejectedUser = await DeveloperConnections.find({
+          "connections.rejected": loggedInUserId,
+        })
+          .select("developerId")
+          .lean();
+
+        // Extract the IDs of developers who have rejected the logged-in user
+        const developersWhoRejectedUserIds = developersWhoRejectedUser.map(
+          (connection) => connection.developerId.toString()
         );
-        excludedDeveloperIds.add(loggedInUserId); // Exclude the logged-in user
-    
-        // Fetch profiles of developers not in the exclusion list
-        const profiles = await DeveloperProfile.find({
-          developerId: { $nin: Array.from(excludedDeveloperIds) },
-        }).lean();
-    
-        // Map profiles to the required data structure
-        const combinedData = profiles.map((profile) => ({
-          id: profile.developerId, // Developer ID for frontend use
-          profilePhoto: profile.profilePhoto || null,
-          bio: profile.bio || null,
-          location: profile.location || null,
-          linkedIn: profile.linkedIn || null,
-          github: profile.github || null,
-          portfolio: profile.portfolio || null,
-          professionalDetails: profile.professionalDetails || null,
-          education: profile.education || null,
-          workExperience: profile.workExperience || null,
+      
+      // Create a set of excluded developer IDs based on connections
+      const excludedDeveloperIds = new Set([
+        loggedInUserId, // Exclude the logged-in user
+        ...loggedInUserConnection.connections.rejected, // Developers rejected by the user
+        ...loggedInUserConnection.connections.requested, // Developers the user has swiped right on
+        ...loggedInUserConnection.connections.matched, // Matched developers
+        ...developersWhoRejectedUserIds, // Developers who rejected the logged-in user
+      ]);
+
+
+      // Fetch developers who are not excluded
+      const developers = await Developer.find({ _id: { $nin: Array.from(excludedDeveloperIds) } })
+        .select('_id fullName') // Fetch only the ID and full name
+        .lean();
+
+
+      // Fetch profiles for the developers
+      const developerIds = developers.map((developer) => developer._id);
+      const profiles = await DeveloperProfile.find({ developerId: { $in: developerIds } }).lean();
+
+      // Combine developer and profile data
+      const combinedData = developers.map((developer) => {
+        const profile = profiles.find((p) => p.developerId.toString() === developer._id.toString());
+        return {
+          id: developer._id, // Developer ID
+          fullName: developer.fullName, // Developer full name
+          profilePhoto: profile?.profilePhoto || null, // Optional: Default to null if no profile
+          bio: profile?.bio || null,
+          location: profile?.location || null,
+          linkedIn: profile?.linkedIn || null,
+          github: profile?.github || null,
+          portfolio: profile?.portfolio || null,
+          professionalDetails: profile?.professionalDetails || null,
+          education: profile?.education || null,
+          workExperience: profile?.workExperience || null,
           additionalInfo: {
-            certifications: profile.additionalInfo?.certifications || null,
-            achievements: profile.additionalInfo?.achievements || null,
-            languages: profile.additionalInfo?.languages || null,
+            certifications: profile?.additionalInfo?.certifications || null,
+            achievements: profile?.additionalInfo?.achievements || null,
+            languages: profile?.additionalInfo?.languages || null,
           },
-        }));
-    
-        res.status(200).json(combinedData);
+        };
+      });
+      res.status(200).json(combinedData);
+
       } catch (error) {
         console.error('Error fetching developer cards:', error.message);
         res.status(500).json({ message: 'Error fetching developers', error: error.message });
