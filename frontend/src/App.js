@@ -1,9 +1,10 @@
 import React from "react";
-
+import HomePage from "./pages/HomePage";
+import "./assets/css/App.css";
 function App() {
   return (
-    <div>
-      <h1>Welcome to TalentBridge</h1>
+    <div className="App">
+      <HomePage />
     </div>
   );
 }
