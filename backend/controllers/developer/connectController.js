@@ -104,50 +104,85 @@ const updateConnection = async (req, res) => {
     const { developerId, action } = req.body; // `developerId` is the target developer's ID, `action` is 'swipeRight' or 'swipeLeft'
   
     try {
-      const loggedInUserId = req.user.id;
+      // const loggedInUserId = req.user.id;
+      const loggedInUserId = "678ab374cbcc1f7a32fc4028";
   
       // Fetch connection records for both developers
-      const loggedInUserConnection = await DeveloperConnections.findOne({ developerId: loggedInUserId });
-      const targetDeveloperConnection = await DeveloperConnections.findOne({ developerId });
+      let loggedInUserConnection = await DeveloperConnections.findOne({ developerId: loggedInUserId });
+      let targetDeveloperConnection = await DeveloperConnections.findOne({ developerId });
   
-      // Ensure both connection records exist
-      if (!loggedInUserConnection || !targetDeveloperConnection) {
-        return res.status(404).json({ message: 'Connection records not found for one or both developers' });
+      // Ensure connection records exist, or create them if they don't
+      if (!loggedInUserConnection) {
+        loggedInUserConnection = await DeveloperConnections.create({
+          developerId: loggedInUserId,
+          connections: {
+            rejected: [],
+            requested: [],
+            matched: [],
+            connectionRequests: [],
+          },
+        });
+      }
+
+      if (!targetDeveloperConnection) {
+        targetDeveloperConnection = await DeveloperConnections.create({
+          developerId,
+          connections: {
+            rejected: [],
+            requested: [],
+            matched: [],
+            connectionRequests: [],
+          },
+        });
       }
   
       if (action === 'swipeRight') {
-        // Check if the target developer has already sent a connection request to the logged-in user
-        if (targetDeveloperConnection.connections.connectionRequests.includes(loggedInUserId)) {
+        // Check if the target developer has already sent a connection request
+        if (loggedInUserConnection.connections.connectionRequests.includes(developerId)) {
           // Case 1: Match is made
           // Update logged-in user
-          loggedInUserConnection.connections.connectionRequests =
-            loggedInUserConnection.connections.connectionRequests.filter((id) => id.toString() !== developerId.toString());
+          loggedInUserConnection.connections.connectionRequests = loggedInUserConnection.connections.connectionRequests.filter(
+            (id) => id.toString() !== developerId.toString()
+          );
           loggedInUserConnection.connections.matched.push(developerId);
   
           // Update target developer
-          targetDeveloperConnection.connections.requested =
-            targetDeveloperConnection.connections.requested.filter((id) => id.toString() !== loggedInUserId.toString());
+          targetDeveloperConnection.connections.requested = targetDeveloperConnection.connections.requested.filter(
+            (id) => id.toString() !== loggedInUserId.toString()
+          );
           targetDeveloperConnection.connections.matched.push(loggedInUserId);
         } else {
           // Case 2: Add to requested list for the logged-in user
           if (!loggedInUserConnection.connections.requested.includes(developerId)) {
             loggedInUserConnection.connections.requested.push(developerId);
           }
+  
+          // Add the logged-in user to the connectionRequests list for the target developer
+          if (!targetDeveloperConnection.connections.connectionRequests.includes(loggedInUserId)) {
+            targetDeveloperConnection.connections.connectionRequests.push(loggedInUserId);
+          }
         }
       } else if (action === 'swipeLeft') {
-        // Case 3: Swipe left
-        if (targetDeveloperConnection.connections.connectionRequests.includes(loggedInUserId)) {
-          // Remove from requested and connectionRequests
-          targetDeveloperConnection.connections.requested =
-            targetDeveloperConnection.connections.requested.filter((id) => id.toString() !== loggedInUserId.toString());
-          loggedInUserConnection.connections.connectionRequests =
-            loggedInUserConnection.connections.connectionRequests.filter((id) => id.toString() !== developerId.toString());
-        }
-        // Add to rejected list for logged-in user
-        if (!loggedInUserConnection.connections.rejected.includes(developerId)) {
+        // Check if the target developer has already sent a connection request
+        if (loggedInUserConnection.connections.connectionRequests.includes(developerId)) {
+          // Case 3: Rejected after a connection request
+          loggedInUserConnection.connections.connectionRequests = loggedInUserConnection.connections.connectionRequests.filter(
+            (id) => id.toString() !== developerId.toString()
+          );
           loggedInUserConnection.connections.rejected.push(developerId);
+  
+          // Remove logged-in user from the target developer's requested list
+          targetDeveloperConnection.connections.requested = targetDeveloperConnection.connections.requested.filter(
+            (id) => id.toString() !== loggedInUserId.toString()
+          );
+        } else {
+          // Case 4: Regular rejection
+          if (!loggedInUserConnection.connections.rejected.includes(developerId)) {
+            loggedInUserConnection.connections.rejected.push(developerId);
+          }
         }
       }
+  
   
       // Save changes to both developers
       await loggedInUserConnection.save();
