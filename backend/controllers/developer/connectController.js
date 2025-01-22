@@ -104,8 +104,7 @@ const updateConnection = async (req, res) => {
     const { developerId, action } = req.body; // `developerId` is the target developer's ID, `action` is 'swipeRight' or 'swipeLeft'
   
     try {
-      // const loggedInUserId = req.user.id;
-      const loggedInUserId = "678ab374cbcc1f7a32fc4028";
+      const loggedInUserId = req.user.id;
   
       // Fetch connection records for both developers
       let loggedInUserConnection = await DeveloperConnections.findOne({ developerId: loggedInUserId });
