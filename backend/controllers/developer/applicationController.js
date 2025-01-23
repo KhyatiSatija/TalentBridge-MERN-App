@@ -1,0 +1,182 @@
+const DeveloperApplications = require('../../models/developerApplications');
+const CompanyJobApplications = require('../../models/companyJobApplications');
+const JobDescriptions = require('../../models/jobDescriptions');
+const Company = require('../../models/company');
+
+// @desc Get all job applications for the logged-in developer
+// @route GET /api/developer/applications
+const getDeveloperApplications = async (req, res) => {
+    try {
+    //   const loggedInUserId = req.user.id;
+      const loggedInUserId = "678ab374cbcc1f7a32fc4028";
+  
+      // Fetch developer applications
+      const developerApplications = await DeveloperApplications.findOne({ developerId: loggedInUserId }).lean();
+  
+      if (!developerApplications) {
+        // If no applications found, return an empty response
+        res.status(200).json({
+            onHoldApplications,
+            rejectedApplications,
+            appliedApplications,
+            underProcessApplications,
+            hiredApplications,
+          });
+      }
+  
+    // Helper function to fetch job details and resolve company name
+    const fetchJobDetailsWithCompanyName = async (jobIds) => {
+        const jobs = await JobDescriptions.find({ _id: { $in: jobIds } }).lean();
+  
+        // Map job details and fetch company names
+        return Promise.all(
+          jobs.map(async (job) => {
+            const company = await Company.findById(job.companyId).select('name').lean();
+            return {
+                companyName: company ? company.name : null,
+              jobId: job._id,
+              jobTitle: job.jobTitle,
+              jobDescription: job.jobDescription,
+              responsibilities: job.responsibilities,
+              requiredSkills: job.requiredSkills,
+              salaryRange: job.salaryRange,
+              workMode: job.workMode,
+              location: job.location,
+              lastDateToApply: job.lastDateToApply,
+            };
+          })
+        );
+      };
+  
+      // Fetch onHold applications (no company name required)
+      const onHoldApplications = await fetchJobDetailsWithCompanyName(developerApplications.applications.underHold);
+  
+      // Fetch rejected applications (no company name required)
+      const rejectedApplications = await fetchJobDetailsWithCompanyName(developerApplications.applications.rejected);
+  
+      // Fetch applied applications with company name
+      const appliedApplications = await fetchJobDetailsWithCompanyName(developerApplications.applications.applied);
+  
+      // Fetch underProcess applications with company name
+      const underProcessApplications = await fetchJobDetailsWithCompanyName(developerApplications.applications.underProcess);
+  
+      // Fetch hired applications with company name
+      const hiredApplications = await fetchJobDetailsWithCompanyName(developerApplications.applications.hired);
+  
+    res.status(200).json({
+      onHoldApplications,
+      rejectedApplications,
+      appliedApplications,
+      underProcessApplications,
+      hiredApplications,
+    });
+    } catch (error) {
+      console.error('Error fetching developer applications:', error.message);
+      res.status(500).json({ message: 'Error fetching developer applications', error: error.message });
+    }
+  };
+  
+
+// @desc Update developer applications
+// @route PUT /api/developer/applications
+const updateDeveloperApplications = async (req, res) => {
+    const { jobId, action } = req.body; // action = 'reject', 'apply', 'delete'
+    const loggedInUserId = req.user.id;
+  
+    try {
+      // Fetch developer application data
+      let developerApplications = await DeveloperApplications.findOne({ developerId: loggedInUserId });
+  
+      if (!developerApplications) {
+        return res.status(404).json({ message: 'No application data found for the logged-in user' });
+      }
+  
+      // Fetch the job details
+      const job = await JobDescriptions.findById(jobId);
+  
+      if (!job) {
+        return res.status(404).json({ message: 'Job not found' });
+      }
+  
+      const currentDate = new Date();
+  
+      // If job ID is in onHold list and action is 'reject'
+      if (developerApplications.applications.underHold.includes(jobId) && action === 'reject') {
+        if (currentDate > job.lastDateToApply) {
+          return res.status(400).json({ message: 'Cannot reject the job. Application deadline has passed.' });
+        }
+  
+        developerApplications.applications.underHold = developerApplications.applications.underHold.filter(
+          (id) => id.toString() !== jobId.toString()
+        );
+        developerApplications.applications.rejected.push(jobId);
+  
+      // If job ID is in onHold list and action is 'apply'
+      } else if (developerApplications.applications.underHold.includes(jobId) && action === 'apply') {
+        if (currentDate > job.lastDateToApply) {
+          return res.status(400).json({ message: 'Cannot apply to the job. Application deadline has passed.' });
+        }
+  
+        developerApplications.applications.underHold = developerApplications.applications.underHold.filter(
+          (id) => id.toString() !== jobId.toString()
+        );
+        developerApplications.applications.applied.push(jobId);
+  
+        // Update the company job applications
+        const companyJobApplications = await CompanyJobApplications.findOne({ jobId });
+  
+        if (companyJobApplications) {
+          if (!companyJobApplications.jobApplications.applied.includes(loggedInUserId)) {
+            companyJobApplications.jobApplications.applied.push(loggedInUserId);
+          }
+          await companyJobApplications.save();
+        }
+  
+      // If job ID is in onHold list and action is 'delete'
+      } else if (developerApplications.applications.underHold.includes(jobId) && action === 'delete') {
+        developerApplications.applications.underHold = developerApplications.applications.underHold.filter(
+          (id) => id.toString() !== jobId.toString()
+        );
+  
+      // If job ID is in rejected list and action is 'delete'
+      } else if (developerApplications.applications.rejected.includes(jobId) && action === 'delete') {
+        developerApplications.applications.rejected = developerApplications.applications.rejected.filter(
+          (id) => id.toString() !== jobId.toString()
+        );
+  
+      // If job ID is in rejected list and action is 'apply'
+      } else if (developerApplications.applications.rejected.includes(jobId) && action === 'apply') {
+        if (currentDate > job.lastDateToApply) {
+          return res.status(400).json({ message: 'Cannot reapply to the job. Application deadline has passed.' });
+        }
+  
+        developerApplications.applications.rejected = developerApplications.applications.rejected.filter(
+          (id) => id.toString() !== jobId.toString()
+        );
+        developerApplications.applications.applied.push(jobId);
+  
+        // Update the company job applications
+        const companyJobApplications = await CompanyJobApplications.findOne({ jobId });
+  
+        if (companyJobApplications) {
+          if (!companyJobApplications.jobApplications.applied.includes(loggedInUserId)) {
+            companyJobApplications.jobApplications.applied.push(loggedInUserId);
+          }
+          await companyJobApplications.save();
+        }
+      } else {
+        return res.status(400).json({ message: 'Invalid action or job ID does not belong to the specified list.' });
+      }
+  
+      // Save the updated developer application data
+      await developerApplications.save();
+  
+      res.status(200).json({ message: 'Job application updated successfully' });
+    } catch (error) {
+      console.error('Error updating developer applications:', error.message);
+      res.status(500).json({ message: 'Error updating developer applications', error: error.message });
+    }
+  };
+  
+
+module.exports = { getDeveloperApplications, updateDeveloperApplications };

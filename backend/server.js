@@ -36,10 +36,13 @@ app.use('/api/developer/dashboard', require('./routes/developer/dashboardRoutes'
 app.use('/api/developer/connect', require('./routes/developer/connectRoutes'));
 app.use('/api/developer/jobs', require('./routes/developer/jobRoutes'));
 app.use('/api/developer/connections', require('./routes/developer/connectionRoutes'));
-// app.use('/api/developer/applications', require('./routes/developer/applicationRoutes'));
+app.use('/api/developer/applications', require('./routes/developer/applicationRoutes'));
+//routes for developer profile and settings
+//routes for company 
 
 
 //Start server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+

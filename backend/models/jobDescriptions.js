@@ -8,7 +8,8 @@ const jobDescriptionSchema = new mongoose.Schema({
   requiredSkills: [{ type: String }],
   salaryRange: { type: String },
   workMode: { type: String, enum: ['Remote', 'Onsite', 'Hybrid'], required: true },
-  location: { type: String }
+  location: { type: String },
+  lastDateToApply: { type: Date, required: true },
 }, { timestamps: true });
 
 module.exports = mongoose.model('JobDescriptions', jobDescriptionSchema);
