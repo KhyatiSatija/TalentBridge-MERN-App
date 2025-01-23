@@ -36,7 +36,7 @@ const developerProfileSchema = new mongoose.Schema({
     languages: [{ type: String }]
   },
   expectedStipend: { type: Number },
-  workMode: { type: String, enum: ['Remote', 'Onsite', 'Hybrid'], default: 'Remote' },
+  workMode: { type: String, enum: ['Remote', 'Onsite', 'Hybrid']},
   preferredLocations: [{ type: String }],
   languagesPreferred: [{ type: String }]
 }, { timestamps: true });

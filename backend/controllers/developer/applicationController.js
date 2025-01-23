@@ -7,8 +7,7 @@ const Company = require('../../models/company');
 // @route GET /api/developer/applications
 const getDeveloperApplications = async (req, res) => {
     try {
-    //   const loggedInUserId = req.user.id;
-      const loggedInUserId = "678ab374cbcc1f7a32fc4028";
+      const loggedInUserId = req.user.id;
   
       // Fetch developer applications
       const developerApplications = await DeveloperApplications.findOne({ developerId: loggedInUserId }).lean();

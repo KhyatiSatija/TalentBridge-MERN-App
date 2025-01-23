@@ -37,7 +37,9 @@ app.use('/api/developer/connect', require('./routes/developer/connectRoutes'));
 app.use('/api/developer/jobs', require('./routes/developer/jobRoutes'));
 app.use('/api/developer/connections', require('./routes/developer/connectionRoutes'));
 app.use('/api/developer/applications', require('./routes/developer/applicationRoutes'));
-//routes for developer profile and settings
+app.use('/api/developer/profile', require('./routes/developer/profileRoutes'));
+// app.use('/api/developer/settings', require('./routes/developerSettingsRoutes'));
+
 //routes for company 
 
 
