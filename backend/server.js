@@ -41,7 +41,8 @@ app.use('/api/developer/profile', require('./routes/developer/profileRoutes'));
 app.use('/api/developer/settings', require('./routes/developer/settingsRoutes'));
 
 //routes for company 
-
+app.use('/api/company/jobs', require('./routes/company/jobRoutes'));
+app.use('/api/company/applications', require('./routes/company/applicationRoutes'));
 
 //Start server
 app.listen(PORT, () => {
