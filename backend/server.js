@@ -43,7 +43,7 @@ app.use('/api/developer/settings', require('./routes/developer/settingsRoutes'))
 //routes for company 
 app.use('/api/company/jobs', require('./routes/company/jobRoutes'));
 app.use('/api/company/applications', require('./routes/company/applicationRoutes'));
-
+app.use('/api/company/settings', require('./routes/company/settingsRoutes'));
 //Start server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
