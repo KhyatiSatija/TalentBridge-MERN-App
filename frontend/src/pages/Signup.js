@@ -1,55 +1,77 @@
 import React, { useState } from "react";
 import "../assets/css/Auth.css";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 const Signup = () => {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-    // Handle signup logic here
-    console.log("Signing up with:", { fullName, email, password });
-  };
+    const [role, setRole] = useState("developer"); // Default to developer
+    const [formData, setFormData] = useState({
+      fullName: "",
+      email: "",
+      password: "",
+      phoneNumber: "",
+    });
+  
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+  
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        const apiUrl =
+          role === "developer"
+            ? "http://localhost:5000/api/auth/developer/signup"
+            : "http://localhost:5000/api/auth/company/signup";
+    
+        const payload =
+          role === "developer"
+            ? formData
+            : { name: formData.fullName, email: formData.email, password: formData.password };
+    
+        try {
+          const response = await axios.post(apiUrl, payload);
+          alert(response.data.message);
+        } catch (error) {
+          alert(error.response?.data?.message || "Signup failed!");
+        }
+    };
 
   return (
     <div className="auth-container">
       <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          placeholder="Full Name" 
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          required 
+      <div className="role-toggle">
+        <button onClick={() => setRole("developer")} className={role === "developer" ? "active" : ""}>
+          Developer
+        </button>
+        <button onClick={() => setRole("company")} className={role === "company" ? "active" : ""}>
+          Company
+        </button>
+      </div>
+      <form onSubmit={handleSubmit} className="auth-form">
+      <input
+          type="text"
+          name="fullName"
+          placeholder={role === "developer" ? "Full Name" : "Company Name"}
+          value={formData.fullName}
+          onChange={handleChange}
+          required
         />
-        <input 
-          type="email" 
-          placeholder="Email" 
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required 
-        />
-        <input 
-          type="password" 
-          placeholder="Password" 
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required 
-        />
-        <input 
-          type="password" 
-          placeholder="Confirm Password" 
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required 
-        />
+
+        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+        <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+
+        {role === "developer" && (
+          <input
+            type="text"
+            name="phoneNumber"
+            placeholder="Phone Number"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            required
+          />
+        )}
+        
         <button type="submit">Register</button>
       </form>
       <p>
