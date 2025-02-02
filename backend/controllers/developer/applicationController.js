@@ -41,7 +41,7 @@ const getDeveloperApplications = async (req, res) => {
               salaryRange: job.salaryRange,
               workMode: job.workMode,
               location: job.location,
-              lastDateToApply: job.lastDateToApply,
+              lastDateToApply: job.lastDateToApply, 
             };
           })
         );

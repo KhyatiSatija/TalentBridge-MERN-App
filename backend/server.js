@@ -23,7 +23,7 @@ connectDB();
 
 //API Routes
 app.get('/', (req, res) => {
-    res.send('Welcome to the TalentBridge API!');
+    res.send('Welcome to the TalentBridge Backend!');
   });
 //Auth routes
 app.use('/api/auth/developer', require('./routes/auth/developerAuthRoutes'));

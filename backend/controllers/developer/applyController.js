@@ -41,7 +41,7 @@ const getJobCards = async (req, res) => {
     const jobs = await JobDescriptions.find({
       _id: { $nin: Array.from(excludedJobIds) },
     })
-      .select('jobTitle jobDescription responsibilities requiredSkills salaryRange workMode location') // Only include specified fields
+      .select('jobTitle jobDescription responsibilities requiredSkills salaryRange workMode location lastDateToApply') // Only include specified fields
       .lean();
 
     res.status(200).json(jobs);
