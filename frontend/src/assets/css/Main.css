@@ -1,0 +1,57 @@
+.hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-image: url('https://c.stocksy.com/a/kNQ800/z9/2008040.jpg'); /* Replace with actual background */
+    background-size: cover;
+    background-position: center;
+    color: white;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .btn-developer, .btn-company {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .btn-developer {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .btn-company {
+    background-color: #2ecc71;
+    color: white;
+  }
+  
+  .btn-developer:hover {
+    background-color: #2980b9;
+  }
+  
+  .btn-company:hover {
+    background-color: #27ae60;
+  }
+  
+#heading{
+    color: yellow;
+}
