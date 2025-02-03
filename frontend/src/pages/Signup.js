@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import "../assets/css/Auth.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const Signup = () => {
+    //Initialize the useNavigate Hook
+    const navigate = useNavigate();
+
     const [role, setRole] = useState("developer"); // Default to developer
     const [formData, setFormData] = useState({
       fullName: "",
@@ -74,7 +77,16 @@ const Signup = () => {
       setMessageType("success");
       setShowMessage(true);
 
-      //redirect to dashboard page (useNavigate from react-router-dom)
+      //redirect to dashboard page (useNavigate Hook from react-router-dom)
+  
+      setTimeout(() => {
+        if (role === "developer") {
+          navigate("/developer/dashboard"); 
+        } else {
+          navigate("/company/dashboard"); 
+        }
+      }, 1000); //Delay
+
 
     } catch (error) {
       setMessage(error.response?.data?.message || "Signup failed!");

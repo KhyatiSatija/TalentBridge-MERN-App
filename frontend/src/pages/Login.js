@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../assets/css/Auth.css";
 
 const Login = () => {
+
+  //Initialize useNavigate Hook
+  const navigate = useNavigate();
 
   const [role, setRole] = useState("developer");
   const [email, setEmail] = useState("");
@@ -65,6 +68,15 @@ const Login = () => {
         fadeOut();
 
         //navigate to dashboard page
+        //redirect to dashboard page (useNavigate Hook from react-router-dom)
+  
+        setTimeout(() => {
+          if (role === "developer") {
+            navigate("/developer/dashboard"); 
+          } else {
+            navigate("/company/dashboard"); 
+          }
+        }, 1000); //Delay
     }catch(error){
       console.log("Login Error:", error.response?.data?.message);
       setMessage(error.response?.data?.message || "Login failed. Please try again.");
