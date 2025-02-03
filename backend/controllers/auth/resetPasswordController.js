@@ -24,7 +24,7 @@ const resetPassword = async (req, res) => {
     console.log('User:', user);
     if (!user) {
       console.log('Invalid or expired token:', { resetToken, hashedToken });
-      return res.status(400).json({ message: 'Invalid or expired token' });
+      return res.status(400).json({ message: 'Invalid or expired token. The token is valid for 15 minutes only' });
     }
 
     // Update the password

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import "../assets/css/ResetPassword.css";
 
@@ -11,6 +11,10 @@ const ResetPassword = () => {
     confirmPassword: "",
   });
 
+  const [message, setMessage] = useState("");  // Message text
+  const [messageType, setMessageType] = useState("");  // success or error
+  const [showMessage, setShowMessage] = useState(false);  // Control message visibility
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -19,7 +23,9 @@ const ResetPassword = () => {
     e.preventDefault();
 
     if (formData.newPassword !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      setMessage("Passwords do not match!");
+      setMessageType("error");
+      setShowMessage(true);
       return;
     }
 
@@ -31,9 +37,16 @@ const ResetPassword = () => {
         type: role,
       });
 
-      alert(response.data.message);
+      // Display success message from the API
+      setMessage(response.data.message);
+      setMessageType("success");
+      setShowMessage(true);
+
     } catch (error) {
-      alert(error.response?.data?.message || "Password reset failed!");
+      // Display error message from the API
+      setMessage(error.response?.data?.message || "Password reset failed!");
+      setMessageType("error");
+      setShowMessage(true);
     }
   };
 
@@ -49,7 +62,12 @@ const ResetPassword = () => {
           Company
         </button>
       </div>
-
+      {/* Display Success/Error Messages */}
+      {showMessage && (
+        <div className={`message-container ${messageType}`}>
+          {message}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="auth-form">
         <input
           type="password"
@@ -69,8 +87,11 @@ const ResetPassword = () => {
         />
         <button type="submit">Reset Password</button>
       </form>
-    </div>
-    //remove alerts and add login Link 
+
+      <p className="login-link">
+        Go to <Link to="/login">Login Page</Link>
+      </p>
+    </div> 
   );
 };
 
