@@ -70,6 +70,7 @@ const ResetPassword = () => {
         <button type="submit">Reset Password</button>
       </form>
     </div>
+    //remove alerts and add login Link 
   );
 };
 

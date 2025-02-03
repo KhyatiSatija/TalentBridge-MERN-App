@@ -49,7 +49,7 @@ developerSchema.statics.login = async function ({ email, password }) {
   const developer = await this.findOne({ email });
   if (!developer) throw new Error('Invalid email or password');
   const isPasswordValid = await bcrypt.compare(password, developer.password);
-  if (!isPasswordValid) throw new Error('Invalid email or password');
+  if (!isPasswordValid) throw new Error('Invalid password');
   return developer;
 };
 

@@ -21,7 +21,7 @@ companySchema.statics.login = async function ({ email, password }) {
   const company = await this.findOne({ email });
   if (!company) throw new Error('Invalid email or password');
   const isPasswordValid = await bcrypt.compare(password, company.password);
-  if (!isPasswordValid) throw new Error('Invalid email or password');
+  if (!isPasswordValid) throw new Error('Invalid password');
   return company;
 };
 
