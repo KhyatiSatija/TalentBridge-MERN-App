@@ -11,31 +11,77 @@ const Signup = () => {
       password: "",
       phoneNumber: "",
     });
+
+    const [message, setMessage] = useState(""); // Message to display
+    const [messageType, setMessageType] = useState(""); // success or error
+    const [showMessage, setShowMessage] = useState(false); // Control message visibility
   
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
   
-    const handleSubmit = async (e) => {
-        e.preventDefault();
     
-        const apiUrl =
-          role === "developer"
-            ? "http://localhost:5000/api/auth/developer/signup"
-            : "http://localhost:5000/api/auth/company/signup";
+         // Validate form fields
+    const validateForm = () => {
+          let errors = [];
+        
+          if (!formData.fullName) {
+            errors.push(role === "developer" ? "Full name is required." : "Company name is required.");
+          }
+          if (!formData.email) {
+            errors.push("Email is required.");
+          }
+          if (!formData.password) {
+            errors.push("Password is required.");
+          }
+          if (role === "developer" && !formData.phoneNumber) {
+            errors.push("Phone number is required.");
+          }
+        
+          if (errors.length > 0) {
+            // Join all errors into a single string separated by line breaks
+            setMessage(errors.join(" ")); 
+            setMessageType("error");
+            setShowMessage(true);
+            return false;
+          }
+        
+          return true;
+        };
+        
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     
-        const payload =
-          role === "developer"
-            ? formData
-            : { name: formData.fullName, email: formData.email, password: formData.password };
-    
-        try {
-          const response = await axios.post(apiUrl, payload);
-          alert(response.data.message);
-        } catch (error) {
-          alert(error.response?.data?.message || "Signup failed!");
-        }
-    };
+    if (!validateForm()) return; // Stop submission if validation fails
+
+    const apiUrl =
+      role === "developer"
+        ? "http://localhost:5000/api/auth/developer/signup"
+        : "http://localhost:5000/api/auth/company/signup";
+
+    //request
+    const payload =
+      role === "developer"
+        ? formData
+        : { name: formData.fullName, email: formData.email, password: formData.password };
+
+    try {
+      const response = await axios.post(apiUrl, payload);
+      
+      setMessage(response.data.message); // Display success message
+      setMessageType("success");
+      setShowMessage(true);
+
+      //redirect to dashboard page (useNavigate from react-router-dom)
+
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Signup failed!");
+      setMessageType("error");
+      setShowMessage(true);
+    }
+  };
 
   return (
     <div className="auth-container">
@@ -48,6 +94,14 @@ const Signup = () => {
           Company
         </button>
       </div>
+
+            
+      {showMessage && (
+        <div className={`message-container ${messageType}`}>
+          {message}
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="auth-form">
       <input
           type="text"
@@ -55,11 +109,11 @@ const Signup = () => {
           placeholder={role === "developer" ? "Full Name" : "Company Name"}
           value={formData.fullName}
           onChange={handleChange}
-          required
+        
         />
 
-        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange}  />
+        <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange}  />
 
         {role === "developer" && (
           <input
@@ -68,7 +122,7 @@ const Signup = () => {
             placeholder="Phone Number"
             value={formData.phoneNumber}
             onChange={handleChange}
-            required
+           
           />
         )}
         
