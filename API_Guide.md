@@ -238,7 +238,388 @@ _No request body required._
 
 ---
 
-### **2. Get Developer Connections**
+### **2. Swipe and Connect with Other Developers - Fetch Developer Cards**
+
+**HTTP Method:** `GET`  
+**URL:** `/api/developer/connect`  
+**Description:**  
+This API fetches a list of developers that the logged-in user can swipe on. It excludes developers who:
+- Are the logged-in user themselves.
+- Have been rejected by the logged-in user.
+- Have received a connection request from the logged-in user.
+- Have already matched with the logged-in user.
+- Have rejected the logged-in user.
+
+---
+
+### **Request:**
+
+**Headers:**
+- `Authorization: Bearer <JWT_TOKEN>`
+
+---
+
+### **Response:**
+
+**Status Code:** `200 OK`
+
+**Response Body (JSON):**
+
+```json
+[
+  {
+    "id": "64bfc0e7c9f8392c7a1e1e7a",
+    "fullName": "Rohit Sharma",
+    "profilePhoto": "https://example.com/photos/rohit.jpg",
+    "bio": "Passionate full-stack developer with a knack for building scalable applications.",
+    "location": "Mumbai, Maharashtra",
+    "linkedIn": "https://linkedin.com/in/rohitsharma",
+    "github": "https://github.com/rohitsharma",
+    "portfolio": "https://rohitportfolio.com",
+    "professionalDetails": {
+      "currentJob": "Frontend Developer",
+      "company": "Infosys",
+      "lookingFor": "Full-stack roles",
+      "skills": ["React", "Node.js", "MongoDB"],
+      "yearsOfExperience": 3
+    },
+    "education": {
+      "degree": "B.Tech in Computer Science",
+      "college": "IIT Bombay",
+      "graduationYear": 2020
+    },
+    "workExperience": [
+      {
+        "companyName": "Infosys",
+        "jobTitle": "Frontend Developer",
+        "duration": "2021-2024",
+        "responsibilities": [
+          "Developed scalable front-end interfaces using React.",
+          "Collaborated with backend teams for API integration."
+        ]
+      }
+    ],
+    "additionalInfo": {
+      "certifications": ["AWS Certified Developer", "Google Cloud Architect"],
+      "achievements": ["Winner at Hackathon India 2022"],
+      "languages": ["JavaScript", "TypeScript", "Python"]
+    }
+  },
+  {
+    "id": "64bfd0e7c9f8392c7a1e1f8b",
+    "fullName": "Priya Singh",
+    "profilePhoto": "https://example.com/photos/priya.jpg",
+    "bio": "Backend engineer with a passion for microservices and distributed systems.",
+    "location": "Bengaluru, Karnataka",
+    "linkedIn": "https://linkedin.com/in/priyasingh",
+    "github": "https://github.com/priyasingh",
+    "portfolio": null,
+    "professionalDetails": {
+      "currentJob": "Backend Engineer",
+      "company": "TCS",
+      "lookingFor": "Backend roles in fintech",
+      "skills": ["Node.js", "Express.js", "Docker"],
+      "yearsOfExperience": 4
+    },
+    "education": {
+      "degree": "B.Sc in Computer Science",
+      "college": "Delhi University",
+      "graduationYear": 2019
+    },
+    "workExperience": [
+      {
+        "companyName": "TCS",
+        "jobTitle": "Backend Engineer",
+        "duration": "2019-2023",
+        "responsibilities": [
+          "Developed REST APIs and optimized performance.",
+          "Implemented CI/CD pipelines using Jenkins."
+        ]
+      }
+    ],
+    "additionalInfo": {
+      "certifications": ["Coursera Microservices Architect"],
+      "achievements": ["Runner-up at Bangalore Tech Fest"],
+      "languages": ["Java", "JavaScript", "Go"]
+    }
+  }
+]
+```
+
+---
+
+### **Error Responses:**
+
+1. **Status Code:** `500 Internal Server Error`  
+   **Response:**
+   ```json
+   {
+     "message": "Error fetching developers",
+     "error": "Detailed error message here"
+   }
+   ```
+
+---
+
+
+### **3. Swipe Action - Record Swipe (Right/Left)**
+
+**HTTP Method:** `POST`  
+**URL:** `/api/developer/connect`  
+**Description:**  
+This API records swipe actions (right or left) when a developer interacts with another developer's profile. It manages connection requests, rejections, and matches between developers.
+
+---
+
+### **Request:**
+
+**Headers:**
+- `Authorization: Bearer <JWT_TOKEN>`
+- `Content-Type: application/json`
+
+**Body Parameters:**
+
+| Parameter    | Type   | Description                                              |
+|--------------|--------|----------------------------------------------------------|
+| `developerId`| String | The ID of the target developer (whom the swipe is for).   |
+| `action`     | String | The swipe action: either `'swipeRight'` or `'swipeLeft'`. |
+
+**Example Request (Swipe Right):**
+```json
+{
+  "developerId": "64bfd0e7c9f8392c7a1e1f8b",
+  "action": "swipeRight"
+}
+```
+
+**Example Request (Swipe Left):**
+```json
+{
+  "developerId": "64bfc0e7c9f8392c7a1e1e7a",
+  "action": "swipeLeft"
+}
+```
+
+---
+
+### **Response:**
+
+**Status Code:** `200 OK`
+
+**Response Body (JSON):**
+```json
+{
+  "message": "Action recorded successfully"
+}
+```
+
+---
+
+### **Swipe Action Logic:**
+
+1. **Swipe Right (`swipeRight`):**
+   - **If the target developer has already sent a connection request to the logged-in user:**
+     - A **match** is created for both developers.
+     - Both developers' connection records are updated to reflect the match.
+   - **If no prior connection request exists:**
+     - The logged-in user adds the target developer to their **requested** list.
+     - The target developer receives the logged-in user in their **connectionRequests** list.
+
+2. **Swipe Left (`swipeLeft`):**
+   - **If the target developer has already sent a connection request:**
+     - The logged-in user **rejects** the connection request.
+     - The target developer's **requested** list is updated to remove the logged-in user.
+   - **If no prior connection request exists:**
+     - The logged-in user adds the target developer to their **rejected** list.
+
+---
+
+### **Error Responses:**
+
+1. **Status Code:** `500 Internal Server Error`  
+   **Response:**
+   ```json
+   {
+     "message": "Error recording action",
+     "error": "Detailed error message here"
+   }
+   ```
+
+
+---
+
+### **4. Job Applications - Fetch Job Cards**
+
+**HTTP Method:** `GET`  
+**URL:** `/api/developer/jobs`  
+**Description:**  
+This API fetches job listings that the logged-in developer can swipe on. It excludes jobs that the developer has:
+- Rejected
+- Already applied to
+- Is under process for
+- Been hired for
+- Marked on hold
+- Been rejected by the company
+
+---
+
+### **Request:**
+
+**Headers:**
+- `Authorization: Bearer <JWT_TOKEN>`
+
+---
+
+### **Response:**
+
+**Status Code:** `200 OK`
+
+**Response Body (JSON):**
+```json
+[
+  {
+    "_id": "64bfd0e7c9f8392c7a1e1f8b",
+    "jobTitle": "MERN Stack Developer",
+    "jobDescription": "Join our dynamic team to build scalable web applications.",
+    "responsibilities": [
+      "Develop and maintain front-end applications using React.js",
+      "Design robust backend services using Node.js and Express.js",
+      "Collaborate with product and design teams"
+    ],
+    "requiredSkills": ["React", "Node.js", "MongoDB", "Express.js"],
+    "salaryRange": "₹6,00,000 - ₹10,00,000 per annum",
+    "workMode": "Remote",
+    "location": "Bengaluru, Karnataka",
+    "lastDateToApply": "2025-03-01"
+  },
+  {
+    "_id": "64bfc0e7c9f8392c7a1e1e7a",
+    "jobTitle": "Frontend Developer",
+    "jobDescription": "Work on modern front-end technologies to deliver high-quality UI/UX.",
+    "responsibilities": [
+      "Develop user interfaces using React.js",
+      "Optimize application performance",
+      "Work closely with backend teams for API integration"
+    ],
+    "requiredSkills": ["React", "JavaScript", "HTML", "CSS"],
+    "salaryRange": "₹4,50,000 - ₹8,00,000 per annum",
+    "workMode": "Hybrid",
+    "location": "Mumbai, Maharashtra",
+    "lastDateToApply": "2025-03-15"
+  }
+]
+```
+
+---
+
+### **Error Responses:**
+
+1. **Status Code:** `500 Internal Server Error`  
+   **Response:**
+   ```json
+   {
+     "message": "Error fetching job cards",
+     "error": "Detailed error message here"
+   }
+   ```
+
+---
+
+### **5. Job Applications - Record Swipe Action**
+
+**HTTP Method:** `POST`  
+**URL:** `/api/developer/jobs`  
+**Description:**  
+This API records swipe actions when a developer interacts with job postings. Developers can:
+- **Swipe Right:** Apply for the job.
+- **Swipe Left:** Reject the job.
+- **Swipe Top:** Mark the job as "on hold" for later consideration.
+
+---
+
+### **Request:**
+
+**Headers:**
+- `Authorization: Bearer <JWT_TOKEN>`
+- `Content-Type: application/json`
+
+**Body Parameters:**
+
+| Parameter    | Type   | Description                                           |
+|--------------|--------|-------------------------------------------------------|
+| `jobId`      | String | The ID of the job being swiped on.                    |
+| `action`     | String | The swipe action: `'swipeRight'`, `'swipeLeft'`, or `'swipeTop'`. |
+
+---
+
+**Example Request (Swipe Right - Apply for Job):**
+```json
+{
+  "jobId": "64bfd0e7c9f8392c7a1e1f8b",
+  "action": "swipeRight"
+}
+```
+
+**Example Request (Swipe Left - Reject Job):**
+```json
+{
+  "jobId": "64bfc0e7c9f8392c7a1e1e7a",
+  "action": "swipeLeft"
+}
+```
+
+**Example Request (Swipe Top - Mark Job on Hold):**
+```json
+{
+  "jobId": "64bfc0e7c9f8392c7a1e1e7a",
+  "action": "swipeTop"
+}
+```
+
+---
+
+### **Response:**
+
+**Status Code:** `200 OK`
+
+**Response Body (JSON):**
+```json
+{
+  "message": "Swipe action recorded successfully"
+}
+```
+
+---
+
+### **Swipe Action Logic:**
+
+1. **Swipe Right (`swipeRight`):**
+   - The job ID is added to the developer's **applied** list.
+   - The developer's ID is added to the job's **applied** list in the company’s job application data.
+
+2. **Swipe Left (`swipeLeft`):**
+   - The job ID is added to the developer's **rejected** list.
+
+3. **Swipe Top (`swipeTop`):**
+   - The job ID is added to the developer's **underHold** list (for jobs the developer wants to revisit later).
+
+---
+
+### **Error Responses:**
+
+1. **Status Code:** `500 Internal Server Error`  
+   **Response:**
+   ```json
+   {
+     "message": "Error recording swipe action",
+     "error": "Detailed error message here"
+   }
+   ```
+
+---
+
+
+### **6. Get Developer Connections**
 
 **HTTP URL:** `GET /api/developer/connections`
 
@@ -267,7 +648,7 @@ _No request body required._
 
 ---
 
-### **3. Update Developer Connections**
+### **7. Update Developer Connections**
 
 **HTTP URL:** `PUT /api/developer/connections`
 
@@ -299,7 +680,200 @@ _No request body required._
 
 ---
 
-### **4. Get Developer Profile**
+### **8. Job Applications - Get All Applications**
+
+**HTTP Method:** `GET`  
+**URL:** `/api/developer/applications`  
+**Description:**  
+This API fetches all job applications for the logged-in developer, categorized by their current status:
+- On Hold
+- Rejected
+- Applied
+- Under Process
+- Hired
+
+---
+
+### **Request:**
+
+**Headers:**
+- `Authorization: Bearer <JWT_TOKEN>`
+
+---
+
+### **Response:**
+
+**Status Code:** `200 OK`
+
+**Response Body (JSON):**
+```json
+{
+  "onHoldApplications": [
+    {
+      "companyName": "TCS",
+      "jobId": "64bfd0e7c9f8392c7a1e1f8b",
+      "jobTitle": "Backend Developer",
+      "jobDescription": "Design and implement scalable backend services.",
+      "responsibilities": [
+        "Build RESTful APIs using Node.js",
+        "Integrate with frontend using GraphQL"
+      ],
+      "requiredSkills": ["Node.js", "Express.js", "MongoDB"],
+      "salaryRange": "₹5,00,000 - ₹8,00,000 per annum",
+      "workMode": "Remote",
+      "location": "Bengaluru, Karnataka",
+      "lastDateToApply": "2025-03-01"
+    }
+  ],
+  "rejectedApplications": [],
+  "appliedApplications": [
+    {
+      "companyName": "Infosys",
+      "jobId": "64bfc0e7c9f8392c7a1e1e7a",
+      "jobTitle": "Frontend Developer",
+      "jobDescription": "Develop modern and responsive user interfaces.",
+      "responsibilities": [
+        "Work with React.js and TypeScript",
+        "Optimize UI performance for better UX"
+      ],
+      "requiredSkills": ["React.js", "JavaScript", "HTML/CSS"],
+      "salaryRange": "₹4,50,000 - ₹7,50,000 per annum",
+      "workMode": "Hybrid",
+      "location": "Pune, Maharashtra",
+      "lastDateToApply": "2025-03-15"
+    }
+  ],
+  "underProcessApplications": [],
+  "hiredApplications": []
+}
+```
+
+---
+
+### **Error Responses:**
+
+1. **Status Code:** `500 Internal Server Error`  
+   **Response:**
+   ```json
+   {
+     "message": "Error fetching developer applications",
+     "error": "Detailed error message here"
+   }
+   ```
+
+---
+
+### **9. Job Applications - Update Application Status**
+
+**HTTP Method:** `PUT`  
+**URL:** `/api/developer/applications`  
+**Description:**  
+This API updates the status of a developer's job application based on the action:
+- **Reject:** Move the job to the rejected list.
+- **Apply:** Move the job to the applied list.
+- **Delete:** Remove the job from on-hold or rejected lists.
+
+---
+
+### **Request:**
+
+**Headers:**
+- `Authorization: Bearer <JWT_TOKEN>`
+- `Content-Type: application/json`
+
+**Body Parameters:**
+
+| Parameter    | Type   | Description                                                                 |
+|--------------|--------|-----------------------------------------------------------------------------|
+| `jobId`      | String | The ID of the job whose status is being updated.                             |
+| `action`     | String | The action to perform: `'reject'`, `'apply'`, or `'delete'`.                 |
+
+---
+
+**Example Request (Reject On-Hold Job):**
+```json
+{
+  "jobId": "64bfd0e7c9f8392c7a1e1f8b",
+  "action": "reject"
+}
+```
+
+**Example Request (Apply to Rejected Job):**
+```json
+{
+  "jobId": "64bfc0e7c9f8392c7a1e1e7a",
+  "action": "apply"
+}
+```
+
+**Example Request (Delete On-Hold Job):**
+```json
+{
+  "jobId": "64bfc0e7c9f8392c7a1e1e7a",
+  "action": "delete"
+}
+```
+
+---
+
+### **Response:**
+
+**Status Code:** `200 OK`
+
+**Response Body (JSON):**
+```json
+{
+  "message": "Job application updated successfully"
+}
+```
+
+---
+
+### **Update Application Logic:**
+
+1. **Reject (`reject`):**
+   - Moves the job from **On Hold** to **Rejected** if the application deadline hasn't passed.
+
+2. **Apply (`apply`):**
+   - Moves the job from **On Hold** or **Rejected** to **Applied** if the application deadline hasn't passed.
+   - Also updates the company's job applications to reflect the developer's application.
+
+3. **Delete (`delete`):**
+   - Removes the job from **On Hold** or **Rejected** lists.
+
+---
+
+### **Error Responses:**
+
+1. **Status Code:** `400 Bad Request`  
+   **Response:** (When the application deadline has passed)
+   ```json
+   {
+     "message": "Cannot apply to the job. Application deadline has passed."
+   }
+   ```
+
+2. **Status Code:** `404 Not Found`  
+   **Response:** (When no application data is found)
+   ```json
+   {
+     "message": "No application data found for the logged-in user"
+   }
+   ```
+
+3. **Status Code:** `500 Internal Server Error`  
+   **Response:** 
+   ```json
+   {
+     "message": "Error updating developer applications",
+     "error": "Detailed error message here"
+   }
+   ```
+
+---
+
+
+### **10. Get Developer Profile**
 
 **HTTP URL:** `GET /api/developer/profile`
 
@@ -338,7 +912,7 @@ _No request body required._
 
 ---
 
-### **5. Update Developer Profile**
+### *11. Update Developer Profile**
 
 **HTTP URL:** `PUT /api/developer/profile`
 
@@ -381,7 +955,7 @@ _No request body required._
 
 ---
 
-### **6. Update Developer Email**
+### **12. Update Developer Email**
 
 **HTTP URL:** `PUT /api/developer/settings/update-email`
 
@@ -413,7 +987,7 @@ _No request body required._
 
 ---
 
-### **7. Change Developer Password**
+### **13. Change Developer Password**
 
 **HTTP URL:** `PUT /api/developer/settings/change-password`
 
@@ -445,7 +1019,7 @@ _No request body required._
 
 ---
 
-### **8. Update Developer Phone Number**
+### **14. Update Developer Phone Number**
 
 **HTTP URL:** `PUT /api/developer/settings/update-phone`
 
@@ -477,7 +1051,7 @@ _No request body required._
 
 ---
 
-### **9. Delete Developer Account**
+### **15. Delete Developer Account**
 
 **HTTP URL:** `DELETE /api/developer/settings/delete-account`
 
