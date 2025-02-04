@@ -72,6 +72,13 @@ const Signup = () => {
 
     try {
       const response = await axios.post(apiUrl, payload);
+
+      //store response.data.developerId and response.data.companyId in local storage
+      if (role === "developer") {
+        localStorage.setItem("developerId", response.data.developerId);
+      } else {
+        localStorage.setItem("companyId", response.data.companyId); 
+      }
       
       setMessage(response.data.message); // Display success message
       setMessageType("success");

@@ -56,18 +56,21 @@ const Login = () => {
             email,
             password,
           });
+          localStorage.setItem("developerId", response.data.developerId); // Store JWT token in local storage
         }
         else if (role === "company") {
           response  = await axios.post("http://localhost:5000/api/auth/company/login", {
             email,
             password,
           });
+          localStorage.setItem("companyId", response.data.companyId); // Store JWT token in local storage
         }
         setMessage(response.data.message);
         setMessageType('success');
         fadeOut();
 
-        //navigate to dashboard page
+        
+
         //redirect to dashboard page (useNavigate Hook from react-router-dom)
   
         setTimeout(() => {

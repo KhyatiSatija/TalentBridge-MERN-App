@@ -6,7 +6,8 @@ const DeveloperConnections = require('../../models/developerConnections');
 // @route GET /api/developer/connect
 const getDeveloperCards = async (req, res) => {
     try {
-        const loggedInUserId = req.user.id;
+        // const loggedInUserId = req.user.id;
+        const loggedInUserId = req.headers["developer-id"];
         console.log('Logged in user ID:', loggedInUserId);
 
         // Fetch the connection data for the logged-in user
@@ -104,8 +105,8 @@ const updateConnection = async (req, res) => {
     const { developerId, action } = req.body; // `developerId` is the target developer's ID, `action` is 'swipeRight' or 'swipeLeft'
   
     try {
-      const loggedInUserId = req.user.id;
-  
+      // const loggedInUserId = req.user.id;
+      const loggedInUserId = req.headers["developer-id"];
       // Fetch connection records for both developers
       let loggedInUserConnection = await DeveloperConnections.findOne({ developerId: loggedInUserId });
       let targetDeveloperConnection = await DeveloperConnections.findOne({ developerId });
