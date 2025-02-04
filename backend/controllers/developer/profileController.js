@@ -6,7 +6,7 @@ const DeveloperProfile = require('../../models/developerProfile');
 const getProfile = async (req, res) => {
     try {
       // Find the developer's profile by developerId
-      const loggedInUserId = req.headers["developer-id"];
+      const loggedInUser = req.headers["developer-id"] ;
       let profile = await DeveloperProfile.findOne({ developerId: loggedInUser });
   
       if (!profile) {
@@ -50,7 +50,7 @@ const getProfile = async (req, res) => {
 // @route PUT /api/developer/profile
 const updateProfile = async (req, res) => {
     try {
-      const loggedInUserId = req.headers["developer-id"]; // Retrieve the logged-in user's ID
+      const loggedInUser =req.headers["developer-id"] ; // Retrieve the logged-in user's ID
       const updates = req.body; // Fields to update sent by the frontend
   
       // Define allowed fields for updating

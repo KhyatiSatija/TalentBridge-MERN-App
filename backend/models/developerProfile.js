@@ -35,7 +35,7 @@ const developerProfileSchema = new mongoose.Schema({
     achievements: [{ type: String }],
     languages: [{ type: String }]
   },
-  expectedStipend: { type: Number },
+  expectedStipend:  [{ type: String }],
   workMode: { type: String, enum: ['Remote', 'Onsite', 'Hybrid']},
   preferredLocations: [{ type: String }],
   languagesPreferred: [{ type: String }]
