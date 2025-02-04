@@ -6,8 +6,8 @@ const JobDescriptions = require('../../models/jobDescriptions');
 // @route GET /api/developer/jobs
 const getJobCards = async (req, res) => {
   try {
-    const loggedInUserId = req.user.id;
-    
+    // const loggedInUserId = req.user.id;
+    const loggedInUserId = req.headers["developer-id"];
     // Fetch developer application data
     let developerApplications = await DeveloperApplications.findOne({ developerId: loggedInUserId }).lean();
 
@@ -37,11 +37,15 @@ const getJobCards = async (req, res) => {
       ...developerApplications.applications.rejectedByCompany,
     ]);
 
+    const currentDate = new Date();
+
+
     // Fetch job descriptions not in the excluded list
     const jobs = await JobDescriptions.find({
       _id: { $nin: Array.from(excludedJobIds) },
+      lastDateToApply: { $gte: currentDate } 
     })
-      .select('jobTitle jobDescription responsibilities requiredSkills salaryRange workMode location lastDateToApply') // Only include specified fields
+      .select('jobTitle jobDescription responsibilities requiredSkills salaryRange workMode location lastDateToApply') 
       .lean();
 
     res.status(200).json(jobs);
@@ -54,11 +58,11 @@ const getJobCards = async (req, res) => {
 // @desc Record swipe action
 // @route POST /api/developer/jobs
 const swipeOnJob = async (req, res) => {
-  const { jobId, action } = req.body; // `jobId` is the target job's ID, `action` is 'swipeRight' or 'swipeLeft' or 'swipeTop'
+  const { jobId, action } = req.body; // `jobId` is the target job's ID, `action` is 'swipeRight' or 'swipeLeft' or 'underHold'
 
   try {
-    const loggedInUserId = req.user.id;
-
+    // const loggedInUserId = req.user.id;
+    const loggedInUserId = req.headers["developer-id"];
     // Fetch developer application data
     let developerApplications = await DeveloperApplications.findOne({ developerId: loggedInUserId });
 
@@ -108,7 +112,7 @@ const swipeOnJob = async (req, res) => {
       if (!jobApplications.jobApplications.applied.includes(loggedInUserId)) {
         jobApplications.jobApplications.applied.push(loggedInUserId);
       }
-    } else if (action === 'swipeTop') {
+    } else if (action === 'underHold') {
         // Add jobId to the underHold list for the developer
         if (!developerApplications.applications.underHold.includes(jobId)) {
             developerApplications.applications.underHold.push(jobId);

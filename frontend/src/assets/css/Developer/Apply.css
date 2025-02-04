@@ -1,0 +1,149 @@
+/* Container */
+.apply-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f8;
+    min-height: 100vh;
+  }
+  
+  /* Heading */
+  .apply-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 28px;
+  }
+  
+  /* Swipe Card */
+  .job-card {
+    background-color: #fff;
+    border-radius: 15px;
+    width: 400px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    position: relative;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+  }
+  
+  .job-card h3 {
+    color: #2c3e50;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  
+  .job-card p {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  
+  .job-card .job-info {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .job-card .job-info strong {
+    color: #333;
+  }
+  
+  /* Responsibilities and Skills */
+  .responsibilities, .skills {
+    margin: 10px 0;
+    padding-left: 20px;
+    color: #444;
+  }
+  
+  .skills span {
+    background-color: #e0f7fa;
+    color: #00796b;
+    padding: 5px 10px;
+    border-radius: 12px;
+    margin: 5px 5px 0 0;
+    display: inline-block;
+    font-size: 13px;
+  }
+  
+  /* Swipe Buttons */
+  .swipe-instructions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .swipe-btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .swipe-left {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+  
+  .swipe-left:hover {
+    background-color: #e57373;
+    color: #fff;
+  }
+  
+  .swipe-right {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+  
+  .swipe-right:hover {
+    background-color: #66bb6a;
+    color: #fff;
+  }
+  
+  /* Bookmark Icon */
+  .bookmark-icon {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #757575;
+    transition: color 0.3s ease;
+  }
+  
+  .bookmark-icon.saved {
+    color: #ff9800;
+  }
+  
+  .bookmark-icon:hover {
+    color: #ffb74d;
+  }
+  
+  /* Messages */
+  .info-message {
+    background-color: #e0f7fa;
+    color: #00796b;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .no-jobs-message {
+    font-size: 18px;
+    color: #757575;
+    margin-top: 30px;
+  }
+  

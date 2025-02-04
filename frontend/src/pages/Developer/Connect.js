@@ -87,7 +87,7 @@ const Connect = () => {
           {/* Profile Header */}
           <div className="profile-header">
             <img
-              src={developers[currentIndex].profilePhoto || "https://www.pngall.com/wp-content/uploads/15/Animated-Face-PNG-HD-Image.png"}
+              src={developers[currentIndex].profilePhoto || "https://www.pngall.com/wp-content/uploads/15/Animated-Face-PNG-HD-Image.png"} //default image
               alt={developers[currentIndex].fullName}
               className="profile-photo"
             />

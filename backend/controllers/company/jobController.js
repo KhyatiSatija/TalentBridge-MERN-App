@@ -7,9 +7,10 @@ const DeveloperApplications = require('../../models/developerApplications');
 const createJob = async (req, res) => {
   const { jobTitle, jobDescription, responsibilities, requiredSkills, salaryRange, workMode, location, lastDateToApply } = req.body;
 
+  const companyId = req.headers['companyId'];
   try {
     const job = await JobDescriptions.create({
-      companyId: req.user.id,
+      companyId: companyId,
       jobTitle,
       jobDescription,
       responsibilities,
@@ -19,7 +20,7 @@ const createJob = async (req, res) => {
       location,
       lastDateToApply,
     });
-
+    
     // Create corresponding job application record
     await CompanyJobApplications.create({ jobId: job._id, jobApplications: { rejected: [], applied: [], underProcess: [], hired: [] } });
 
