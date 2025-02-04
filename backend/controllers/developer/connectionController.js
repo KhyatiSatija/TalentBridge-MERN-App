@@ -1,7 +1,7 @@
 const DeveloperConnections = require('../../models/developerConnections');
 const DeveloperProfile = require('../../models/developerProfile');
 const Developer = require('../../models/developer');
-
+const mongoose  = require('mongoose');
 // @desc Get developer connections
 // @route GET /api/developer/connections
 const getMyConnections = async (req, res) => {
@@ -97,34 +97,57 @@ const getMyConnections = async (req, res) => {
 // @desc Update developer connections
 // @route PUT /api/developer/connections
 const updateConnection = async (req, res) => {
-  const { targetDeveloperId, action } = req.body; // action = 'accept', 'reject', 'cancelRequest'
-
+  console.log("START");
+  let { targetDeveloperId, action } = req.body; // action = 'accept', 'reject', 'cancelRequest'
+  let loggedInUserId = req.headers["developer-id"];
   try {
-    const loggedInUserId = req.headers["developer-id"];
+    console.log("hii");
+    
+    console.log(loggedInUserId);
 
     // Fetch connection data for both developers
     let loggedInUserConnection = await DeveloperConnections.findOne({ developerId: loggedInUserId });
     let targetDeveloperConnection = await DeveloperConnections.findOne({ developerId: targetDeveloperId });
 
-    if (!loggedInUserConnection || !targetDeveloperConnection) {
+    console.log("Logged-in User Connection:", loggedInUserConnection);
+    console.log("Target Developer Connection:", targetDeveloperConnection);
+
+
+    if (!loggedInUserConnection) {
+      console.log("Logged In developer connections missing so creating them");
       //create it
-        await DeveloperConnections.create({ developerId: loggedInUserId, connections: { rejected: [], requested: [], matched: [], connectionRequests: [] } });
-        await DeveloperConnections.create({ developerId: targetDeveloperId, connections: { rejected: [], requested: [], matched: [], connectionRequests: [] } });
+        console.log(loggedInUserId);
+
+        loggedInUserId = new mongoose.Types.ObjectId(loggedInUserId);
+        loggedInUserConnection = await DeveloperConnections.create({ developerId: loggedInUserId, connections: { rejected: [], requested: [], matched: [], connectionRequests: [] } });
+        console.log("Created new connection records for loggedInUser");
+    }
+
+    if (!targetDeveloperConnection) {
+      console.log("target developer connections missing so creating them");
+      //create it
+        targetDeveloperId = new mongoose.Types.ObjectId(targetDeveloperId);
+        targetDeveloperConnection =  await DeveloperConnections.create({ developerId: targetDeveloperId, connections: { rejected: [], requested: [], matched: [], connectionRequests: [] } });
+        console.log("Created new connection records for targetDeveloper", targetDeveloperConnection);
     }
 
     if (action === 'accept') {
+      console.log("Processing acceptance...");
       // Accept a connection request
       // Remove target developer ID from connectionRequests and add to matched for logged-in user
       loggedInUserConnection.connections.connectionRequests = loggedInUserConnection.connections.connectionRequests.filter(
         (id) => id.toString() !== targetDeveloperId.toString()
       );
+      
       loggedInUserConnection.connections.matched.push(targetDeveloperId);
-
+      
       // Remove logged-in user ID from requested and add to matched for target developer
       targetDeveloperConnection.connections.requested = targetDeveloperConnection.connections.requested.filter(
         (id) => id.toString() !== loggedInUserId.toString()
       );
+      
       targetDeveloperConnection.connections.matched.push(loggedInUserId);
+      
     }
      else if (action === 'reject') {
       // Reject a connection request

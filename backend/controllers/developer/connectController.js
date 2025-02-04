@@ -74,8 +74,8 @@ const getDeveloperCards = async (req, res) => {
         const profile = profiles.find((p) => p.developerId.toString() === developer._id.toString());
         return {
           id: developer._id, // Developer ID
-          fullName: developer.fullName, // Developer full name
-          profilePhoto: profile?.profilePhoto || null, // Optional: Default to null if no profile
+          fullName: developer.fullName, 
+          profilePhoto: profile?.profilePhoto || null, 
           bio: profile?.bio || null,
           location: profile?.location || null,
           linkedIn: profile?.linkedIn || null,

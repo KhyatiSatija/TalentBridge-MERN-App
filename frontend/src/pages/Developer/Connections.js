@@ -9,7 +9,7 @@ const Connections = () => {
     requested: [],
     matched: []
   });
-  const [activeTab, setActiveTab] = useState('connectionRequests');  // Tracks the selected tab
+  const [activeTab, setActiveTab] = useState('connectionRequests');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -21,11 +21,11 @@ const Connections = () => {
   // Fetch Developer Connections from API
   const fetchConnections = async () => {
     try {
-      const developerId = localStorage.getItem("developerId");  
+      const loggedInDeveloperId = localStorage.getItem("developerId");  
       
       const response = await axios.get('http://localhost:5000/api/developer/connections', {
         headers: {
-          "developer-id": developerId
+          "developer-id": loggedInDeveloperId
         }
       });
 
@@ -40,16 +40,17 @@ const Connections = () => {
   // Handle Connection Actions (Accept, Reject, Cancel)
   const handleConnectionAction = async (targetDeveloperId, action) => {
     try {
-      const developerId = localStorage.getItem("developerId");
+      const loggedInDeveloperId = localStorage.getItem("developerId");
 
-      await axios.put('http://localhost:5000/api/developer/connections', {
+      const response = await axios.put('http://localhost:5000/api/developer/connections', {
         targetDeveloperId,
         action
       }, {
         headers: {
-          "developer-id": developerId
+          "developer-id": loggedInDeveloperId
         }
       });
+      console.log(response.data.message);
 
       // Refresh the connection list after action
       fetchConnections();
@@ -67,6 +68,7 @@ const Connections = () => {
     }
 
     return currentConnections.map((dev) => (
+      
       <div key={dev._id} className={`connection-card ${activeTab === 'matched' ? 'matched' : ''}`}>
         <img
           src={dev.profilePhoto || "https://www.pngall.com/wp-content/uploads/15/Animated-Face-PNG-HD-Image.png"}
@@ -107,6 +109,37 @@ const Connections = () => {
           </div>
         )}
 
+        {/* Certifications */}
+        {dev.certifications && dev.certifications.length > 0 && (
+          <div className="certifications">
+            <p><strong>Certifications:</strong></p>
+            {dev.certifications.map((cert, idx) => (
+              <p key={idx}>{cert}</p>
+            ))}
+          </div>
+        )}
+
+        {/* Achievements */}
+        {dev.achievements && dev.achievements.length > 0 && (
+          <div className="achievements">
+            <p><strong>Achievements:</strong></p>
+            {dev.achievements.map((ach, idx) => (
+              <p key={idx}>{ach}</p>
+            ))}
+          </div>
+        )}
+
+        {/* Languages */}
+        {dev.languages && dev.languages.length > 0 && (
+          <div className="languages">
+            <p><strong>Languages:</strong></p>
+            {dev.languages.map((lang, idx) => (
+              <p key={idx}>{lang}</p>
+            ))}
+          </div>
+        )}
+
+        
         {/* Social Links */}
         <div className="social-links">
           {dev.linkedIn && (
@@ -119,7 +152,7 @@ const Connections = () => {
             <a href={dev.portfolio} target="_blank" rel="noopener noreferrer"><FaGlobe /></a>
           )}
         </div>
-
+        
         {/* Contact Info for Matched Developers */}
         {activeTab === 'matched' && (
           <div className="contact-info">
@@ -132,16 +165,16 @@ const Connections = () => {
         <div className="action-buttons">
           {activeTab === 'connectionRequests' && (
             <>
-              <button onClick={() => handleConnectionAction(dev._id, 'accept')} className="accept-btn">
+              <button onClick={() => handleConnectionAction(dev.developerId, 'accept')} className="accept-btn">
                 <FaCheck /> Accept
               </button>
-              <button onClick={() => handleConnectionAction(dev._id, 'reject')} className="reject-btn">
+              <button onClick={() => handleConnectionAction(dev.developerId, 'reject')} className="reject-btn">
                 <FaTimes /> Reject
               </button>
             </>
           )}
           {activeTab === 'requested' && (
-            <button onClick={() => handleConnectionAction(dev._id, 'cancelRequest')} className="cancel-btn">
+            <button onClick={() => handleConnectionAction(dev.developerId, 'cancelRequest')} className="cancel-btn">
               <FaUndo /> Cancel Request
             </button>
           )}
@@ -156,8 +189,8 @@ const Connections = () => {
   return (
     <div>
         <div>
-      <Header />
-    </div>
+          <Header />
+        </div>
     <div className="connections-container">
       <h2>My Connections</h2>
 
@@ -179,7 +212,7 @@ const Connections = () => {
           className={activeTab === 'matched' ? 'active' : ''} 
           onClick={() => setActiveTab('matched')}
         >
-          Matched
+          Matched Developers
         </button>
       </div>
 

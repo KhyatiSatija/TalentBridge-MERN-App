@@ -99,7 +99,7 @@ const Connect = () => {
             <div className="basic-info">
               <h3>{developers[currentIndex].fullName}</h3>
               <p className="location">{developers[currentIndex].location}</p>
-              <p className="bio">{developers[currentIndex].bio}</p>
+              <p className="bio">{developers[currentIndex].bio || "No bio Provided"}</p>
             </div>
           </div>
         

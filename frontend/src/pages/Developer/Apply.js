@@ -14,6 +14,7 @@ const Apply = () => {
 
   useEffect(() => {
     const fetchJobs = async () => {
+      const developerId = localStorage.getItem("developerId");
       try {
         const response = await axios.get("http://localhost:5000/api/developer/jobs", {
           headers: { "developer-id": developerId }
