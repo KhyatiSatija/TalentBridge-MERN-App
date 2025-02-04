@@ -6,7 +6,7 @@ const Developer = require('../../models/developer');
 // @route GET /api/developer/connections
 const getMyConnections = async (req, res) => {
   try {
-    const loggedInUserId = req.user.id;
+    const loggedInUserId = req.headers["developer-id"];
 
     // Fetch connection data for the logged-in user
     let loggedInUserConnection = await DeveloperConnections.findOne({ developerId: loggedInUserId }).lean();
@@ -100,7 +100,7 @@ const updateConnection = async (req, res) => {
   const { targetDeveloperId, action } = req.body; // action = 'accept', 'reject', 'cancelRequest'
 
   try {
-    const loggedInUserId = req.user.id;
+    const loggedInUserId = req.headers["developer-id"];
 
     // Fetch connection data for both developers
     let loggedInUserConnection = await DeveloperConnections.findOne({ developerId: loggedInUserId });

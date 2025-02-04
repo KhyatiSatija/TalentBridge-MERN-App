@@ -1,0 +1,196 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import "../../assets/css/Developer/Connections.css";
+import { FaLinkedin, FaGithub, FaGlobe, FaEnvelope, FaPhone, FaCheck, FaTimes, FaUndo } from "react-icons/fa";
+import Header from "../../components/Header"
+const Connections = () => {
+  const [connections, setConnections] = useState({
+    connectionRequests: [],
+    requested: [],
+    matched: []
+  });
+  const [activeTab, setActiveTab] = useState('connectionRequests');  // Tracks the selected tab
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch connections on component mount
+  useEffect(() => {
+    fetchConnections();
+  }, []);
+
+  // Fetch Developer Connections from API
+  const fetchConnections = async () => {
+    try {
+      const developerId = localStorage.getItem("developerId");  
+      
+      const response = await axios.get('http://localhost:5000/api/developer/connections', {
+        headers: {
+          "developer-id": developerId
+        }
+      });
+
+      setConnections(response.data);
+      setLoading(false);
+    } catch (err) {
+      setError(err.response?.data?.message || "Error fetching connections");
+      setLoading(false);
+    }
+  };
+
+  // Handle Connection Actions (Accept, Reject, Cancel)
+  const handleConnectionAction = async (targetDeveloperId, action) => {
+    try {
+      const developerId = localStorage.getItem("developerId");
+
+      await axios.put('http://localhost:5000/api/developer/connections', {
+        targetDeveloperId,
+        action
+      }, {
+        headers: {
+          "developer-id": developerId
+        }
+      });
+
+      // Refresh the connection list after action
+      fetchConnections();
+    } catch (err) {
+      console.error('Error updating connection:', err.response?.data?.message || err.message);
+    }
+  };
+
+  // Render connection cards based on active tab
+  const renderConnections = () => {
+    const currentConnections = connections[activeTab];
+    
+    if (!currentConnections || currentConnections.length === 0) {
+      return <p className="no-connections">No connections in this category.</p>;
+    }
+
+    return currentConnections.map((dev) => (
+      <div key={dev._id} className={`connection-card ${activeTab === 'matched' ? 'matched' : ''}`}>
+        <img
+          src={dev.profilePhoto || "https://www.pngall.com/wp-content/uploads/15/Animated-Face-PNG-HD-Image.png"}
+          alt={dev.fullName}
+          className="profile-photo"
+        />
+        <h4>{dev.fullName}</h4>
+        <p className="bio">{dev.bio || "No bio provided"}</p>
+
+        <div className="location">{dev.location || "Location not specified"}</div>
+
+        {/* Professional Details */}
+        <div className="professional-details">
+          <p><strong>Current Job:</strong> {dev.professionalDetails?.currentJob || "N/A"}</p>
+          <p><strong>Skills:</strong> {dev.professionalDetails?.skills?.join(", ") || "N/A"}</p>
+        </div>
+
+        {/* Education */}
+        {dev.education && dev.education.length > 0 && (
+          <div className="education">
+            <p><strong>Education:</strong></p>
+            {dev.education.map((edu, idx) => (
+              <p key={idx}>{edu.degree} from {edu.college} ({edu.graduationYear})</p>
+            ))}
+          </div>
+        )}
+
+        {/* Work Experience */}
+        {dev.workExperience && dev.workExperience.length > 0 && (
+          <div className="work-experience">
+            <p><strong>Work Experience:</strong></p>
+            {dev.workExperience.map((exp, idx) => (
+              <div key={idx}>
+                <p>{exp.jobTitle} at {exp.company}</p>
+                <p><em>{new Date(exp.startDate).getFullYear()} - {exp.endDate ? new Date(exp.endDate).getFullYear() : 'Present'}</em></p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Social Links */}
+        <div className="social-links">
+          {dev.linkedIn && (
+            <a href={dev.linkedIn} target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
+          )}
+          {dev.github && (
+            <a href={dev.github} target="_blank" rel="noopener noreferrer"><FaGithub /></a>
+          )}
+          {dev.portfolio && (
+            <a href={dev.portfolio} target="_blank" rel="noopener noreferrer"><FaGlobe /></a>
+          )}
+        </div>
+
+        {/* Contact Info for Matched Developers */}
+        {activeTab === 'matched' && (
+          <div className="contact-info">
+            <p><FaEnvelope /> {dev.email}</p>
+            <p><FaPhone /> {dev.phoneNumber}</p>
+          </div>
+        )}
+
+        {/* Action Buttons */}
+        <div className="action-buttons">
+          {activeTab === 'connectionRequests' && (
+            <>
+              <button onClick={() => handleConnectionAction(dev._id, 'accept')} className="accept-btn">
+                <FaCheck /> Accept
+              </button>
+              <button onClick={() => handleConnectionAction(dev._id, 'reject')} className="reject-btn">
+                <FaTimes /> Reject
+              </button>
+            </>
+          )}
+          {activeTab === 'requested' && (
+            <button onClick={() => handleConnectionAction(dev._id, 'cancelRequest')} className="cancel-btn">
+              <FaUndo /> Cancel Request
+            </button>
+          )}
+        </div>
+      </div>
+    ));
+  };
+
+  if (loading) return <div className="loading-message">Loading connections...</div>;
+  if (error) return <div className="error-message">{error}</div>;
+
+  return (
+    <div>
+        <div>
+      <Header />
+    </div>
+    <div className="connections-container">
+      <h2>My Connections</h2>
+
+      {/* Tabs for switching between connection types */}
+      <div className="connections-tabs">
+        <button 
+          className={activeTab === 'connectionRequests' ? 'active' : ''} 
+          onClick={() => setActiveTab('connectionRequests')}
+        >
+          Connection Requests
+        </button>
+        <button 
+          className={activeTab === 'requested' ? 'active' : ''} 
+          onClick={() => setActiveTab('requested')}
+        >
+          Requested
+        </button>
+        <button 
+          className={activeTab === 'matched' ? 'active' : ''} 
+          onClick={() => setActiveTab('matched')}
+        >
+          Matched
+        </button>
+      </div>
+
+      {/* Display corresponding connections */}
+      <div className="connections-section">
+        {renderConnections()}
+      </div>
+    </div>
+    </div>
+    
+  );
+};
+
+export default Connections;

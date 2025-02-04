@@ -7,7 +7,7 @@ const Company = require('../../models/company');
 // @route GET /api/developer/applications
 const getDeveloperApplications = async (req, res) => {
     try {
-      const loggedInUserId = req.user.id;
+      const loggedInUserId = req.headers["developer-id"];
   
       // Fetch developer applications
       const developerApplications = await DeveloperApplications.findOne({ developerId: loggedInUserId }).lean();
@@ -80,7 +80,7 @@ const getDeveloperApplications = async (req, res) => {
 // @route PUT /api/developer/applications
 const updateDeveloperApplications = async (req, res) => {
     const { jobId, action } = req.body; // action = 'reject', 'apply', 'delete'
-    const loggedInUserId = req.user.id;
+    const loggedInUserId = req.headers["developer-id"];
   
     try {
       // Fetch developer application data

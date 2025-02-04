@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "../../assets/css/Developer/Apply.css";
 import { FaBookmark, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import Header from "../../components/Header"
 
 const Apply = () => {
   const [jobs, setJobs] = useState([]);
@@ -84,6 +85,11 @@ const Apply = () => {
   }, [handleSwipe]);
 
   return (
+    <div>
+        <div>
+      <Header />
+    </div>
+    
     <div className="apply-container">
       <h2>Apply to Jobs</h2>
 
@@ -122,6 +128,8 @@ const Apply = () => {
         <p>No more jobs to show.</p>
       )}
     </div>
+    </div>
+    
   );
 };
 

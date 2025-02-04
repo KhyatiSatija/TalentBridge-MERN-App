@@ -20,7 +20,7 @@ const createJob = async (req, res) => {
       location,
       lastDateToApply,
     });
-    
+
     // Create corresponding job application record
     await CompanyJobApplications.create({ jobId: job._id, jobApplications: { rejected: [], applied: [], underProcess: [], hired: [] } });
 
@@ -34,7 +34,8 @@ const createJob = async (req, res) => {
 // @route GET /api/company/jobs
 const getAllJobs = async (req, res) => {
   try {
-    const jobs = await JobDescriptions.find({ companyId: req.user.id });
+    const companyId = req.headers['companyId'];
+    const jobs = await JobDescriptions.find({ companyId: companyId });
     res.status(200).json(jobs);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching jobs', error: error.message });

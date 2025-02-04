@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "../../assets/css/Developer/Connect.css";
 import { FaLinkedin, FaGithub, FaGlobe } from "react-icons/fa";  // Social icons
+import Header from "../../components/Header"
 
 const Connect = () => {
   const [developers, setDevelopers] = useState([]);
@@ -76,6 +77,10 @@ const Connect = () => {
   }, [handleSwipe]);
 
   return (
+    <div>
+        <div>
+      <Header />
+    </div>
     <div className="connect-container">
       <h2>Connect with Developers</h2>
 
@@ -175,6 +180,8 @@ const Connect = () => {
         <p>No more developers to show.</p>
       )}
     </div>
+    </div>
+    
   );
 };
 

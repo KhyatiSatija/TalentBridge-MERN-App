@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { FaUsers, FaBriefcase, FaLink, FaFileAlt, FaUser, FaCog } from "react-icons/fa";  // Importing icons
+import axios from "axios"; // Importing icons
 import "../../assets/css/Developer/Dashboard.css";  // Importing CSS for styling
-
+import Header from "../../components/Header"
 const DeveloperDashboard = () => {
-  const navigate = useNavigate(); // Initialize navigate hook
   const [techNews, setTechNews] = useState([]);
   const [error, setError] = useState("");
 
@@ -25,15 +22,8 @@ const DeveloperDashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Header Navigation */}
-      <nav className="dashboard-nav">
-        <button onClick={() => navigate("/developer/connect")}><FaUsers /> Connect with Developers</button>
-        <button onClick={() => navigate("/developer/apply")}><FaBriefcase /> Apply to Jobs</button>
-        <button onClick={() => navigate("/developer/connections")}><FaLink /> My Connections</button>
-        <button onClick={() => navigate("/developer/applications")}><FaFileAlt /> My Applications</button>
-        <button onClick={() => navigate("/developer/profile")}><FaUser /> My Profile</button>
-        <button onClick={() => navigate("/developer/settings")}><FaCog /> Settings</button>
-      </nav>
+
+      <Header />
 
       {/* Main Section: Display Tech News */}
       <main className="dashboard-main">

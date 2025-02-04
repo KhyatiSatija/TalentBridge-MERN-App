@@ -7,7 +7,9 @@ const updateEmail = async (req, res) => {
   const { newEmail } = req.body;
 
   try {
-    const company = await Company.findById(req.user.id);
+    const companyId = req.headers['companyId'];
+    const company = await Company.findById(companyId);
+
     if (!company) {
       return res.status(404).json({ message: 'Company not found' });
     }
@@ -27,7 +29,8 @@ const updatePassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;
 
   try {
-    const company = await Company.findById(req.user.id);
+    const companyId = req.headers['companyId'];
+    const company = await Company.findById(companyId);
     if (!company) {
       return res.status(404).json({ message: 'Company not found' });
     }
@@ -53,7 +56,8 @@ const updatePassword = async (req, res) => {
 // @route DELETE /api/company/settings/delete-account
 const deleteAccount = async (req, res) => {
   try {
-    const company = await Company.findByIdAndDelete(req.user.id);
+    const companyId = req.headers['companyId'];
+    const company = await Company.findByIdAndDelete(companyId);
     if (!company) {
       return res.status(404).json({ message: 'Company not found' });
     }
@@ -70,7 +74,8 @@ const changeName = async (req, res) => {
   const { newName } = req.body;
 
   try {
-    const company = await Company.findById(req.user.id);
+    const companyId = req.headers['companyId'];
+    const company = await Company.findById(companyId);
     if (!company) {
       return res.status(404).json({ message: 'Company not found' });
     }

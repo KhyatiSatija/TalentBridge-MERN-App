@@ -1,0 +1,280 @@
+/* Container for the entire connections page */
+.connections-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1450px;  /* Full-width up to 1450px */
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Main Heading */
+.connections-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333;
+}
+
+/* Tabs container */
+.connections-tabs {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+}
+
+/* Individual tab buttons */
+.connections-tabs button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 8px;
+    background-color: #e0e0e0;
+    color: #333;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Active tab styles */
+.connections-tabs button.active {
+    background-color: #4caf50;
+    color: white;
+}
+
+/* Hover effect for tabs */
+.connections-tabs button:hover {
+    background-color: #c8e6c9;
+}
+
+/* Sections for different connection types */
+.connections-section {
+    margin-bottom: 30px;
+}
+
+/* Subheadings for each section */
+.connections-section h3 {
+    font-size: 1.5rem;
+    color: #555;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+/* Individual connection cards */
+.connection-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect on cards */
+.connection-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Matched developers have a special color */
+.connection-card.matched {
+    border: 2px solid #4caf50;
+    background-color: #e8f5e9;
+}
+
+/* Developer name */
+.connection-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+/* Developer bio */
+.connection-card p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+/* Action Buttons */
+.connection-card button {
+    margin-right: 10px;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Accept Button */
+.connection-card button.accept {
+    background-color: #4caf50;
+    color: white;
+}
+
+.connection-card button.accept:hover {
+    background-color: #388e3c;
+}
+
+/* Reject Button */
+.connection-card button.reject {
+    background-color: #f44336;
+    color: white;
+}
+
+.connection-card button.reject:hover {
+    background-color: #d32f2f;
+}
+
+/* Cancel Request Button */
+.connection-card button.cancelRequest {
+    background-color: #ff9800;
+    color: white;
+}
+
+.connection-card button.cancelRequest:hover {
+    background-color: #f57c00;
+}
+
+/* No data message */
+.connections-section p {
+    font-style: italic;
+    color: #888;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .connections-container {
+        padding: 15px;
+    }
+
+    .connections-tabs button {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    .connection-card {
+        padding: 12px 15px;
+    }
+}
+
+/* Profile Photo */
+.profile-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #007bff;
+    margin: 10px auto;
+    display: block;
+  }
+  
+  /* Social Links */
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+  }
+  
+  .social-links a {
+    color: #007bff;
+    font-size: 20px;
+    transition: color 0.3s ease;
+  }
+  
+  .social-links a:hover {
+    color: #0056b3;
+  }
+  
+  /* Contact Info for Matched Developers */
+  .contact-info {
+    background-color: #e8f5e9;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: left;
+  }
+  
+  .contact-info p {
+    margin: 5px 0;
+    color: #2e7d32;
+  }
+  
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .accept-btn, .reject-btn, .cancel-btn {
+    margin: 0 8px;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .accept-btn {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .accept-btn:hover {
+    background-color: #388e3c;
+  }
+  
+  .reject-btn {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .reject-btn:hover {
+    background-color: #d32f2f;
+  }
+  
+  .cancel-btn {
+    background-color: #ff9800;
+    color: white;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #f57c00;
+  }
+  
+  /* No connections message */
+  .no-connections {
+    font-style: italic;
+    color: #888;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  /* Loading and Error Messages */
+  .loading-message, .error-message {
+    font-size: 1.2rem;
+    color: #555;
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+  
