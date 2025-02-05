@@ -30,6 +30,14 @@ const Connections = () => {
       });
 
       setConnections(response.data);
+      console.log(response.data);
+
+      console.log(response.data.connectionRequests);
+
+      console.log(response.data.requested);
+
+      console.log(response.data.matched);
+
       setLoading(false);
     } catch (err) {
       setError(err.response?.data?.message || "Error fetching connections");
@@ -40,6 +48,8 @@ const Connections = () => {
   // Handle Connection Actions (Accept, Reject, Cancel)
   const handleConnectionAction = async (targetDeveloperId, action) => {
     try {
+      console.log(targetDeveloperId); 
+
       const loggedInDeveloperId = localStorage.getItem("developerId");
 
       const response = await axios.put('http://localhost:5000/api/developer/connections', {
@@ -61,8 +71,10 @@ const Connections = () => {
 
   // Render connection cards based on active tab
   const renderConnections = () => {
+    console.log(activeTab);
     const currentConnections = connections[activeTab];
-    
+    console.log(currentConnections);
+
     if (!currentConnections || currentConnections.length === 0) {
       return <p className="no-connections">No connections in this category.</p>;
     }
@@ -81,7 +93,7 @@ const Connections = () => {
         <div className="location">{dev.location || "Location not specified"}</div>
 
         {/* Professional Details */}
-        <div className="professional-details">
+        <div className="professional-details"> 
           <p><strong>Current Job:</strong> {dev.professionalDetails?.currentJob || "N/A"}</p>
           <p><strong>Skills:</strong> {dev.professionalDetails?.skills?.join(", ") || "N/A"}</p>
         </div>
@@ -194,7 +206,6 @@ const Connections = () => {
     <div className="connections-container">
       <h2>My Connections</h2>
 
-      {/* Tabs for switching between connection types */}
       <div className="connections-tabs">
         <button 
           className={activeTab === 'connectionRequests' ? 'active' : ''} 

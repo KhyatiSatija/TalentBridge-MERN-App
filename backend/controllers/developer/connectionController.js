@@ -19,25 +19,26 @@ const getMyConnections = async (req, res) => {
       });
     }
 
-    // Fetch connection requests (developers who sent requests to the user)
+    // Fetch connection requests (developers who sent requests to the logged in user)
     const connectionRequestDevelopers = await Developer.find({
         _id: { $in: loggedInUserConnection.connections.connectionRequests },
       })
         .select('_id fullName')
         .lean();
   
-      const connectionRequests = await DeveloperProfile.find({
-        developerId: { $in: loggedInUserConnection.connections.connectionRequests },
-      }).lean();
-  
-      const combinedConnectionRequests = connectionRequestDevelopers.map((developer) => {
-        const profile = connectionRequests.find((p) => p.developerId.toString() === developer._id.toString());
-        return {
-          fullName: developer.fullName,
-          ...profile
-        };
-      });
+    const connectionRequests = await DeveloperProfile.find({
+      developerId: { $in: loggedInUserConnection.connections.connectionRequests },
+    }).lean();
 
+    const combinedConnectionRequests = connectionRequestDevelopers.map((developer) => {
+      const profile = connectionRequests.find((p) => p.developerId.toString() === developer._id.toString());
+      return {
+        developerId: developer._id,
+        fullName: developer.fullName,
+        ...profile
+      };
+    });
+    //if the developers do not have made a profile yet, the profile.developerId will be undefined.Hence have to explicitly pass the developerId.
 
 
     // Fetch requested connections (developers the user sent requests to)
@@ -47,19 +48,19 @@ const getMyConnections = async (req, res) => {
         .select('_id fullName')
         .lean();
   
-      const requestedProfiles = await DeveloperProfile.find({
-        developerId: { $in: loggedInUserConnection.connections.requested },
-      }).lean();
-  
-      const combinedRequested = requestedDevelopers.map((developer) => {
-        const profile = requestedProfiles.find((p) => p.developerId.toString() === developer._id.toString());
-        return {
-          ...profile,
-          fullName: developer.fullName,
-        };
-      });
+    const requestedProfiles = await DeveloperProfile.find({
+      developerId: { $in: loggedInUserConnection.connections.requested },
+    }).lean();
 
-    
+    const combinedRequested = requestedDevelopers.map((developer) => {
+      const profile = requestedProfiles.find((p) => p.developerId.toString() === developer._id.toString());
+      return {
+        developerId: developer._id,
+        fullName: developer.fullName,
+        ...profile,
+      };
+    });
+  
     // Fetch matched developers (both profile data and contact details)
     const matchedDevelopers = await Developer.find({
         _id: { $in: loggedInUserConnection.connections.matched },
@@ -74,10 +75,11 @@ const getMyConnections = async (req, res) => {
       const combinedMatched = matchedDevelopers.map((developer) => {
         const profile = matchedProfiles.find((p) => p.developerId.toString() === developer._id.toString());
         return {
-          ...profile,
+          developerId: developer._id,
           fullName: developer.fullName,
           email: developer.email,
           phoneNumber: developer.phoneNumber,
+          ...profile,
         };
       });
 
@@ -100,6 +102,7 @@ const updateConnection = async (req, res) => {
   console.log("START");
   let { targetDeveloperId, action } = req.body; // action = 'accept', 'reject', 'cancelRequest'
   let loggedInUserId = req.headers["developer-id"];
+  console.log(targetDeveloperId); 
   try {
     console.log("hii");
     
