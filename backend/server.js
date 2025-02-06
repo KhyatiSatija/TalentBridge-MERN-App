@@ -1,16 +1,21 @@
 const express = require('express');
+const http = require('http');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 // Cross Origin Resource Sharing is used for the communication between the backend and frontend
 const connectDB = require('./config/database'); //Database connection
-
+const { initializeSocket } = require("./socket"); 
 //Load environment variables
 dotenv.config();
 
+//Connect to MongoDB
+connectDB();
+
 //Initialize app
 const app = express();
+const server = http.createServer(app);
 const PORT = process.env.PORT || 5000;
 
 //Middleware
@@ -18,8 +23,7 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(morgan('dev')); //HTTP request logger middleware for Node.js(helps to debug and monitor the server)
 
-//Connect to MongoDB
-connectDB();
+initializeSocket(server);
 
 //API Routes
 app.get('/', (req, res) => {
@@ -44,8 +48,8 @@ app.use('/api/developer/settings', require('./routes/developer/settingsRoutes'))
 app.use('/api/company/jobs', require('./routes/company/jobRoutes'));
 app.use('/api/company/applications', require('./routes/company/applicationRoutes'));
 app.use('/api/company/settings', require('./routes/company/settingsRoutes'));
-//Start server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
 
+// Start Server(for both Express and WebSockets)
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

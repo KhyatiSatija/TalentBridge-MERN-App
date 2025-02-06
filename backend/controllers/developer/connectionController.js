@@ -2,6 +2,7 @@ const DeveloperConnections = require('../../models/developerConnections');
 const DeveloperProfile = require('../../models/developerProfile');
 const Developer = require('../../models/developer');
 const mongoose  = require('mongoose');
+const { getIo } = require("../../socket"); 
 // @desc Get developer connections
 // @route GET /api/developer/connections
 const getMyConnections = async (req, res) => {
@@ -99,6 +100,7 @@ const getMyConnections = async (req, res) => {
 // @desc Update developer connections
 // @route PUT /api/developer/connections
 const updateConnection = async (req, res) => {
+  console.log(getIo);
   console.log("START");
   let { targetDeveloperId, action } = req.body; // action = 'accept', 'reject', 'cancelRequest'
   let loggedInUserId = req.headers["developer-id"];
@@ -174,7 +176,7 @@ const updateConnection = async (req, res) => {
       targetDeveloperConnection.connections.connectionRequests = targetDeveloperConnection.connections.connectionRequests.filter(
         (id) => id.toString() !== loggedInUserId.toString()
       );
-    } else {
+      } else {
       return res.status(400).json({ message: 'Invalid action' });
     }
 
@@ -182,6 +184,11 @@ const updateConnection = async (req, res) => {
     await loggedInUserConnection.save();
     await targetDeveloperConnection.save();
 
+    // Emit WebSocket event to specific users
+    const io = getIo(); // Get WebSocket instance
+    io.to(targetDeveloperId.toString()).emit("connection-updated", { developerId: targetDeveloperId });
+    io.to(loggedInUserId.toString()).emit("connection-updated", { developerId: loggedInUserId });
+    
     res.status(200).json({ message: 'Connection updated successfully' });
   } catch (error) {
     console.error('Error updating connection:', error.message);

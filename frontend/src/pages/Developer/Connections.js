@@ -3,6 +3,16 @@ import axios from 'axios';
 import "../../assets/css/Developer/Connections.css";
 import { FaLinkedin, FaGithub, FaGlobe, FaEnvelope, FaPhone, FaCheck, FaTimes, FaUndo } from "react-icons/fa";
 import Header from "../../components/Header"
+import { io } from 'socket.io-client';
+
+const POLL_INTERVAL = 10000; // 10 seconds
+
+// Connect to the WebSocket server
+const socket = io("http://localhost:5000", {  
+  transports: ["websocket"], 
+  reconnectionAttempts: 5, // Retry up to 5 times if disconnected
+  reconnectionDelay: 3000 // wait for 3 seconds before retrying
+});
 const Connections = () => {
   const [connections, setConnections] = useState({
     connectionRequests: [],
@@ -15,7 +25,37 @@ const Connections = () => {
 
   // Fetch connections on component mount
   useEffect(() => {
-    fetchConnections();
+    const loggedInDeveloperId = localStorage.getItem("developerId");
+    if (loggedInDeveloperId) {
+      socket.emit("joinRoom", loggedInDeveloperId); // Join the WebSocket room
+    }
+
+    if (!socket.connected) {
+      socket.connect();
+    }
+    fetchConnections();  // Initial fetch when component mounts
+
+    // Polling: Fetch connections every 5 seconds
+    const interval = setInterval(() => {
+      fetchConnections();
+    }, POLL_INTERVAL);
+
+    // // Cleanup: Stop polling when the component unmounts
+    return () => clearInterval(interval);
+
+    // // Listen for real-time updates when a connection is accepted
+    // socket.on('connection-updated', ({ developerId }) => {
+    //   // const loggedInDeveloperId = localStorage.getItem("developerId");
+    //   console.log('Real-time update received for', developerId);
+    //   if (developerId === loggedInDeveloperId) {
+    //     fetchConnections();
+    //   }  // Refresh connections when an update is received
+    // });
+
+    // // Cleanup on component unmount
+    // return () => {
+    //   socket.off('connection-updated');
+    // };
   }, []);
 
   // Fetch Developer Connections from API
@@ -30,13 +70,6 @@ const Connections = () => {
       });
 
       setConnections(response.data);
-      console.log(response.data);
-
-      console.log(response.data.connectionRequests);
-
-      console.log(response.data.requested);
-
-      console.log(response.data.matched);
 
       setLoading(false);
     } catch (err) {
@@ -81,7 +114,7 @@ const Connections = () => {
 
     return currentConnections.map((dev) => (
       
-      <div key={dev._id} className={`connection-card ${activeTab === 'matched' ? 'matched' : ''}`}>
+      <div key={dev.developerId} className={`connection-card ${activeTab === 'matched' ? 'matched' : ''}`}>
         <img
           src={dev.profilePhoto || "https://www.pngall.com/wp-content/uploads/15/Animated-Face-PNG-HD-Image.png"}
           alt={dev.fullName}
