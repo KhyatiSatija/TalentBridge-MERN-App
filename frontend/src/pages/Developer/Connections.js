@@ -5,7 +5,7 @@ import { FaLinkedin, FaGithub, FaGlobe, FaEnvelope, FaPhone, FaCheck, FaTimes, F
 import Header from "../../components/Header"
 import { io } from 'socket.io-client';
 
-const POLL_INTERVAL = 1000; // 10 seconds
+const POLL_INTERVAL = 100000000000000000000000000000000000000000000; // 10 seconds
 
 // Connect to the WebSocket server
 const socket = io("http://localhost:5000", {  

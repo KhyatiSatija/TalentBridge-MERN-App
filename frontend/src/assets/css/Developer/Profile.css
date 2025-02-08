@@ -1,0 +1,286 @@
+/* 🔹 General Profile Container */
+.profile-container {
+    max-width: 90%;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: "Arial", sans-serif;
+  }
+  
+  .profile-heading {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+  }
+  
+  /* 🔹 Profile Sections */
+  .profile-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* 🔹 Profile Fields */
+  .profile-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .profile-field strong {
+    flex: 1;
+    color: #444;
+    font-size: 16px;
+  }
+  
+  .field-value {
+    flex: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #222;
+    font-size: 15px;
+  }
+  
+  /* 🔹 Edit Mode (Input Fields) */
+  .edit-mode {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .edit-mode input,
+  .edit-mode select {
+    border: 1px solid #ddd;
+    padding: 6px;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 150px;
+    margin-left: 30px;
+  }
+  
+  .edit-mode select {
+    cursor: pointer;
+  }
+  
+  /* 🔹 Icons Styling */
+  .edit-icon {
+    color: #007bff;
+    cursor: pointer;
+    margin-left: 8px;
+    transition: 0.2s ease-in-out;
+  }
+  
+  .edit-icon:hover {
+    color: #0056b3;
+  }
+  
+  .save-icon {
+    color: green;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+  }
+  
+  .save-icon:hover {
+    color: darkgreen;
+  }
+  
+  .cancel-icon {
+    color: red;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+  }
+  
+  .cancel-icon:hover {
+    color: darkred;
+  }
+  
+  /* 🔹 List Fields (Skills, Certifications, etc.) */
+  .list-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    padding: 5px 0;
+  }
+  
+  .list-item {
+    background: #f1f1f1;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .delete-icon {
+    color: rgb(58, 34, 34);
+    cursor: pointer;
+    margin-left: 6px;
+    font-size: 13px;
+  }
+  
+  .delete-icon:hover {
+    color: darkred;
+  }
+  
+  /* 🔹 Add New Item Input */
+  .add-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    margin-left: auto;
+  }
+  
+  .add-item input {
+    border: 1px solid #ddd;
+    padding: 6px;
+    border-radius: 5px;
+    font-size: 14px;
+    flex: 1;
+    width: 120px;
+    margin-left: 10px;
+  }
+  
+  .add-icon {
+    color: green;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .add-icon:hover {
+    color: darkgreen;
+  }
+  
+  /* 🔹 Loading Animation */
+  .loading {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin-top: 20px;
+  }
+  
+/* 🔹 Work Experience Section */
+.work-experience {
+    background: #f9f9f9;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 5px solid #007bff;
+    transition: 0.3s;
+  }
+  
+  .work-experience:hover {
+    background: #f1f1f1;
+  }
+  
+  .work-experience strong {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .work-experience p {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  
+/* 🔹 Add Work Experience Form */
+.add-experience {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+.add-experience h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .add-experience form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  /* 🔹 Input Fields */
+  .add-experience input,
+  .add-experience select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  /* 🔹 Responsibilities Section */
+  .responsibilities {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .add-icon {
+    color: green;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .add-icon:hover {
+    color: darkgreen;
+  }
+  
+  /* 🔹 Responsibility List */
+  .responsibility-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 5px;
+  }
+  
+  .responsibility-list li {
+    background: #e7f3ff;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .responsibility-list .delete-icon {
+    font-size: 12px;
+    margin-left: 10px;
+  }
+  
+  /* 🔹 Submit Button */
+  button {
+    padding: 10px;
+    border: none;
+    background: #007bff;
+    color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+  }
+
+  button:hover {
+    background: #0056b3;
+  }
