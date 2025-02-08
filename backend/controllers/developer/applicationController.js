@@ -163,10 +163,67 @@ const updateDeveloperApplications = async (req, res) => {
           }
           await companyJobApplications.save();
         }
-      } else {
+      // if jobID is in Applied and action is "reject"
+      } else if (developerApplications.applications.applied.includes(jobId)  && action === "reject"){
+        //update developerApplications
+        developerApplications.applications.applied = developerApplications.applications.applied.filter(
+          (id) => id.toString() !==  jobId.toString()
+        );
+
+        developerApplications.applications.rejected.push(jobId);
+        
+        //update CompanyJobApplications
+        const companyJobApplications = await CompanyJobApplications.findOne({ jobId });
+
+        if (companyJobApplications){
+          companyJobApplications.jobApplications.applied = companyJobApplications.jobApplications.applied.filter(
+            (id) => id.toString() !== loggedInUserId.toString()
+          );
+          await companyJobApplications.save();
+        } 
+      } 
+      // if jobId is in underProcess and action is "reject"
+      else if (developerApplications.applications.underProcess.includes(jobId)  && action === "reject"){
+        //update developerApplications
+        developerApplications.applications.underProcess = developerApplications.applications.underProcess.filter(
+          (id) => id.toString() !==  jobId.toString()
+        );
+
+        developerApplications.applications.rejected.push(jobId);
+        
+        //update CompanyJobApplications
+        const companyJobApplications = await CompanyJobApplications.findOne({ jobId });
+
+        if (companyJobApplications){
+          companyJobApplications.jobApplications.underProcess = companyJobApplications.jobApplications.underProces.filter(
+            (id) => id.toString() !== loggedInUserId.toString()
+          );
+          await companyJobApplications.save();
+        } 
+      } 
+      
+      // if jobId is in hired and action is "reject"
+      else if (developerApplications.applications.hired.includes(jobId)  && action === "reject"){
+        //update developerApplications
+        developerApplications.applications.hired = developerApplications.applications.hired.filter(
+          (id) => id.toString() !==  jobId.toString()
+        );
+
+        developerApplications.applications.rejected.push(jobId);
+        
+        //update CompanyJobApplications
+        const companyJobApplications = await CompanyJobApplications.findOne({ jobId });
+
+        if (companyJobApplications){
+          companyJobApplications.jobApplications.hired = companyJobApplications.jobApplications.hired.filter(
+            (id) => id.toString() !== loggedInUserId.toString()
+          );
+          await companyJobApplications.save();
+        } 
+      }
+      else {
         return res.status(400).json({ message: 'Invalid action or job ID does not belong to the specified list.' });
       }
-  
       // Save the updated developer application data
       await developerApplications.save();
   

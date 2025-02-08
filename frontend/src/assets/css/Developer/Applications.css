@@ -1,0 +1,200 @@
+/* Applications Page Styling */
+@import "tailwindcss";
+/* Main container */
+.applications-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+  
+  /* Header Tabs */
+  .tab-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+  }
+  
+  .tab {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+  
+  .tab:hover {
+    color: #2563eb; /* Blue hover effect */
+  }
+  
+  .tab-active {
+    border-bottom: 2px solid #2563eb;
+    color: #2563eb;
+  }
+  
+  /* Table Styling */
+  .table-container {
+    margin-top: 1.5rem;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+  }
+  
+  .table thead {
+    background-color: #f9fafb;
+    border-bottom: 2px solid #e5e7eb;
+  }
+  
+  .table th {
+    padding: 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .table td {
+    padding: 1rem;
+    font-size: 0.875rem;
+    color: #4b5563;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .table tbody tr:hover {
+    background-color: #f3f4f6;
+  }
+  
+  /* Dropdown Actions */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+  }
+  
+  .dropdown-content {
+    z-index: 50;
+    position: absolute;
+    top: 1.5rem;
+    display: none;
+    right: 0;
+    background: white;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    width: 160px;
+  }
+  /* Make dropdown visible on hover */
+    .dropdown:hover .dropdown-content {
+        display: block;
+      }
+  
+  .dropdown-content button {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: #374151;
+    text-align: left;
+    background: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s;
+  }
+  
+  .dropdown-content button:hover {
+    background: #f3f4f6;
+  }
+  
+  .dropdown-content button svg {
+    margin-right: 8px;
+  }
+  
+  /* Show dropdown on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Status Badge */
+  .status-badge {
+    display: inline-block;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+  
+  /* Different statuses */
+  .status-applied {
+    background: #dbeafe;
+    color: #2563eb;
+  }
+  
+  .status-under-process {
+    background: #fef9c3;
+    color: #ca8a04;
+  }
+  
+  .status-hired {
+    background: #d1fae5;
+    color: #047857;
+  }
+  
+    /* Ensure table row does not clip dropdown */
+tr {
+    overflow: visible !important;
+  }
+  
+  /* Ensure dropdown appears above table */
+  .dropdown-content {
+    z-index: 50;
+    position: absolute;
+    right: 0;
+    top: 1.5rem;
+  }
+  
+  /* Styling for dropdown menu */
+.dropdown-menu {
+    overflow: visible;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    z-index: 1000;
+  }
+  
+  /* Ensure dropdown buttons have spacing */
+  .dropdown-menu button {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: #374151;
+    text-align: left;
+    background: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s;
+  }
+  
+  .dropdown-menu button:hover {
+    background: #f3f4f6;
+  }
+  
+  .dropdown-menu button svg {
+    margin-right: 8px;
+  }

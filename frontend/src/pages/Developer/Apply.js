@@ -23,7 +23,7 @@ const Apply = () => {
         setJobs(response.data);
 
       } catch (err) {
-        setError("Failed to fetch jobs. Please try again later.");
+        setError("");
       }
     };
 
