@@ -7,6 +7,8 @@ const morgan = require('morgan');
 // Cross Origin Resource Sharing is used for the communication between the backend and frontend
 const connectDB = require('./config/database'); //Database connection
 const { initializeSocket } = require("./socket"); 
+const path = require("path");
+
 //Load environment variables
 dotenv.config();
 
@@ -29,6 +31,9 @@ initializeSocket(server);
 app.get('/', (req, res) => {
     res.send('Welcome to the TalentBridge Backend!');
   });
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 //Auth routes
 app.use('/api/auth/developer', require('./routes/auth/developerAuthRoutes'));
 app.use('/api/auth/company', require('./routes/auth/companyAuthRoutes'));
@@ -41,7 +46,7 @@ app.use('/api/developer/connect', require('./routes/developer/connectRoutes'));
 app.use('/api/developer/jobs', require('./routes/developer/jobRoutes'));
 app.use('/api/developer/connections', require('./routes/developer/connectionRoutes'));
 app.use('/api/developer/applications', require('./routes/developer/applicationRoutes'));
-app.use('/api/developer/profile', require('./routes/developer/profileRoutes'));
+app.use('/api/developer', require('./routes/developer/profileRoutes'));
 app.use('/api/developer/settings', require('./routes/developer/settingsRoutes'));
 
 //routes for company 

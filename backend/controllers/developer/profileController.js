@@ -1,6 +1,50 @@
 const Developer = require('../../models/developer');
 const DeveloperProfile = require('../../models/developerProfile');
+const multer = require("multer");
+const path = require("path");
 
+// Multer Configuration for Handling Profile Photo Uploads
+const storage = multer.diskStorage({
+  destination: "./uploads/profilePhotos/",
+  filename: (req, file, cb) => {
+    cb(null, req.headers["developer-id"] + path.extname(file.originalname)); // Use developer ID as filename
+  },
+});
+
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image/")) {
+    cb(null, true);
+  } else {
+    cb(new Error("Only image files are allowed!"), false);
+  }
+};
+
+// Initialize multer
+const upload = multer({ storage, fileFilter });
+
+
+// Upload Profile Photo
+// @route PUT /api/developer/uploadProfilePhoto
+
+const uploadProfilePhoto = async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ message: "No file uploaded" });
+
+    const imagePath = `/uploads/profilePhotos/${req.file.filename}`;
+
+    //  Update the developer's profile photo
+    const updatedProfile = await DeveloperProfile.findOneAndUpdate(
+      { developerId: req.headers["developer-id"] },
+      { profilePhoto: imagePath },
+      { new: true }
+    );
+
+    res.status(200).json({ message: "Profile photo updated successfully", profilePhoto: imagePath });
+  } catch (error) {
+    res.status(500).json({ message: "Error uploading profile photo", error: error.message });
+  }
+};
 // @desc Fetch developer profile
 // @route GET /api/developer/profile
 const getProfile = async (req, res) => {
@@ -120,5 +164,5 @@ const updateProfile = async (req, res) => {
     }
   };
   
-  module.exports = { getProfile, updateProfile };
+  module.exports = { upload, uploadProfilePhoto, getProfile, updateProfile };
   

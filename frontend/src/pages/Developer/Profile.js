@@ -157,7 +157,7 @@ const handleProfilePhotoUpload = async (e) => {
     formData.append("profilePhoto", file);
 
     try {
-      const response = await axios.put("http://localhost:5000/api/developer/profile", formData, {
+      const response = await axios.put("http://localhost:5000/api/developer/uploadProfilePhoto", formData, {
         headers: { "developer-id": developerId, "Content-Type": "multipart/form-data" },
       });
       setProfile((prev) => ({ ...prev, profilePhoto: response.data.profilePhoto }));
@@ -215,13 +215,22 @@ const handleProfilePhotoUpload = async (e) => {
         <div className="profile-container">
           <h2 className="profile-heading">My Profile</h2>
 
-            {/* 🔹 Profile Photo */}
             <div className="profile-photo-container">
-              <strong>Profile Photo:</strong>
-              <input type="file" accept="image/*" onChange={handleProfilePhotoUpload} />
-              {profile.profilePhoto && <img src={profile.profilePhoto} alt="Profile" className="profile-photo" />}
-              <FaUpload className="upload-icon" />
+                <label className="profile-photo-label">Profile Photo:</label>
+                <div className="profile-photo-box">
+                  {profile.profilePhoto ? (
+                    <img src={`http://localhost:5000${profile.profilePhoto}`} alt="Profile" className="profile-photo" />
+                  ) : (
+                    <div className="profile-photo-placeholder">No Photo</div>
+                  )}
+                  <label htmlFor="photo-upload" className="upload-icon">
+                    <FaUpload />
+                  </label>  
+                  <input type="file" id="photo-upload" accept="image/*" onChange={handleProfilePhotoUpload} hidden />
+                </div>
             </div>
+
+            
           <div className="profile-section">
 
 

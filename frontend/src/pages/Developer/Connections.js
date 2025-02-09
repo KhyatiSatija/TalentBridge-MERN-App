@@ -5,7 +5,7 @@ import { FaLinkedin, FaGithub, FaGlobe, FaEnvelope, FaPhone, FaCheck, FaTimes, F
 import Header from "../../components/Header"
 import { io } from 'socket.io-client';
 
-const POLL_INTERVAL = 100000000000000000000000000000000000000000000; // 10 seconds
+// const POLL_INTERVAL = 100000000000000000000000000000000000000000000; // 10 seconds
 
 // Connect to the WebSocket server
 const socket = io("http://localhost:5000", {  
@@ -36,12 +36,12 @@ const Connections = () => {
     fetchConnections();  // Initial fetch when component mounts
 
     // Polling: Fetch connections every 5 seconds
-    const interval = setInterval(() => {
-      fetchConnections();
-    }, POLL_INTERVAL);
+    // const interval = setInterval(() => {
+    //   fetchConnections();
+    // }, POLL_INTERVAL);
 
-    // // Cleanup: Stop polling when the component unmounts
-    return () => clearInterval(interval);
+    // // // Cleanup: Stop polling when the component unmounts
+    // return () => clearInterval(interval);
 
     // // Listen for real-time updates when a connection is accepted
     // socket.on('connection-updated', ({ developerId }) => {
@@ -116,7 +116,7 @@ const Connections = () => {
       
       <div key={dev.developerId} className={`connection-card ${activeTab === 'matched' ? 'matched' : ''}`}>
         <img
-          src={dev.profilePhoto || "https://www.pngall.com/wp-content/uploads/15/Animated-Face-PNG-HD-Image.png"}
+          src={`http://localhost:5000${dev.profilePhoto}`|| "https://www.pngall.com/wp-content/uploads/15/Animated-Face-PNG-HD-Image.png"}
           alt={dev.fullName}
           className="profile-photo"
         />
