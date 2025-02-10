@@ -5,22 +5,36 @@ const DeveloperApplications = require('../../models/developerApplications');
 // @desc Create a new job
 // @route POST /api/company/jobs/create
 const createJob = async (req, res) => {
-  const { jobTitle, jobDescription, responsibilities, requiredSkills, salaryRange, workMode, location, lastDateToApply } = req.body;
+  const { jobTitle, jobDescription, responsibilities, salaryRange, workMode, location, lastDateToApply, requiredSkills} = req.body;
 
-  const companyId = req.headers['companyId'];
+  const companyId = req.headers["company-id"];
+  console.log(companyId);
+  console.log(req.body);
   try {
+    if (!companyId) {
+      console.log("❌ Invalid companyId:", companyId);
+      return res.status(400).json({ message: "Invalid or missing companyId" });
+    }
+    const lastDate = new Date(lastDateToApply);
+    console.log("Converted lastDateToApply:", lastDate);
+
+    if (!Array.isArray(responsibilities) || !Array.isArray(requiredSkills)) {
+      console.log("❌ responsibilities or requiredSkills are not arrays");
+      return res.status(400).json({ message: "Responsibilities and requiredSkills must be arrays" });
+    }
     const job = await JobDescriptions.create({
       companyId: companyId,
-      jobTitle,
-      jobDescription,
-      responsibilities,
-      requiredSkills,
-      salaryRange,
-      workMode,
-      location,
-      lastDateToApply,
+      jobTitle :  jobTitle,
+      jobDescription : jobDescription,
+      responsibilities: responsibilities,
+      requiredSkills: requiredSkills,
+      salaryRange: salaryRange,
+      workMode: workMode,
+      location: location,
+      lastDateToApply: lastDate,
     });
-
+    console.log(" Job Created:", job);
+    
     // Create corresponding job application record
     await CompanyJobApplications.create({ jobId: job._id, jobApplications: { rejected: [], applied: [], underProcess: [], hired: [] } });
 
@@ -34,7 +48,7 @@ const createJob = async (req, res) => {
 // @route GET /api/company/jobs
 const getAllJobs = async (req, res) => {
   try {
-    const companyId = req.headers['companyId'];
+    const companyId = req.headers['company-id'];
     const jobs = await JobDescriptions.find({ companyId: companyId });
     res.status(200).json(jobs);
   } catch (error) {

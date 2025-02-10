@@ -5,6 +5,7 @@
   "dependencies": {
     "@tailwindcss/cli": "^4.0.4",
     "axios": "^1.7.9",
+    "bootstrap": "^5.3.3",
     "cra-template": "1.2.0",
     "frontend": "file:",
     "jwt-decode": "^4.0.0",
