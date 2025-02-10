@@ -1,0 +1,154 @@
+/* Settings.css */
+.settings-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .message-success {
+    text-align: center;
+    color: #056e0c;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  .message-error {
+    text-align: center;
+    color: #d9534f;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .settings-section {
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f9f9f9;
+  }
+  
+  .settings-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    color: #444;
+    margin-bottom: 10px;
+  }
+  
+  .settings-section input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .settings-section button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .settings-section button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .settings-section button:hover {
+    opacity: 0.9;
+  }
+  
+  /* Specific button colors */
+  .settings-section button {
+    background: #007bff;
+    color: white;
+  }
+  
+  .settings-section.delete button {
+    background: #d9534f;
+  }
+  
+  .settings-section.logout button {
+    background: #f0ad4e;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .settings-container {
+      width: 90%;
+      padding: 15px;
+    }
+  }
+  
+
+  /* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Modal Buttons */
+  .modal-buttons {
+    margin-top: 20px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+  
+  .confirm-delete {
+    background: #d9534f !important;
+    color: white !important;
+    padding: 10px !important;
+    border: none !important;
+    cursor: pointer !important;
+    border-radius: 5px !important;
+    margin-right: 10px !important;
+  }
+  
+  .cancel-delete {
+    background: #ddd !important;
+    color: black!important;
+    padding: 10px !important;
+    border: none !important;
+    cursor: pointer !important;
+    border-radius: 5px !important;
+    margin-left: 10px !important;
+  }
+  
+  .confirm-delete:hover {
+    background: #c9302c !important;
+  }
+  
+  .cancel-delete:hover {
+    background: #bbb !important;
+  }
+  

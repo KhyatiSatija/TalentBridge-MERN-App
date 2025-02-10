@@ -168,8 +168,8 @@
 .profile-photo {
     width: 120px !important;
     height: 120px !important;
-    border-radius: 50%;
-    object-fit: cover;
+    border-radius: 50% !important;
+    object-fit: cover !important;
     border: 3px solid #ddd;
     margin: 10px auto;
     display: block;

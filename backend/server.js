@@ -21,8 +21,8 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 5000;
 
 //Middleware
-app.use(cors())
-app.use(bodyParser.json())
+app.use(cors());
+app.use(bodyParser.json());
 app.use(morgan('dev')); //HTTP request logger middleware for Node.js(helps to debug and monitor the server)
 
 initializeSocket(server);
