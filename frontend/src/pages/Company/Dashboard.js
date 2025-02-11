@@ -18,6 +18,12 @@ const CompanyDashboard = () => {
   });
   const [submitting, setSubmitting] = useState(false);
 
+  const [editJobData, setEditJobData] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  const [jobToDelete,  setJobToDelete] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const companyId = localStorage.getItem("companyId");
 
 
@@ -89,15 +95,56 @@ const CompanyDashboard = () => {
       setSubmitting(false);
     };
     
-  // Delete a job posting
-  const deleteJob = async (jobId) => {
+
+
+
+  const confirmDeleteJob = (job) => {
+    setJobToDelete(job);
+    setShowDeleteModal(true);
+  };
+    // Delete a job posting
+  const deleteJob = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/company/jobs/${jobId}`);
-      setJobs(jobs.filter((job) => job._id !== jobId)); // Remove from UI
+      await axios.delete(`http://localhost:5000/api/company/jobs/${jobToDelete._id}`);
+      setJobs(jobs.filter((job) => job._id !== jobToDelete._id)); // Remove from UI
+      setShowDeleteModal(false);
+      setJobToDelete(null);
     } catch (error) {
       console.error("Error deleting job:", error);
     }
   };
+
+const editJob = (job) => {
+  setEditJobData(job);
+  setShowEditModal(true);
+};
+const handleEditInputChange = (e) => {
+  setEditJobData({...editJobData, [e.target.name] : e.target.value});
+};
+
+const handleEditSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await axios.put(`http://localhost:5000/api/company/jobs/${editJobData._id}`, editJobData);
+    setJobs(jobs.map(job => (job._id === editJobData._id ? response.data.job : job)));
+    setShowEditModal(false);
+  }catch(error){
+    console.error("Error updating job: ", error);
+  }
+};
+
+const toggleJobApplicationStatus = async (jobId, currentStatus) => {
+  try {
+    const response = await axios.patch(`http://localhost:5000/api/company/jobs/${jobId}`, {
+      acceptingApplications: !currentStatus,
+    });
+
+    setJobs(jobs.map(job => job._id === jobId ? response.data.job : job));
+  } catch (error) {
+    console.error("Error updating job status:", error);
+  }
+};
+
 
   return (
     <div className="container mt-5 company-dashboard">
@@ -134,12 +181,19 @@ const CompanyDashboard = () => {
                 <p><strong>Last Date to Apply:</strong> {new Date(job.lastDateToApply).toLocaleDateString()}</p>
 
                 <div className="job-actions">
-                  <button className="edit-btn" onClick={() => alert(`Edit ${job._id}`)}>
+                  <button className="edit-btn" onClick={() => editJob(job)}>
                     <FaEdit /> Edit
                   </button>
-                  <button className="delete-btn" onClick={() => deleteJob(job._id)}>
+                  <button className="delete-btn" onClick={() => confirmDeleteJob(job)}>
                     <FaTrash /> Delete
                   </button>
+                  <button 
+                    onClick={() => toggleJobApplicationStatus(job._id, job.acceptingApplications)}
+                    className={job.acceptingApplications ? "btn btn-success" : "btn btn-secondary"}
+                  >
+                    {job.acceptingApplications ? "Now Hiring" : "Hiring Paused "}
+                  </button>
+
                 </div>
               </div>
             </div>
@@ -178,6 +232,52 @@ const CompanyDashboard = () => {
               </div>
             </div>
          )}
+
+        {showEditModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h4>Edit Job</h4>
+              <form onSubmit={handleEditSubmit}>
+                <input type="text" name="jobTitle" value={editJobData.jobTitle} onChange={handleEditInputChange} required />
+                <textarea name="jobDescription" value={editJobData.jobDescription} onChange={handleEditInputChange} required />
+                <input type="text" name="responsibilities" value={editJobData.responsibilities.join(", ")} onChange={handleEditInputChange} required />
+                <input type="text" name="requiredSkills" value={editJobData.requiredSkills.join(", ")} onChange={handleEditInputChange} required />
+                <input type="text" name="salaryRange" value={editJobData.salaryRange} onChange={handleEditInputChange} />
+                <select name="workMode" value={editJobData.workMode} onChange={handleEditInputChange} required>
+                  <option value="Remote">Remote</option>
+                  <option value="Onsite">Onsite</option>
+                  <option value="Hybrid">Hybrid</option>
+                </select>
+                <input type="text" name="location" value={editJobData.location} onChange={handleEditInputChange} />
+                <label htmlFor="lastDateToApply"> Last date to apply: </label>
+                <input type="date" name="lastDateToApply" value={editJobData.lastDateToApply} onChange={handleEditInputChange} required />
+        
+                <button type="submit" className="submit-btn">Save Changes</button>
+                <button className="cancel-btn" onClick={() => setShowEditModal(false)}>Cancel</button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {showDeleteModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h4>Confirm Job Deletion</h4>
+              <p>
+                Deleting this job will permanently remove all applications related to it.
+                This action <strong>cannot be undone.</strong> Are you sure?
+              </p>
+              <div className="modal-actions">
+                <button className="delete-confirm-btn" onClick={deleteJob}>
+                  Yes, Delete
+                </button>
+                <button className="cancel-btn" onClick={() => setShowDeleteModal(false)}>
+                  No, Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
     </div>
   );

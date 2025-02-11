@@ -22,10 +22,21 @@ const getDeveloperApplications = async (req, res) => {
             hiredApplications,
           });
       }
+
+    // Helper function to fetch job details without company name
+    const fetchJobDetailsWithoutCompany = async (jobIds) => {
+      return await JobDescriptions.find({
+        _id: { $in: jobIds },
+      })
+      .select("-companyId") // Exclude companyId field
+      .lean();
+    };
   
     // Helper function to fetch job details and resolve company name
     const fetchJobDetailsWithCompanyName = async (jobIds) => {
-        const jobs = await JobDescriptions.find({ _id: { $in: jobIds } }).lean();
+        const jobs = await JobDescriptions.find({
+           _id: { $in: jobIds },
+        }).lean();
   
         // Map job details and fetch company names
         return Promise.all(
@@ -33,28 +44,29 @@ const getDeveloperApplications = async (req, res) => {
             const company = await Company.findById(job.companyId).select('name').lean();
             return {
                 companyName: company ? company.name : null,
-              jobId: job._id,
-              jobTitle: job.jobTitle,
-              jobDescription: job.jobDescription,
-              responsibilities: job.responsibilities,
-              requiredSkills: job.requiredSkills,
-              salaryRange: job.salaryRange,
-              workMode: job.workMode,
-              location: job.location,
-              lastDateToApply: job.lastDateToApply, 
+                jobId: job._id,
+                jobTitle: job.jobTitle,
+                jobDescription: job.jobDescription,
+                responsibilities: job.responsibilities,
+                requiredSkills: job.requiredSkills,
+                salaryRange: job.salaryRange,
+                workMode: job.workMode,
+                location: job.location,
+                lastDateToApply: job.lastDateToApply, 
+                acceptingApplications : job.acceptingApplication
             };
           })
         );
       };
   
       // Fetch onHold applications (no company name required)
-      const onHoldApplications = await fetchJobDetailsWithCompanyName(developerApplications.applications.underHold);
+      const onHoldApplications = await fetchJobDetailsWithoutCompanyName(developerApplications.applications.underHold);
   
       // Fetch rejected applications (no company name required)
-      const rejectedApplications = await fetchJobDetailsWithCompanyName(developerApplications.applications.rejected);
+      const rejectedApplications = await fetchJobDetailsWithoutCompanyName(developerApplications.applications.rejected);
   
       // Fetch applied applications with company name
-      const appliedApplications = await fetchJobDetailsWithCompanyName(developerApplications.applications.applied);
+      const appliedApplications = await fetchJobDetailsWithoutCompanyName(developerApplications.applications.applied);
   
       // Fetch underProcess applications with company name
       const underProcessApplications = await fetchJobDetailsWithCompanyName(developerApplications.applications.underProcess);

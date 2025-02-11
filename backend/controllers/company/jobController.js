@@ -78,16 +78,30 @@ const deleteJob = async (req, res) => {
   const { jobId } = req.params;
 
   try {
-    const job = await JobDescriptions.findByIdAndDelete(jobId);
+    const job = await JobDescriptions.findById(jobId);
     if (!job) return res.status(404).json({ message: 'Job not found' });
+
+    await JobDescriptions.findByIdAndDelete(jobId);
 
     // Delete corresponding job application record
     await CompanyJobApplications.findOneAndDelete({ jobId });
 
     // Delete all developer applications for this job
-    await DeveloperApplications.deleteMany({ jobId });
+    await DeveloperApplications.updateMany(
+      {},
+      {
+        $pull: {
+          "applications.rejected" : jobId,
+          "applications.applied": jobId,
+          "applications.underProcess": jobId,
+          "applications.hired": jobId,
+          "applications.underHold": jobId,
+          "applications.rejectedByCompany": jobId,
+        },
+      }
+    );
 
-    res.status(200).json({ message: 'Job deleted successfully' });
+    res.status(200).json({ message: 'Job and related applications deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting job', error: error.message });
   }
@@ -112,4 +126,25 @@ const getJobApplications = async (req, res) => {
   }
 };
 
-module.exports = { createJob, getAllJobs, editJob, deleteJob, getJobApplications };
+// @desc Toggle Accepting Responses by the company
+// @route PUT /api/company/jobs/:jobId
+const toggleJobApplications = async (req, res) => {
+  const { jobId } = req.params;
+  const { acceptingApplications } = req.body;
+
+  try {
+    const job = await JobDescriptions.findById(jobId);
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    job.acceptingApplications = acceptingApplications;
+    await job.save();
+
+    res.status(200).json({ message: `Job application status updated to ${acceptingApplications}`, job });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating job application status", error: error.message });
+  }
+};
+
+module.exports = { createJob, getAllJobs, editJob, deleteJob, getJobApplications, toggleJobApplications };

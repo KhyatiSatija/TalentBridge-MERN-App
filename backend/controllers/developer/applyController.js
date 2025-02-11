@@ -43,7 +43,8 @@ const getJobCards = async (req, res) => {
     // Fetch job descriptions not in the excluded list
     const jobs = await JobDescriptions.find({
       _id: { $nin: Array.from(excludedJobIds) },
-      lastDateToApply: { $gte: currentDate } 
+      lastDateToApply: { $gte: currentDate },
+      acceptingApplications: true,
     })
       .select('jobTitle jobDescription responsibilities requiredSkills salaryRange workMode location lastDateToApply') 
       .lean();
