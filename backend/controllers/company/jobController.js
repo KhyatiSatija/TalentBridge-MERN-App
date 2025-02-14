@@ -1,6 +1,9 @@
 const JobDescriptions = require('../../models/jobDescriptions');
 const CompanyJobApplications = require('../../models/companyJobApplications');
 const DeveloperApplications = require('../../models/developerApplications');
+const Developer = require("../../models/developer");
+const DeveloperProfile = require("../../models/developerProfile");
+const mongoose = require("mongoose");
 
 // @desc Create a new job
 // @route POST /api/company/jobs/create
@@ -110,21 +113,75 @@ const deleteJob = async (req, res) => {
 // @desc Get applications for a job
 // @route GET /api/company/jobs/:jobId/applications
 const getJobApplications = async (req, res) => {
-  const { jobId } = req.params;
-
   try {
-    const applications = await CompanyJobApplications.findOne({ jobId }).populate({
-      path: 'jobApplications',
-      populate: { path: 'rejected applied underProcess hired', select: '-password' },
-    });
+    const { jobId } = req.params;
 
-    if (!applications) return res.status(404).json({ message: 'Applications not found for this job' });
+    if (!mongoose.Types.ObjectId.isValid(jobId)) {
+      return res.status(400).json({ message: 'Invalid job ID format' });
+    }
 
-    res.status(200).json(applications);
+    const applications = await CompanyJobApplications.findOne({ jobId }).lean();
+
+    if (!applications) {
+      return res.status(404).json({ message: 'No applications found for this job' });
+    }
+
+    const getDeveloperSummary = async (developerId) => {
+      const developer = await Developer.findById(developerId).select('fullName').lean();
+      const profile = await DeveloperProfile.findOne({ developerId }).select(
+        'profilePhoto linkedIn github portfolio professionalDetails.currentJob professionalDetails.yearsOfExperience professionalDetails.skills education.degree education.graduationYear workExperience.company workExperience.jobTitle languagesPreferred'
+      ).lean();
+
+      if (!developer) return null;
+
+      return {
+        _id: developerId,
+        fullName: developer.fullName,
+        profilePhoto: profile?.profilePhoto || null,
+        linkedIn: profile?.linkedIn || null,
+        github: profile?.github || null,
+        portfolio: profile?.portfolio || null,
+        currentJob: profile?.professionalDetails?.currentJob || null,
+        yearsOfExperience: profile?.professionalDetails?.yearsOfExperience || 0,
+        skills: profile?.professionalDetails?.skills || [],
+        graduationYear: profile?.education?.graduationYear || null,
+        degree: profile?.education?.degree || null,
+        workExperience: profile?.workExperience?.map(exp => ({
+          company: exp.company,
+          jobTitle: exp.jobTitle,
+        })) || [],
+        languagesPreferred: profile?.languagesPreferred || []
+      };
+    };
+
+    const populateDevelopers = async (developerIds) => {
+      return Promise.all(developerIds.map(id => getDeveloperSummary(id)));
+    };
+
+    const rejected = await populateDevelopers(applications.jobApplications.rejected);
+    const applied = await populateDevelopers(applications.jobApplications.applied);
+    const underProcess = await populateDevelopers(applications.jobApplications.underProcess);
+    const hired = await populateDevelopers(applications.jobApplications.hired);
+
+    const result = {
+      _id: applications._id,
+      jobId: applications.jobId,
+      jobApplications: {
+        rejected,
+        applied,
+        underProcess,
+        hired
+      }
+    };
+
+    res.status(200).json({ success: true, data: result });
+
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching applications', error: error.message });
+    console.error('Error fetching job applications:', error);
+    res.status(500).json({ message: 'Server error while fetching applications', error: error.message });
   }
 };
+
 
 // @desc Toggle Accepting Responses by the company
 // @route PUT /api/company/jobs/:jobId

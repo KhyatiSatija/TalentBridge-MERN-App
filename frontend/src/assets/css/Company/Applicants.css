@@ -1,0 +1,141 @@
+.job-applications-page {
+    margin-top: 20px;
+  }
+  
+  .loading-spinner {
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  .spinner-icon {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .error-message {
+    text-align: center;
+    color: red;
+  }
+  
+  .no-applications {
+    text-align: center;
+    font-style: italic;
+  }
+  
+  .applications-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-left: -7%;
+    margin-right: -5%;
+  }
+  
+  .applications-table th, .applications-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .applications-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .candidate-info {
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    text-align: center;
+    justify-content:center;
+    width: 200px;
+    min-height: 80px;
+    gap: 10px;
+  }
+  
+  .profile-photo {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .profile-icon {
+    font-size: 50px;
+    color: gray;
+  }
+  
+  .link-icons a {
+    margin-right: 8px;
+    font-size: 20px;
+  }
+  
+  .status-applied {
+    color: blue;
+    font-weight: bold;
+  }
+  
+  .status-underProcess {
+    color: orange;
+    font-weight: bold;
+  }
+  
+  .status-hired {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .status-rejected {
+    color: red;
+    font-weight: bold;
+  }
+  .status-dropdown {
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  .status-dropdown:hover {
+    border-color: #007bff;
+  }
+  
+  .status-dropdown:focus {
+    outline: none;
+    border-color: #0056b3;
+  }
+  
+  .status-dropdown option {
+    background: white;
+  }
+  .search-bar {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .search-bar:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  .download-btn {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .download-btn:hover {
+    background-color: #218838;
+  }
+    

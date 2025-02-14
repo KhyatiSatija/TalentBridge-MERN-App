@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import { FaEdit, FaTrash, FaPlus, FaEye} from "react-icons/fa";
 import "../../assets/css/Company/Dashboard.css";
+import { useNavigate  } from "react-router-dom";
+
 
 const CompanyDashboard = () => {
   const [jobs, setJobs] = useState([]);
@@ -26,6 +28,7 @@ const CompanyDashboard = () => {
 
   const companyId = localStorage.getItem("companyId");
 
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -192,6 +195,13 @@ const toggleJobApplicationStatus = async (jobId, currentStatus) => {
                     className={job.acceptingApplications ? "btn btn-success" : "btn btn-secondary"}
                   >
                     {job.acceptingApplications ? "Now Hiring" : "Hiring Paused "}
+                  </button>
+
+                  <button 
+                    onClick={() => navigate(`/company/job/${job._id}/applications`)} 
+                    className="view-applications-btn"
+                  >
+                    <FaEye /> View Applications
                   </button>
 
                 </div>

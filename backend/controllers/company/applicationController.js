@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const CompanyJobApplications = require('../../models/companyJobApplications');
 const DeveloperProfile = require('../../models/developerProfile');
 const DeveloperApplications = require('../../models/developerApplications');
@@ -9,20 +10,28 @@ const rejectAppliedDeveloper = async (req, res) => {
   const { jobId, developerId } = req.body;
 
   try {
-    const applications = await CompanyJobApplications.findOne({ jobId });
-    if (!applications) return res.status(404).json({ message: 'Job not found' });
+    // Validate developerId
+    if (!mongoose.Types.ObjectId.isValid(developerId)) {
+      return res.status(400).json({ message: 'Invalid developer ID' });
+    }
 
-    applications.jobApplications.applied = applications.jobApplications.applied.filter(id => id.toString() !== developerId);
-    applications.jobApplications.rejected.push(developerId);
+    // Atomic update using Mongoose's `$pull` and `$push`
+    await CompanyJobApplications.updateOne(
+      { jobId },
+      { 
+        $pull: { "jobApplications.applied": developerId }, 
+        $push: { "jobApplications.rejected": developerId } 
+      }
+    );
 
-    const developerApplications = await DeveloperApplications.findOne({ developerId });
-    if (!developerApplications) return res.status(404).json({ message: 'Developer not found' });
+    await DeveloperApplications.updateOne(
+      { developerId },
+      { 
+        $pull: { "applications.applied": jobId }, 
+        $push: { "applications.rejectedByCompany": jobId } 
+      }
+    );
 
-    developerApplications.applications.applied = developerApplications.applications.applied.filter(id => id.toString() !== jobId);
-    developerApplications.applications.rejectedByCompany.push(jobId);
-
-    await applications.save();
-    await developerApplications.save();
     res.status(200).json({ message: 'Developer rejected successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error rejecting developer application', error: error.message });
@@ -35,22 +44,27 @@ const underProcessAppliedDeveloper = async (req, res) => {
   const { jobId, developerId } = req.body;
 
   try {
-    const applications = await CompanyJobApplications.findOne({ jobId });
-    if (!applications) return res.status(404).json({ message: 'Job not found' });
+    if (!mongoose.Types.ObjectId.isValid(developerId)) {
+      return res.status(400).json({ message: 'Invalid developer ID' });
+    }
 
-    applications.jobApplications.applied = applications.jobApplications.applied.filter(id => id.toString() !== developerId);
-    applications.jobApplications.underProcess.push(developerId);
+    await CompanyJobApplications.updateOne(
+      { jobId },
+      { 
+        $pull: { "jobApplications.applied": developerId }, 
+        $push: { "jobApplications.underProcess": developerId } 
+      }
+    );
 
-    const developerApplications = await DeveloperApplications.findOne({ developerId });
-    if (!developerApplications) return res.status(404).json({ message: 'Developer not found' });
+    await DeveloperApplications.updateOne(
+      { developerId },
+      { 
+        $pull: { "applications.applied": jobId }, 
+        $push: { "applications.underProcess": jobId } 
+      }
+    );
 
-    developerApplications.applications.applied = developerApplications.applications.applied.filter(id => id.toString() !== jobId);
-    developerApplications.applications.underProcess.push(jobId);
-
-    await applications.save();
-    await developerApplications.save();
-
-    res.status(200).json({ message: 'Developer Application moved to under process' });
+    res.status(200).json({ message: 'Developer application moved to under process' });
   } catch (error) {
     res.status(500).json({ message: 'Error processing developer application', error: error.message });
   }
@@ -62,19 +76,34 @@ const hireUnderProcessDeveloper = async (req, res) => {
   const { jobId, developerId } = req.body;
 
   try {
+    if (!mongoose.Types.ObjectId.isValid(developerId)) {
+      return res.status(400).json({ message: 'Invalid developer ID' });
+    }
+
     const applications = await CompanyJobApplications.findOne({ jobId });
+
     if (!applications) return res.status(404).json({ message: 'Job not found' });
 
-    applications.jobApplications.underProcess = applications.jobApplications.underProcess.filter(id => id.toString() !== developerId);
-    applications.jobApplications.hired.push(developerId);
+    // ✅ Fix: Ensure developer is in "underProcess" before hiring
+    if (!applications.jobApplications.underProcess.includes(developerId)) {
+      return res.status(400).json({ message: 'Developer is not in under-process state' });
+    }
 
-    const developerApplications = await DeveloperApplications.findOne({ developerId });
-    if (!developerApplications) return res.status(404).json({ message: 'Developer not found' });
-    developerApplications.applications.underProcess = developerApplications.applications.underProcess.filter(id => id.toString() !== jobId);    
-    developerApplications.applications.hired.push(jobId);
+    await CompanyJobApplications.updateOne(
+      { jobId },
+      { 
+        $pull: { "jobApplications.underProcess": developerId }, 
+        $push: { "jobApplications.hired": developerId } 
+      }
+    );
 
-    await applications.save();
-    await developerApplications.save();
+    await DeveloperApplications.updateOne(
+      { developerId },
+      { 
+        $pull: { "applications.underProcess": jobId }, 
+        $push: { "applications.hired": jobId } 
+      }
+    );
 
     res.status(200).json({ message: 'Under-Process Developer hired successfully' });
   } catch (error) {
@@ -82,55 +111,79 @@ const hireUnderProcessDeveloper = async (req, res) => {
   }
 };
 
-// @desc reject an under process developer
+// @desc Reject an under-process developer
 // @route PUT /api/company/applications/reject-under-process
 const rejectUnderProcessDeveloper = async (req, res) => {
   const { jobId, developerId } = req.body;
 
   try {
-    const applications = await CompanyJobApplications.findOne({ jobId });
-    if (!applications) return res.status(404).json({ message: 'Job not found' });
-    applications.jobApplications.underProcess = applications.jobApplications.underProcess.filter(id => id.toString() !== developerId);
-    applications.jobApplications.rejected.push(developerId);
+    if (!mongoose.Types.ObjectId.isValid(developerId)) {
+      return res.status(400).json({ message: 'Invalid developer ID' });
+    }
 
-    const developerApplications = await DeveloperApplications.findOne({ developerId });
-    if (!developerApplications) return res.status(404).json({ message: 'Developer not found' });
-    developerApplications.applications.underProcess = developerApplications.applications.underProcess.filter(id => id.toString() !== jobId);
-    developerApplications.applications.rejectedByCompany.push(jobId);
+    await CompanyJobApplications.updateOne(
+      { jobId },
+      { 
+        $pull: { "jobApplications.underProcess": developerId }, 
+        $push: { "jobApplications.rejected": developerId } 
+      }
+    );
 
-    await applications.save();
-    await developerApplications.save();
+    await DeveloperApplications.updateOne(
+      { developerId },
+      { 
+        $pull: { "applications.underProcess": jobId }, 
+        $push: { "applications.rejectedByCompany": jobId } 
+      }
+    );
+
     res.status(200).json({ message: 'Under-Process Developer rejected successfully' });
-    }
-    catch( error){
-        res.status(500).json({ message: 'Error rejecting under-process developer', error: error.message });
-    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error rejecting under-process developer', error: error.message });
+  }
 };
 
-// @desc move a rejected developer to under process category (second chances do exist !!)
+// @desc Move a rejected developer to under process category (second chance feature)
 // @route PUT /api/company/applications/move-rejected-to-under-process
 const moveRejectedToUnderProcess = async (req, res) => {
-    const { jobId, developerId } = req.body;
-  
-    try {
-      const applications = await CompanyJobApplications.findOne({ jobId });
-      if (!applications) return res.status(404).json({ message: 'Job not found' });
-      applications.jobApplications.rejected = applications.jobApplications.rejected.filter(id => id.toString() !== developerId);
-      applications.jobApplications.underProcess.push(developerId);
-  
-      const developerApplications = await DeveloperApplications.findOne({ developerId });
-      if (!developerApplications) return res.status(404).json({ message: 'Developer not found' });
-      developerApplications.applications.rejectedByCompany = developerApplications.applications.rejectedByCompany.filter(id => id.toString() !== jobId);
-      developerApplications.applications.underProcess.push(jobId);
-  
-      await applications.save();
-      await developerApplications.save();
-      res.status(200).json({ message: 'Rejected Developer moved to under-process successfully' });
+  const { jobId, developerId } = req.body;
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(developerId)) {
+      return res.status(400).json({ message: 'Invalid developer ID' });
+    }
+
+    const applications = await CompanyJobApplications.findOne({ jobId });
+
+    if (!applications) return res.status(404).json({ message: 'Job not found' });
+
+    // ✅ Fix: Ensure developer is not already hired
+    if (applications.jobApplications.hired.includes(developerId)) {
+      return res.status(400).json({ message: 'Hired developers cannot be moved back to under-process' });
+    }
+
+    await CompanyJobApplications.updateOne(
+      { jobId },
+      { 
+        $pull: { "jobApplications.rejected": developerId }, 
+        $push: { "jobApplications.underProcess": developerId } 
       }
-      catch( error){
-          res.status(500).json({ message: 'Error moving to under-process a previously rejected  developer', error: error.message });
+    );
+
+    await DeveloperApplications.updateOne(
+      { developerId },
+      { 
+        $pull: { "applications.rejectedByCompany": jobId }, 
+        $push: { "applications.underProcess": jobId } 
       }
-  };
+    );
+
+    res.status(200).json({ message: 'Rejected Developer moved to under-process successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error moving to under-process a previously rejected developer', error: error.message });
+  }
+};
+
 
 // @desc View developer profile
 // @route GET /api/company/applications/developer/:developerId

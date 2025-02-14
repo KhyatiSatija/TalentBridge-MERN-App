@@ -8,6 +8,8 @@ const { rejectAppliedDeveloper,
 
 const router = express.Router();
 
+// api/company/applications/
+
 // Route to reject a developer's application
 router.put('/reject', rejectAppliedDeveloper);
 
