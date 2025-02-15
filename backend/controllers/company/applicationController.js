@@ -213,8 +213,11 @@ const viewDeveloperProfile = async (req, res) => {
   
       // Decide which details to show based on the application status
       let responseData = {
+        profilePhoto: profile.profilePhoto,
+        fullName: developer.fullName,
         bio: profile.bio,
         location: profile.location,
+        linkedIn: profile.linkedIn,
         github: profile.github,
         portfolio: profile.portfolio,
         professionalDetails: profile.professionalDetails,
@@ -230,23 +233,16 @@ const viewDeveloperProfile = async (req, res) => {
       if (isUnderProcess || isHired) {
         // Add visible details for developers in the "underProcess" or "hired" category
         responseData = {
-          fullName: developer.fullName,
+          
           email: developer.email,
           phoneNumber: developer.phoneNumber,
-          profilePhoto: profile.profilePhoto,
-          linkedIn: profile.linkedIn,
-          college: profile.education?.[0]?.college || 'N/A',
           ...responseData,
         };
       } else {
         // Hide specific details for other statuses
         responseData = {
-          fullName: 'Hidden',
           email: 'Hidden',
           phoneNumber: 'Hidden',
-          profilePhoto: 'Hidden',
-          linkedIn: 'Hidden',
-          college: 'Hidden',
           ...responseData,
         };
       }

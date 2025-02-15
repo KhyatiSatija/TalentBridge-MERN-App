@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { FaUserCircle, FaLinkedin, FaGithub, FaExternalLinkAlt, FaSpinner } from "react-icons/fa";
+import { FaUserCircle, FaLinkedin, FaGithub, FaExternalLinkAlt, FaSpinner, FaSearch,FaFileExcel,  FaEye } from "react-icons/fa";
 import "../../assets/css/Company/Applicants.css";
   
 import * as XLSX from "xlsx";
@@ -25,7 +25,11 @@ const Applicants = () => {
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
+  const [selectedProfile, setSelectedProfile] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
+
+  //runs once the component mounts and the jobId changes
   useEffect(() => {
     const fetchApplications = async () => {
       try {
@@ -121,16 +125,27 @@ const Applicants = () => {
   };
 
   const handleSearch = (e) => {
-    const searchValue = e.target.value.toLowerCase();
+    const searchValue = e.target.value.trim().toLowerCase();
     setSearchTerm(searchValue);
   
     if (!applications) return;
+
+    if(!searchValue){
+      setFilteredApplications(applications);
+      return;
+    }
   
     const filtered = Object.keys(applications).reduce((acc, status) => {
       acc[status] = (applications[status] || []).filter((applicant) =>
         (applicant.fullName?.toLowerCase() || "").includes(searchValue) ||
         (applicant.skills?.join(" ").toLowerCase() || "").includes(searchValue) ||
-        status.toLowerCase().includes(searchValue)
+        status.toLowerCase().includes(searchValue) ||
+        (applicant.currentJob?.toLowerCase() || "").includes(searchValue) ||
+        (applicant.workExperience?.some(exp =>
+        (exp.jobTitle?.toLowerCase() || "").includes(searchValue) ||
+        (exp.company?.toLowerCase() || "").includes(searchValue) ||
+          (applicant.graduationYear?.toString().includes(searchValue) || false)
+        ))
       );
       return acc;
     }, { applied: [], underProcess: [], hired: [], rejected: [] });
@@ -169,8 +184,21 @@ const downloadExcel = () => {
 };
 
 
+const fetchDeveloperProfile = async (developerId) => {
+  try {
+    const response = await axios.get(`http://localhost:5000/api/company/applications/developer/${developerId}`, { params: { jobId }});
+    setSelectedProfile(response.data);
+    setModalOpen(true);
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+  }
+};
+
+
+
   return (
-    <div className="container job-applications-page">
+    <div>
+          <div className="container job-applications-page">
       <h2 className="text-center">Job Applications</h2>
 
       {loading ? (
@@ -184,14 +212,23 @@ const downloadExcel = () => {
         <p className="no-applications">No applications received yet.</p>
       ) : (
       <>
-        <input
-          type="text"
-          placeholder="Search by name, skills, or status..."
-          value={searchTerm}
-          onChange={handleSearch}
-          className="search-bar"
-        />
-        <button className="download-btn" onClick={downloadExcel}>Download as Excel</button>
+        <div  className="search-download-container">
+          <div className="search-input">
+            <FaSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search by name, skills, job title, education or status..."
+                value={searchTerm}
+                onChange={handleSearch}
+                className="search-bar"
+              />
+          </div>
+
+            <button className="download-btn" onClick={downloadExcel}>
+                <FaFileExcel className="excel-icon" /> Download as Excel
+            </button>
+
+        </div>
 
 
         <table className="applications-table">
@@ -204,6 +241,7 @@ const downloadExcel = () => {
                     <th>Education</th>
                     <th>Links</th>
                     <th>Status</th>
+                    <th>Profile</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -294,6 +332,13 @@ const downloadExcel = () => {
                             </select>
                           )}
                       </td>
+                      <td>
+                          <FaEye
+                            className="view-profile-icon"
+                            title="View Profile"
+                            onClick={() => fetchDeveloperProfile(applicant._id)}
+                          />
+                      </td>
                         
                     </tr>
                   ))
@@ -302,6 +347,97 @@ const downloadExcel = () => {
           </table>
               </>
       )}
+    </div>
+      {/* modal code */}
+      {modalOpen && selectedProfile && (
+      <div className="modal-overlay">
+      <div className="modal-content">
+        <span className="close-button" onClick={() => setModalOpen(false)}>&times;</span>
+
+        {/* Profile Picture & Name */}
+        <div className="profile-header">
+          {selectedProfile.profilePhoto ? (
+            <img src={`http://localhost:5000${selectedProfile.profilePhoto}`} alt="Profile" className="modal-profile-photo" />
+          ) : (
+            <FaUserCircle className="profile-icon" />
+          )}
+          <h2>{selectedProfile.fullName}</h2>
+        </div>
+        
+        {/* Basic Details */}
+        <p><strong>Bio:</strong> {selectedProfile.bio || "No bio available"}</p>
+        <p><strong>Location:</strong> {selectedProfile.location || "Not Available"}</p>
+        <p><strong>Email:</strong> {selectedProfile.email}</p>
+        <p><strong>Phone:</strong> {selectedProfile.phoneNumber}</p>
+        
+        {/* Professional Details */}
+        <h3>Professional Details</h3>
+        <p><strong>Current Job:</strong> {selectedProfile.professionalDetails?.currentJob || "Not currently employed"}</p>
+        <p><strong>Years of Experience:</strong> {selectedProfile.professionalDetails?.yearsOfExperience || 0} years</p>
+        <p><strong>Skills:</strong> {selectedProfile.professionalDetails?.skills?.join(", ") || "No skills listed"}</p>
+        <p><strong>Job Roles Interested:</strong> {selectedProfile.professionalDetails?.jobRolesInterested?.join(", ") || "Not specified"}</p>
+        
+        {/* Social Media & Portfolio Links */}
+        <h3>Online Presence</h3>
+        <p>
+          {selectedProfile.linkedIn && <a href={selectedProfile.linkedIn} target="_blank" rel="noopener noreferrer"> <FaLinkedin />LinkedIn</a>}
+        </p>
+        <p>
+          {selectedProfile.github && <a href={selectedProfile.github} target="_blank" rel="noopener noreferrer"><FaGithub/> Github </a>}
+        </p>
+        <p>
+          {selectedProfile.portfolio && <a href={selectedProfile.portfolio} target="_blank" rel="noopener noreferrer"><FaExternalLinkAlt /> Portfolio</a>}
+        </p>
+        
+        {/* Education Details */}
+        <h3>Education</h3>
+        {selectedProfile.education?.length > 0 ? (
+          <ul>
+            {selectedProfile.education.map((edu, index) => (
+              <li key={index}><strong>{edu.degree}</strong> from {edu.college} ({edu.graduationYear})</li>
+            ))}
+          </ul>
+        ) : (
+          <p>No education details provided</p>
+        )}
+
+        {/* Work Experience */}
+        <h3>Work Experience</h3>
+        {selectedProfile.workExperience?.length > 0 ? (
+          <ul>
+            {selectedProfile.workExperience.map((exp, index) => (
+              <li key={index}>
+                <strong>{exp.jobTitle}</strong> at {exp.company} ({exp.startDate?.substring(0, 10)} - {exp.endDate?.substring(0, 10)})
+                <p><strong>Responsibilities:</strong></p>
+                <ul>
+                  {exp.responsibilities?.length > 0
+                    ? exp.responsibilities.map((resp, idx) => <li key={idx}>{resp}</li>)
+                    : <li>No responsibilities listed</li>}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No work experience available</p>
+        )}
+
+        {/* Additional Information */}
+        <h3>Additional Information</h3>
+        <p><strong>Certifications:</strong> {selectedProfile.additionalInfo?.certifications?.join(", ") || "No certifications listed"}</p>
+        <p><strong>Achievements:</strong> {selectedProfile.additionalInfo?.achievements?.join(", ") || "No achievements listed"}</p>
+        <p><strong>Languages:</strong> {selectedProfile.additionalInfo?.languages?.join(", ") || "No languages listed"}</p>
+      
+        {/* Preferences */}
+        <h3>Preferences</h3>
+        <p><strong>Expected Stipend (in LPA): </strong> {selectedProfile.expectedStipend?.join(", ")  || "Not specified"}</p>
+        <p><strong>Work Mode:</strong> {selectedProfile.workMode || "Not specified"}</p>
+        <p><strong>Preferred Locations:</strong> {selectedProfile.preferredLocations?.join(", ") || "Not specified"}</p>
+        <p><strong>Languages Preferred:</strong> {selectedProfile.languagesPreferred?.join(", ") || "Not specified"}</p>
+      </div>
+</div>
+)}
+
+
     </div>
   );
 };
