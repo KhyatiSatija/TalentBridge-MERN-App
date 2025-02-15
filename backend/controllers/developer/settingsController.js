@@ -4,7 +4,6 @@ const DeveloperProfile = require("../../models/developerProfile");
 const DeveloperApplications = require("../../models/developerApplications");
 const DeveloperConnections = require("../../models/developerConnections");
 const CompanyJobApplications = require("../../models/companyJobApplications");
-const developerConnections = require('../../models/developerConnections');
 
 // @desc Update developer email
 // @route PUT /api/developer/settings/update-email
@@ -134,7 +133,7 @@ const deleteAccount = async (req, res) => {
 
     await DeveloperApplications.deleteOne({ developerId : loggedInDeveloperId });
 
-    await developerConnections.deleteOne({developerId : loggedInDeveloperId });
+    await DeveloperConnections.deleteOne({developerId : loggedInDeveloperId });
 
     await DeveloperConnections.updateMany(
       {
