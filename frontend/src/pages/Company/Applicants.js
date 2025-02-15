@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { FaUserCircle, FaLinkedin, FaGithub, FaExternalLinkAlt, FaSpinner, FaSearch,FaFileExcel,  FaEye } from "react-icons/fa";
 import "../../assets/css/Company/Applicants.css";
-  
+import  CompanyHeader from "../../components/CompanyHeader";
 import * as XLSX from "xlsx";
 
 const Applicants = () => {
@@ -198,6 +198,8 @@ const fetchDeveloperProfile = async (developerId) => {
 
   return (
     <div>
+      <CompanyHeader/>
+            <div>
           <div className="container job-applications-page">
       <h2 className="text-center">Job Applications</h2>
 
@@ -438,7 +440,9 @@ const fetchDeveloperProfile = async (developerId) => {
 )}
 
 
+            </div>
     </div>
+
   );
 };
 

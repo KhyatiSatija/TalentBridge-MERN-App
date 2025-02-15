@@ -3,7 +3,7 @@ import axios from "axios";
 import { FaEdit, FaTrash, FaPlus, FaEye} from "react-icons/fa";
 import "../../assets/css/Company/Dashboard.css";
 import { useNavigate  } from "react-router-dom";
-
+import  CompanyHeader from "../../components/CompanyHeader";
 
 const CompanyDashboard = () => {
   const [jobs, setJobs] = useState([]);
@@ -47,18 +47,6 @@ const CompanyDashboard = () => {
     fetchJobs();
   }, [companyId]);
 
-  const fetchJobs = async () => {
-    try {
-      const response = await axios.get("/api/company/jobs", {
-        headers: { companyId },
-      });
-      setJobs(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching jobs:", error);
-      setLoading(false);
-    }
-  };
 
     // Handle modal input change
     const handleInputChange = (e) => {
@@ -150,6 +138,8 @@ const toggleJobApplicationStatus = async (jobId, currentStatus) => {
 
 
   return (
+    <div>
+      <CompanyHeader/>
     <div className="container mt-5 company-dashboard">
       <h2 className="text-center dashboard-title">Company Dashboard</h2>
 
@@ -290,6 +280,8 @@ const toggleJobApplicationStatus = async (jobId, currentStatus) => {
         )}
 
     </div>
+    </div>
+
   );
 };
 

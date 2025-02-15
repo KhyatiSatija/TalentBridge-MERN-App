@@ -56,4 +56,8 @@
   .login-btn:hover {
     background-color: #27ae60;
   }
-  
+  .logo {
+    height: 40px !important;
+    width: 40px !important;
+    object-fit: contain !important;
+  }

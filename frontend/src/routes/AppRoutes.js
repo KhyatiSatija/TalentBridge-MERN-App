@@ -15,6 +15,7 @@ import Profile from "../pages/Developer/Profile";
 import Settings from "../pages/Developer/Settings";
 
 import JobApplications from "../pages/Company/Applicants";
+import CompanySettings from "../pages/Company/Settings";
 
 const AppRoutes = () => {
   return (
@@ -35,6 +36,8 @@ const AppRoutes = () => {
         <Route path="/developer/profile" element={<Profile />} />
         <Route path="/developer/settings" element={<Settings />} />
         <Route path="/company/job/:jobId/applications" element={<JobApplications />} />
+        
+        <Route path="/company/settings" element={<CompanySettings/>} />
 
 
       </Routes>

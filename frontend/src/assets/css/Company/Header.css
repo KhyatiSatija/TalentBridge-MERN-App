@@ -1,0 +1,58 @@
+.header {
+    background-color: white !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+    padding: 12px 24px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 20% !important;
+}
+
+.logo-section {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.logo {
+    height: 40px !important;
+    width: 40px !important;
+    object-fit: contain !important;
+    border-radius: 50% !important;
+}
+
+.company-name {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+}
+
+.nav {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 30px !important;
+    justify-content: flex-end !important;
+}
+
+.nav-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: #555 !important;
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: color 0.3s ease !important;
+}
+
+.nav-item:hover {
+    color: #007bff !important;
+}
+
+.icon {
+    font-size: 18px !important;
+}
