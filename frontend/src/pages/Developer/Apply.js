@@ -92,8 +92,6 @@ const Apply = () => {
     </div>
     
     <div className="apply-container">
-      <h2>Apply to Jobs</h2>
-
       {message && <div className="info-message">{message}</div>}
       {error && <div className="error-message">{error}</div>}
 
@@ -119,7 +117,7 @@ const Apply = () => {
 
           <div className="swipe-instructions">
             <button className="swipe-btn swipe-left" onClick={() => handleSwipe("swipeLeft")}><FaTimesCircle /> Reject</button>
-            <button className="bookmark-btn" onClick={handleBookmark}><FaBookmark /></button>
+            <button className="swipe-btn bookmark-icon" onClick={handleBookmark}><FaBookmark />Bookmark</button>
             <button className="swipe-btn swipe-right" onClick={() => handleSwipe("swipeRight")}><FaCheckCircle /> Apply</button>
           </div>
 

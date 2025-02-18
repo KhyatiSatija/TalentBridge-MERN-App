@@ -114,7 +114,6 @@ const Settings = () => {
     <div>
         <Header/>
         <div className="settings-container">
-          <h2>Developer Settings</h2>
 
           {message && <p className={`message-${messageType}`}>{message}</p>}
 

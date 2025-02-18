@@ -27,6 +27,7 @@ const Applicants = () => {
 
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [jobTitle, setJobTitle] = useState(null);
 
 
   //runs once the component mounts and the jobId changes
@@ -53,6 +54,16 @@ const Applicants = () => {
         setLoading(false);
       }
     };
+    const getJobTitle  = async () => {
+      try{
+        const response = await axios.get(`http://localhost:5000/api/company/jobs/${jobId}`);
+        setJobTitle(response.data.jobTitle);
+      }catch(error) {
+        setError("Failed to load job title");
+        console.error("Error loading job title", error);
+      }
+    };
+    getJobTitle();
   
     fetchApplications();
   }, [jobId]);
@@ -76,10 +87,6 @@ const Applicants = () => {
       };
   
       // Determine the correct API based on the current and new status
-      // let currentStatus = "";
-      // if (applications.applied.some(app => app._id === developerId)) currentStatus = "applied";
-      // else if (applications.underProcess.some(app => app._id === developerId)) currentStatus = "underProcess";
-      // else if (applications.rejected.some(app => app._id === developerId)) currentStatus = "rejected";
       let currentStatus = Object.keys(applications).find(status =>
         applications[status].some(app => app._id === developerId)
       );
@@ -180,7 +187,7 @@ const downloadExcel = () => {
   XLSX.utils.book_append_sheet(workbook, worksheet, "Applicants");
 
   // Download the file
-  XLSX.writeFile(workbook, "Job_Applications.xlsx");
+  XLSX.writeFile(workbook, `Job_Applications_for_${jobTitle}_role_${jobId}.xlsx`);
 };
 
 
@@ -201,7 +208,7 @@ const fetchDeveloperProfile = async (developerId) => {
       <CompanyHeader/>
             <div>
           <div className="container job-applications-page">
-      <h2 className="text-center">Job Applications</h2>
+      <h2 className="text-center">Job Applications for {jobTitle} </h2>
 
       {loading ? (
         <div className="loading-spinner">
@@ -277,8 +284,8 @@ const fetchDeveloperProfile = async (developerId) => {
                       <td>{applicant.skills.join(", ")}</td>
                       <td>
                         <div className="education">
-                          <p>Degree: {applicant.degree || "Not mentioned"}</p>
-                          <p>Graduation Year: {applicant.graduationYear || "Not mentioned"}</p>
+                          <p>Degree: {applicant.degree || "Hidden"}</p>
+                          <p>Graduation Year: {applicant.graduationYear || "Hidden"}</p>
                         </div>
                       </td>
                         
@@ -315,14 +322,14 @@ const fetchDeveloperProfile = async (developerId) => {
                                 <> 
                                   <option value="applied" disabled>Applied</option>
                                   <option value="underProcess">Under Process</option>
-                                  <option value="rejected">Rejected</option>
+                                  <option value="rejected">Reject</option>
                                 </>
                               )}
                               {status === "underProcess" && (
                                 <>
                                   <option value="underProcess" disabled>Under Process </option>
-                                  <option value="hired">Hired</option>
-                                  <option value="rejected">Rejected</option>
+                                  <option value="hired">Hire</option>
+                                  <option value="rejected">Reject</option>
                                 </>
                               )}
                               {status === "rejected" && (

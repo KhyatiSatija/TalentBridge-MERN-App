@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaEdit, FaCheck, FaTimes, FaPlus, FaTrash, FaUpload } from "react-icons/fa";
+import { FaEdit, FaCheck, FaTimes, FaPlus, FaTrash, FaUpload, FaUserCircle } from "react-icons/fa";
 import "../../assets/css/Developer/Profile.css"; // Import styles
 import Header from "../../components/Header";
 const Profile = () => {
@@ -261,10 +261,14 @@ const handleProfilePhotoUpload = async (e) => {
             <div className="profile-photo-container">
                 <label className="profile-photo-label">Profile Photo:</label>
                 <div className="profile-photo-box">
-                  {profile.profilePhoto ? (
-                    <img src={`http://localhost:5000${profile.profilePhoto}`} alt="Profile" className="profile-photo-profile" />
+                  {profile?.profilePhoto ? (
+                    <img 
+                      src={`http://localhost:5000${profile.profilePhoto}`} 
+                      alt="Profile" 
+                      className="profile-photo-profile" 
+                    />
                   ) : (
-                    <div className="profile-photo-placeholder">No Photo</div>
+                    <FaUserCircle className="default-profile-icon-profile" />
                   )}
                   <label htmlFor="photo-upload" className="upload-icon">
                     <FaUpload />

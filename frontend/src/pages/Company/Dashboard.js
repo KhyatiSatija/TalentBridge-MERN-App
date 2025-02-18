@@ -9,6 +9,7 @@ const CompanyDashboard = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [companyName, setCompanyName] = useState(null);
   const [newJob, setNewJob] = useState({
     jobTitle: "",
     jobDescription: "",
@@ -31,6 +32,17 @@ const CompanyDashboard = () => {
   const navigate = useNavigate(); 
 
   useEffect(() => {
+    const getCompanyName  = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/company/jobs/companyname", {
+          headers : { "company-id" : companyId },
+        })
+        setCompanyName(response.data.companyName);
+
+      } catch (error) {
+        console.error("Error fetching company name:", error);
+      }
+    }
     const fetchJobs = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/company/jobs", {
@@ -45,6 +57,7 @@ const CompanyDashboard = () => {
     };
 
     fetchJobs();
+    getCompanyName();
   }, [companyId]);
 
 
@@ -140,11 +153,11 @@ const toggleJobApplicationStatus = async (jobId, currentStatus) => {
   return (
     <div>
       <CompanyHeader/>
-    <div className="container mt-5 company-dashboard">
-      <h2 className="text-center dashboard-title">Company Dashboard</h2>
+    <div className="container mt-3 company-dashboard">
+      <h2 className="text-center dashboard-title"> {companyName}'s Dashboard</h2>
 
       {/* Post Job Button */}
-      <div className="text-center my-3">
+      <div className="text-center">
         <button className="post-job-btn" onClick={() => setShowModal(true)}>
           <FaPlus className="me-2" /> Post a New Job
         </button>

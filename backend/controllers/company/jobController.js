@@ -4,6 +4,23 @@ const DeveloperApplications = require('../../models/developerApplications');
 const Developer = require("../../models/developer");
 const DeveloperProfile = require("../../models/developerProfile");
 const mongoose = require("mongoose");
+const Company = require("../../models/company");
+
+
+// @desc return company Name
+// @route GET /api/company/jobs/companyname
+const companyName = async (req, res) => {
+  try {
+    const companyId  = req.headers["company-id"];
+    const company = await Company.findById(companyId);
+    if (!company) {
+      return res.status(400).json({ message : "Company Not found !"});
+    }
+    return res.status(200).json({ companyName: company.name });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching company name', error: error.message });
+  }
+};
 
 // @desc Create a new job
 // @route POST /api/company/jobs/create
@@ -204,4 +221,20 @@ const toggleJobApplications = async (req, res) => {
   }
 };
 
-module.exports = { createJob, getAllJobs, editJob, deleteJob, getJobApplications, toggleJobApplications };
+// @desc retrieve job title based on the ID in the URL (req.params)
+// @route GET /api/company/jobs/:jobid
+const getJobTitle = async (req, res) => {
+  const { jobId } = req.params;
+  try{
+    const job = await JobDescriptions.findById(jobId);
+    if (!job){
+      return res.status(404).json({ message : "Job Id not found"});
+    }
+    return res.status(200).json( { jobTitle : job.jobTitle});
+  }catch(error) {
+    console.log("Not ablet to retrieve jobTitle from the database");
+    return res.status(500).json({ message : "Error retrieving jobTitle", error : error.message });
+  }
+}
+
+module.exports = { createJob, getAllJobs, editJob, deleteJob, getJobApplications, toggleJobApplications, companyName, getJobTitle };

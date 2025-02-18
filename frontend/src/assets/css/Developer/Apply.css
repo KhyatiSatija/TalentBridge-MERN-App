@@ -83,6 +83,8 @@
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin: 0% 3px;
+    width: 25%;
   }
   
   .swipe-left {
@@ -104,18 +106,10 @@
     background-color: #66bb6a;
     color: #fff;
   }
-  
-  /* Bookmark Icon */
   .bookmark-icon {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #757575;
-    transition: color 0.3s ease;
+    text-align: center;
   }
-  
+
   .bookmark-icon.saved {
     color: #ff9800;
   }

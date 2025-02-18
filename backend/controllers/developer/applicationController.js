@@ -24,7 +24,7 @@ const getDeveloperApplications = async (req, res) => {
       }
 
     // Helper function to fetch job details without company name
-    const fetchJobDetailsWithoutCompany = async (jobIds) => {
+    const fetchJobDetailsWithoutCompanyName = async (jobIds) => {
       return await JobDescriptions.find({
         _id: { $in: jobIds },
       })
@@ -95,12 +95,14 @@ const updateDeveloperApplications = async (req, res) => {
     const loggedInUserId = req.headers["developer-id"];
   
     try {
+      console.log("job ID", jobId);
       // Fetch developer application data
       let developerApplications = await DeveloperApplications.findOne({ developerId: loggedInUserId });
   
       if (!developerApplications) {
         return res.status(404).json({ message: 'No application data found for the logged-in user' });
       }
+      console.log("developer Applications",developerApplications);
   
       // Fetch the job details
       const job = await JobDescriptions.findById(jobId);
@@ -108,7 +110,7 @@ const updateDeveloperApplications = async (req, res) => {
       if (!job) {
         return res.status(404).json({ message: 'Job not found' });
       }
-  
+      console.log("job", job);
       const currentDate = new Date();
   
       // If job ID is in onHold list and action is 'reject'
@@ -202,12 +204,14 @@ const updateDeveloperApplications = async (req, res) => {
         );
 
         developerApplications.applications.rejected.push(jobId);
+
+        await developerApplications.save();
         
         //update CompanyJobApplications
         const companyJobApplications = await CompanyJobApplications.findOne({ jobId });
 
         if (companyJobApplications){
-          companyJobApplications.jobApplications.underProcess = companyJobApplications.jobApplications.underProces.filter(
+          companyJobApplications.jobApplications.underProcess = companyJobApplications.jobApplications.underProcess.filter(
             (id) => id.toString() !== loggedInUserId.toString()
           );
           await companyJobApplications.save();
@@ -222,6 +226,8 @@ const updateDeveloperApplications = async (req, res) => {
         );
 
         developerApplications.applications.rejected.push(jobId);
+
+        await developerApplications.save();
         
         //update CompanyJobApplications
         const companyJobApplications = await CompanyJobApplications.findOne({ jobId });

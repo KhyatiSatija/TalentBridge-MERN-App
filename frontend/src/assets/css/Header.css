@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-around;
     background-color: #2d3e50;
-    padding: 15px 0;
+    padding: 4px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     height: 10%;
   }
@@ -11,14 +11,15 @@
   .dashboard-nav button {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 1rem;
+    gap: 0.9rem;
+    font-size: 0.8rem;
     border: none;
     background: none;
     cursor: pointer;
     color: white;
-    padding: 10px 2px;
+    padding: 6px 2px;
     transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0% 1%;
 }
 
 .dashboard-nav button:hover {
@@ -36,8 +37,8 @@
   .profile-btn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 1rem;
+    gap: 0.9rem;
+    font-size: 0.9rem;
     border: none;
     background: none;
     cursor: pointer;
@@ -45,13 +46,14 @@
     transition: color 0.3s ease;
 }
 
-.profile-photo {
+.profile-photo-header {
     width: 35px;
     height: 35px;
     border-radius: 50%;
     object-fit: cover;
     margin-right: -10%;
     padding: 0%;
+    margin-right: 3%;
 }
 .default-profile-icon {
   font-size: 30px;

@@ -80,7 +80,7 @@ const Header = () => {
           <img 
             src={`http://localhost:5000${profile.profilePhoto}`} 
             alt="Profile" 
-            className="profile-photo" 
+            className="profile-photo-header" 
           />
         ) : (
           <FaUserCircle className="default-profile-icon" />

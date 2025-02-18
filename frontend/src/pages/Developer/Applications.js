@@ -69,6 +69,7 @@ const Applications = () => {
 
     const updateStatus = async (jobId, action) => {
         try{
+            console.log("job ID", jobId);
             const response = await axios.put('http://localhost:5000/api/developer/applications', {
                 jobId,
                 action
@@ -79,6 +80,14 @@ const Applications = () => {
                 },
             });
             console.log(response.data?.message);
+            setApplications((prevApplications) =>
+                prevApplications.filter((job) => {
+                    if (action === "reject" && activeTab === "bookmarked") {
+                        return job.jobId !== jobId; // Remove rejected job from bookmarked list
+                    }
+                    return true; // Keep other jobs
+                })
+            );
             fetchApplications(); //Refresh UI After Update
         }
         catch(error){
@@ -97,19 +106,19 @@ const Applications = () => {
                 {/* Header Tabs */}
                 <div className="flex justify-between w-full max-w-4xl mx-auto border-b pb-2">
                         <button
-                            className={`text-center px-4 py-2 font-medium ${activeTab === "rejected" ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-600"}`}
+                            className={`tab-button ${activeTab === "rejected" ? "active" : ""}`}
                             onClick={ () => setActiveTab("rejected")}
                         >
                             Jobs Rejected
                         </button>
                         <button
-                            className={`text-center px-4 py-2 font-medium ${activeTab === "bookmarked" ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-600"}`}
+                            className={`tab-button ${activeTab === "bookmarked" ? "active" : ""}`}
                             onClick={() => setActiveTab("bookmarked")}
                         >
                           Jobs Bookmarked
                         </button>
                         <button
-                          className={`text-center px-4 py-2 font-medium ${activeTab === "applied" ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-600"}`}
+                          className={`tab-button ${activeTab === "applied" ? "active" : ""}`}
                           onClick={() => setActiveTab("applied")}
                         >
                           Jobs Applied
@@ -148,66 +157,60 @@ const Applications = () => {
                                     {activeTab === "applied" && <td className="px-6 py-4">{job.status}</td>}
 
                                     {/* Actions Dropdown */}
-                                    <td className="px-6 py-4 text-right relative" ref={dropdownRef}>
-                                        {/* Dropdown Container */}
-                                        <div className="relative inline-block">
-                                            <button 
-                                                className="text-gray-500 hover:text-gray-700"
-                                                onClick={() => setOpenDropdown(openDropdown === job.jobId ? null : job.jobId)}
-                                            >
-                                                <FaEllipsisV size={18} />
-                                            </button>
-                                            {/* Dropdown Menu */}
-
-                                            {openDropdown === job.jobId && (
-                                                <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-lg w-40 p-2 z-50">
-                                                    {activeTab === "rejected" && (
-                                                        <>
-                                                            <button
-                                                                className="dropdown-menu flex items-center px-3 py-2 text-sm text-red-500 hover:bg-gray-100 w-full"
-                                                                onClick={() => updateStatus(job.jobId, "delete")}
-                                                            >
-                                                                <FaTrashAlt className="mr-2" /> Delete
-                                                            </button>
-                                                            <button
-                                                                className="dropdown-menu flex items-center px-3 py-2 text-sm text-blue-500 hover:bg-gray-100 w-full"
-                                                                onClick={ () => updateStatus(job.jobId, "apply")}
-                                                            >
-                                                                <FaRedo className="mr-2"/> Re-Apply
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                    {activeTab === "bookmarked" && (
-                                                        <>
-                                                            <button
-                                                                className="dropdown-menu flex items-center px-3 py-2 text-sm text-red-500 hover:bg-gray-100 w-full"
-                                                                onClick={ () => updateStatus(job.jobId, "reject")}
-                                                            >
-                                                                <FaTimes className="mr-2" /> Reject
-                                                            </button>
-                                                            <button
-                                                                className="dropdown-menu flex items-center px-3 py-2 text-sm text-gray-500 hover:bg-gray-100 w-full"
-                                                                onClick={() => updateStatus(job.jobId, "delete")}
-                                                            >
-                                                                <FaTrashAlt className="mr-2" /> Delete
-                                                            </button>
-                                                            <button
-                                                                className="dropdown-menu flex items-center px-3 py-2 text-sm text-blue-500 hover:bg-gray-100 w-full"
-                                                                onClick={() => updateStatus(job.jobId, "apply")}
-                                                            >
-                                                              <FaBookmark className="mr-2" /> Apply
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                    {activeTab === "applied" && (
-                                                        <button
-                                                            className="dropdown-menu flex items-center px-3 py-2 text-sm text-red-500 hover:bg-gray-100 w-full"
-                                                            onClick={ () => updateStatus(job.jobId, "reject")}
+                                    {/* Actions Dropdown */}
+                                    <td className="px-6 py-4 text-right relative">
+                                        <div className="relative inline-block dropdown-container">
+                                            {/* Show dropdown only if the job is NOT hired */}
+                                            {job.status !== "Hired" && (
+                                                <>
+                                                    {/* Three Dots Menu */}
+                                                    <FaEllipsisV
+                                                        className="dropdown-icon"
+                                                        size={18}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setOpenDropdown(openDropdown === job.jobId ? null : job.jobId);
+                                                        }}
+                                                    />
+                                    
+                                                    {/* Dropdown Menu */}
+                                                    {openDropdown === job.jobId && (
+                                                        <select
+                                                            className="dropdown-select"
+                                                            onChange={(e) => {
+                                                                const action = e.target.value;
+                                                                if (action) {
+                                                                    console.log("Job ID and action are ",job.jobId, action);
+                                                                    updateStatus(job.jobId, action); 
+                                                                    setOpenDropdown(null);
+                                                                }
+                                                                e.target.value = ""; // Reset dropdown to default
+                                                            }}
+                                                            defaultValue=""
                                                         >
-                                                            <FaTimes className="mr-2" /> Withdraw Application
-                                                        </button>
+                                                            <option value="" hidden>Select Action</option>
+                                                        
+                                                            {activeTab === "rejected" && (
+                                                                <>
+                                                                    <option value="delete">🗑 Delete</option>
+                                                                    <option value="apply">🔄 Re-Apply</option>
+                                                                </>
+                                                            )}
+                                    
+                                                            {activeTab === "bookmarked" && (
+                                                                <>
+                                                                    <option value="reject">❌ Reject</option>
+                                                                    <option value="delete">🗑 Delete</option>
+                                                                    <option value="apply">🔖 Apply</option>
+                                                                </>
+                                                            )}
+                                    
+                                                            {activeTab === "applied" && job.status !== "Hired" && (
+                                                                <option value="reject">❌ Withdraw Application</option>
+                                                            )}
+                                                        </select>
                                                     )}
-                                                </div>
+                                                </>
                                             )}
                                         </div>
                                     </td>

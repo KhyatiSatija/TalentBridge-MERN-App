@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import "../../assets/css/Developer/Connections.css";
-import { FaLinkedin, FaGithub, FaGlobe, FaEnvelope, FaPhone, FaCheck, FaTimes, FaUndo } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaGlobe, FaEnvelope, FaPhone, FaCheck, FaTimes, FaUndo, FaUserCircle } from "react-icons/fa";
 import Header from "../../components/Header"
 import { io } from 'socket.io-client';
 
@@ -115,11 +115,15 @@ const Connections = () => {
     return currentConnections.map((dev) => (
       
       <div key={dev.developerId} className={`connection-card ${activeTab === 'matched' ? 'matched' : ''}`}>
-        <img
-          src={`http://localhost:5000${dev.profilePhoto}`|| "https://www.pngall.com/wp-content/uploads/15/Animated-Face-PNG-HD-Image.png"}
-          alt={dev.fullName}
-          className="profile-photo"
-        />
+        {dev?.profilePhoto ? (
+          <img 
+            src={`http://localhost:5000${dev.profilePhoto}`} 
+            alt="Profile" 
+            className="profile-photo-connections" 
+          />
+        ) : (
+          <FaUserCircle className="default-profile-icon-connections" />
+        )}
         <h4>{dev.fullName}</h4>
         <p className="bio">{dev.bio || "No bio provided"}</p>
 
@@ -228,7 +232,7 @@ const Connections = () => {
     ));
   };
 
-  if (loading) return <div className="loading-message">Loading connections...</div>;
+  if (loading) return <div className="loading-message"> <Header/> Loading connections...</div>;
   if (error) return <div className="error-message">{error}</div>;
 
   return (
@@ -237,7 +241,6 @@ const Connections = () => {
           <Header />
         </div>
     <div className="connections-container">
-      <h2>My Connections</h2>
 
       <div className="connections-tabs">
         <button 

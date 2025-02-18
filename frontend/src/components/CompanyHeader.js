@@ -9,12 +9,12 @@ const CompanyHeader = () => {
 
   return (
     <header className="header">
-      <div className="logo-section">
+      <div className="logo-section" onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
         <img src={companyLogo} alt="Company Logo" className="logo" />
         <h1 className="company-name">TalentBridge</h1>
       </div>
 
-      <nav>
+      <nav className="navigation">
         <button onClick={() => navigate("/company/dashboard")} className="nav-item">
           <FaBriefcase className="icon" />
           <span>Jobs</span>

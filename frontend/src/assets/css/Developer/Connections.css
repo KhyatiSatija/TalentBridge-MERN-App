@@ -165,7 +165,7 @@
 }
 
 /* Profile Photo */
-.profile-photo {
+.profile-photo-connections {
     width: 120px !important;
     height: 120px !important;
     border-radius: 50% !important;
@@ -175,6 +175,10 @@
     display: block;
   }
   
+.default-profile-icon-connections {
+  font-size: 120px;
+  text-align: center;
+}
   /* Social Links */
   .social-links {
     display: flex;
