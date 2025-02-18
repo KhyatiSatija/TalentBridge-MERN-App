@@ -247,3 +247,12 @@ tr {
     color: #00040a !important;
     outline: none;
 }
+.error-message- {
+    color: red; /* White text */
+    padding: 10px 15px; /* Spacing inside */
+    text-align: center; /* Center the text */
+    font-size: 14px; /* Readable font size */
+    font-weight: bold; /* Make text bold */
+    margin: 10px 0; /* Spacing from other elements */
+    transition: opacity 0.5s ease-in-out; /* Smooth fade-in/fade-out */
+}

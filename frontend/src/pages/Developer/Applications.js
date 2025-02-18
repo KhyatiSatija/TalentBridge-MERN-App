@@ -23,23 +23,32 @@ const Applications = () => {
             });
             switch(activeTab) {
                 case "rejected":
-                    setApplications(response.data.rejectedApplications);
+                    setApplications(response.data.rejectedApplications.map((job) => ({
+                        ...job,
+                        jobId: job.jobId || job._id,  // ✅ Ensure jobId is set
+                    })));
                     break;
                 case "bookmarked":
-                    setApplications(response.data.onHoldApplications);
+                    setApplications(response.data.onHoldApplications.map((job) => ({
+                        ...job,
+                        jobId: job.jobId || job._id,  // ✅ Ensure jobId is set
+                    })));
                     break;
                 case "applied":
                     setApplications([
                         ...response.data.appliedApplications.map((job) => ({
                             ...job,
+                            jobId: job.jobId || job._id, 
                             status: "Applied",
                         })),
                         ...response.data.underProcessApplications.map((job) => ({
                             ...job,
+                            jobId: job.jobId || job._id, 
                             status: "Under Process",
                         })),
                         ...response.data.hiredApplications.map((job) => ({
                             ...job,
+                            jobId: job.jobId || job._id, 
                             status: "Hired",
                         })),
                     ]);
@@ -55,6 +64,15 @@ const Applications = () => {
     }, [activeTab, loggedInDeveloperId]);
 
     useEffect( () => {
+
+        if (error) {
+            const timer = setTimeout(() => {
+                setError(null);
+            }, 2500); 
+    
+            return () => clearTimeout(timer); // Cleanup on unmount
+        }
+
         fetchApplications();
 
         const handleClickOutside = (event) => {
@@ -65,7 +83,7 @@ const Applications = () => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
         
-    }, [activeTab, fetchApplications]);
+    }, [activeTab, fetchApplications, error]);
 
     const updateStatus = async (jobId, action) => {
         try{
@@ -92,6 +110,7 @@ const Applications = () => {
         }
         catch(error){
             setError(error.response?.data?.message || "Error in updating the job application");
+
             console.error("Error updating application:", error);
         }
     };
@@ -125,9 +144,15 @@ const Applications = () => {
                         </button>   
 
                 </div>
+                {error && (
+                        <div className="error-message-">
+                            {error}
+                        </div>
+                )}
 
                 {/* Table */}
                 <div className="mt-6 bg-white shadow-md rounded-lg overflow-hidden">
+
                     <table className="w-full text-sm text-left text-gray-600">
                         <thead  className="bg-gray-100 border-b whitespace-nowrap">
                             <tr>
@@ -215,6 +240,8 @@ const Applications = () => {
                                         </div>
                                     </td>
                                 </tr>
+                                
+                                
                             ))}
                         </tbody>
                     </table>

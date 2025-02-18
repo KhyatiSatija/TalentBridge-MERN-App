@@ -118,7 +118,7 @@ const updateDeveloperApplications = async (req, res) => {
         if (currentDate > job.lastDateToApply) {
           return res.status(400).json({ message: 'Cannot reject the job. Application deadline has passed.' });
         }
-  
+        
         developerApplications.applications.underHold = developerApplications.applications.underHold.filter(
           (id) => id.toString() !== jobId.toString()
         );
@@ -128,6 +128,9 @@ const updateDeveloperApplications = async (req, res) => {
       } else if (developerApplications.applications.underHold.includes(jobId) && action === 'apply') {
         if (currentDate > job.lastDateToApply) {
           return res.status(400).json({ message: 'Cannot apply to the job. Application deadline has passed.' });
+        }
+        if (!job.acceptingApplications) {
+          return res.status(400).json({ message: 'Cannot apply to the job. Applications are closed.' });
         }
   
         developerApplications.applications.underHold = developerApplications.applications.underHold.filter(
@@ -161,6 +164,9 @@ const updateDeveloperApplications = async (req, res) => {
       } else if (developerApplications.applications.rejected.includes(jobId) && action === 'apply') {
         if (currentDate > job.lastDateToApply) {
           return res.status(400).json({ message: 'Cannot reapply to the job. Application deadline has passed.' });
+        }
+        if (!job.acceptingApplications) {
+          return res.status(400).json({ message: 'Cannot reapply to the job. Applications are closed.' });
         }
   
         developerApplications.applications.rejected = developerApplications.applications.rejected.filter(
