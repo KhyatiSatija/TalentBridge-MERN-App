@@ -30,6 +30,7 @@ const Profile = () => {
       const response = await axios.get("http://localhost:5000/api/developer/profile", {
         headers: { "developer-id": developerId },
       });
+      console.log("Fetched Profile:", response.data);
       setProfile(response.data);
     } catch (error) {
       console.error("Error fetching profile:", error);
@@ -47,19 +48,53 @@ const Profile = () => {
   // Handle save update
   const handleSave = async () => {
     try {
-      const updatedData = { [editingField]: tempValue };
-      console.log("Updating profile with:", updatedData);
-      const response  = await axios.put("http://localhost:5000/api/developer/profile", updatedData, {
-        headers: { "developer-id": developerId },
-      });
-      console.log("Profile updated successfully:", response.data);
-      setProfile((prev) => ({ ...prev, [editingField]: tempValue }));
-      setEditingField(null);
-      fetchProfile();
+        let updatedData = {};
+
+        if (editingField.includes(".")) {
+            const fieldParts = editingField.split(".");
+            const parentField = fieldParts[0]; 
+            const childField = fieldParts[1]; 
+
+            if (parentField === "education") {
+                updatedData[parentField] = profile.education.map((edu, index) => {
+                    return index === 0 ? { ...edu, [childField]: tempValue } : edu;
+                });
+            }
+            else if (parentField === "professionalDetails" || parentField === "additionalInfo") {
+                updatedData[parentField] = {
+                    ...profile[parentField], 
+                    [childField]: tempValue
+                };
+            }
+        } else {
+          if (editingField.includes(".")) {
+            const [parentField, childField] = editingField.split(".");
+            updatedData[parentField] = {
+                ...profile[parentField],
+                [childField]: tempValue
+            };
+          } else {
+              updatedData[editingField] = tempValue;
+          }
+        
+        }
+
+        console.log("Updating profile with:", updatedData);
+
+        const response = await axios.put("http://localhost:5000/api/developer/profile", updatedData, {
+            headers: { "developer-id": developerId },
+        });
+
+        console.log("Profile updated successfully:", response.data);
+
+        // Instead of merging manually, fetch latest profile from backend
+        await fetchProfile();
+
+        setEditingField(null);
     } catch (error) {
-      console.error("Error updating profile:", error);
+        console.error("Error updating profile:", error);
     }
-  };
+};
 
   // Handle cancel edit
   const handleCancel = () => {
@@ -95,13 +130,18 @@ const Profile = () => {
       listRef[arrayKey] = [...listRef[arrayKey], newValue]; 
 
       const updateData = {};
-      updateData[field] = listRef[arrayKey];
+      updateData[fieldPath[0]] = {
+          ...profile[fieldPath[0]],
+          [arrayKey]: listRef[arrayKey],
+      };
   
-      await axios.put("http://localhost:5000/api/developer/profile", updateData, {
+      const response = await axios.put("http://localhost:5000/api/developer/profile", updateData, {
         headers: { "developer-id": developerId },
       });
 
-      fetchProfile();
+      console.log("Profile updated successfully:", response.data);
+
+      await fetchProfile();
   
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -135,13 +175,16 @@ const Profile = () => {
       listRef[arrayKey] = listRef[arrayKey].filter((_, i) => i !== index);
 
       const updateData = {};
-      updateData[field] = listRef[arrayKey]; 
+      updateData[fieldPath[0]] = {
+        ...profile[fieldPath[0]], // Preserve existing fields
+        [arrayKey]: listRef[arrayKey], // Update only the specific array
+     }; 
 
       await axios.put("http://localhost:5000/api/developer/profile", updateData, {
         headers: { "developer-id": developerId },
       });
 
-      fetchProfile();
+      await fetchProfile();
   
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -219,7 +262,7 @@ const handleProfilePhotoUpload = async (e) => {
                 <label className="profile-photo-label">Profile Photo:</label>
                 <div className="profile-photo-box">
                   {profile.profilePhoto ? (
-                    <img src={`http://localhost:5000${profile.profilePhoto}`} alt="Profile" className="profile-photo" />
+                    <img src={`http://localhost:5000${profile.profilePhoto}`} alt="Profile" className="profile-photo-profile" />
                   ) : (
                     <div className="profile-photo-placeholder">No Photo</div>
                   )}
@@ -270,7 +313,7 @@ const handleProfilePhotoUpload = async (e) => {
 
             <ProfileField
                 label="College"
-                value={profile.education?.college}
+                value={profile.education?.[0]?.college} 
                 field="education.college"
                 editingField={editingField}
                 tempValue={tempValue}
@@ -282,7 +325,7 @@ const handleProfilePhotoUpload = async (e) => {
 
             <ProfileField
                 label="Degree"
-                value={profile.education?.degree}
+                value={profile.education?.[0]?.degree}
                 field="education.degree"
                 editingField={editingField}
                 tempValue={tempValue}
@@ -295,7 +338,7 @@ const handleProfilePhotoUpload = async (e) => {
             
             <ProfileField
                 label="Graduation year"
-                value={profile.education?.graduationYear}
+                value={profile.education?.[0]?.graduationYear}
                 field="education.graduationYear"
                 editingField={editingField}
                 tempValue={tempValue}
@@ -331,7 +374,7 @@ const handleProfilePhotoUpload = async (e) => {
             />
             <ProfileField
                 label="Portfolio"
-                value={profile.portfolio}
+                value={profile.portfolio }
                 field="portfolio"
                 editingField={editingField}
                 tempValue={tempValue}
@@ -354,7 +397,7 @@ const handleProfilePhotoUpload = async (e) => {
 
             <ProfileField
                 label="Years of Experience"
-                value={profile.professionalDetails?.yearsOfExperience}
+                value={profile.professionalDetails?.yearsOfExperience }
                 field="professionalDetails.yearsOfExperience"
                 editingField={editingField}
                 tempValue={tempValue}
@@ -417,7 +460,7 @@ const handleProfilePhotoUpload = async (e) => {
             <ProfileList label="Job Roles Interested" field="professionalDetails.jobRolesInterested" values={profile.professionalDetails?.jobRolesInterested || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
             <ProfileList label="Certifications" field="additionalInfo.certifications" values={profile.additionalInfo?.certifications || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
             <ProfileList label="Achievements" field="additionalInfo.achievements" values={profile.additionalInfo?.achievements || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
-            <ProfileList label="Languages" field="additionalInfo.languages" values={profile.additionalInfo?.languages || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
+            <ProfileList label="Languages I Speak" field="additionalInfo.languages" values={profile.additionalInfo?.languages || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
           </div>
         </div>
     </div>

@@ -5,21 +5,55 @@
     background-color: #2d3e50;
     padding: 15px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 10%;
   }
   
   .dashboard-nav button {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 14px;
-    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
+    font-size: 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: white;
+    padding: 10px 2px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dashboard-nav button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dashboard-nav .active {
+    background-color: #1abc9c; 
+    color: black;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+  
+  .profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: white;
     transition: color 0.3s ease;
-  }
-  
-  .dashboard-nav button:hover {
-    color: #00bcd4;
-  }
-  
+}
+
+.profile-photo {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: -10%;
+    padding: 0%;
+}
+.default-profile-icon {
+  font-size: 30px;
+  color: white;
+}

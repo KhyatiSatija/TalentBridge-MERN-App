@@ -82,7 +82,6 @@ const Connect = () => {
       <Header />
     </div>
     <div className="connect-container">
-      <h2>Connect with Developers</h2>
 
       {message && <div className="info-message">{message}</div>}
       {error && <div className="error-message">{error}</div>}

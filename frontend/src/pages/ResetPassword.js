@@ -89,7 +89,7 @@ const ResetPassword = () => {
       </form>
 
       <p className="login-link">
-        Go to <Link to="/login">Login Page</Link>
+        Now you can  <Link to="/login">Login </Link> successfully with the new password
       </p>
     </div> 
   );

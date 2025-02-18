@@ -51,14 +51,28 @@ const getProfile = async (req, res) => {
     try {
       // Find the developer's profile by developerId
       const loggedInUser = req.headers["developer-id"] ;
+      if (!loggedInUser) {
+        return res.status(400).json({ message: "Developer ID missing from headers" });
+      }
       let profile = await DeveloperProfile.findOne({ developerId: loggedInUser });
   
       if (!profile) {
         // Initialize a new profile if one doesn't exist
         profile = new DeveloperProfile({
           developerId: loggedInUser, // Associate with the logged-in developer
-          bio: "Add your bio here", // Placeholder data for new profiles
-          professionalDetails: { skills: [], jobRolesInterested: [] },
+          profilePhoto: "",
+          bio: "", 
+          location: "",
+          linkedIn: "",
+          github: "",
+          portfolio: "",
+
+          professionalDetails: {
+            currentJob: "",
+            yearsOfExperience: 0,
+            skills: [],  // Ensuring proper array initialization
+            jobRolesInterested: []
+          },
           education: [],
           workExperience: [],
           additionalInfo: {
@@ -106,15 +120,10 @@ const updateProfile = async (req, res) => {
         'linkedIn',
         'github',
         'portfolio',
-        'professionalDetails.currentJob',
-        'professionalDetails.yearsOfExperience',
-        'professionalDetails.skills',
-        'professionalDetails.jobRolesInterested',
+        'professionalDetails',
         'education',
         'workExperience',
-        'additionalInfo.certifications',
-        'additionalInfo.achievements',
-        'additionalInfo.languages',
+        'additionalInfo',
         'expectedStipend',
         'workMode',
         'preferredLocations',
@@ -128,7 +137,7 @@ const updateProfile = async (req, res) => {
           filteredUpdates[key] = updates[key];
         }
       });
-  
+      console.log("Filtered Updates ", filteredUpdates);
       if (Object.keys(filteredUpdates).length === 0) {
         return res.status(400).json({ message: 'No valid fields provided for update' });
       }
@@ -142,6 +151,7 @@ const updateProfile = async (req, res) => {
         );
         delete filteredUpdates.fullName; // Remove fullName to avoid duplicate processing
       }
+
   
       // Check if DeveloperProfile exists; if not, initialize a new one
       let profile = await DeveloperProfile.findOne({ developerId: loggedInUser });
@@ -150,16 +160,23 @@ const updateProfile = async (req, res) => {
         profile = new DeveloperProfile({ developerId: loggedInUser }); // Create a new profile
         await profile.save();
       }
-  
-      // Update the profile with the remaining filtered fields
-      const updatedProfile = await DeveloperProfile.findOneAndUpdate(
-        { developerId: loggedInUser },
-        { $set: filteredUpdates },
-        { new: true, runValidators: true }
-      );
-  
+      Object.keys(filteredUpdates).forEach((key) => {
+        if (typeof filteredUpdates[key] === "object" && !Array.isArray(filteredUpdates[key])) {
+            profile[key] = { ...profile[key], ...filteredUpdates[key] };
+        } else {
+            profile[key] = filteredUpdates[key]; 
+        }
+      });
+
+      await profile.save();
+      const updatedProfile = await DeveloperProfile.findOne({ developerId: loggedInUser });
+
+      console.log("Updated Profile ", updatedProfile);
+
       res.status(200).json({ message: 'Profile updated successfully', profile: updatedProfile });
+      
     } catch (error) {
+      console.error("Backend Error: ", error); 
       res.status(500).json({ message: 'Error updating profile', error: error.message });
     }
   };
