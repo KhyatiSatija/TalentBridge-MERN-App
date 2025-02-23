@@ -109,6 +109,9 @@ const getProfile = async (req, res) => {
 const updateProfile = async (req, res) => {
     try {
       const loggedInUser =req.headers["developer-id"] ; // Retrieve the logged-in user's ID
+      if (!loggedInUser) {
+        return res.status(400).json({ message: "Developer ID missing from headers" });
+      }
       const updates = req.body; // Fields to update sent by the frontend
   
       // Define allowed fields for updating
@@ -138,9 +141,49 @@ const updateProfile = async (req, res) => {
         }
       });
       console.log("Filtered Updates ", filteredUpdates);
-      if (Object.keys(filteredUpdates).length === 0) {
-        return res.status(400).json({ message: 'No valid fields provided for update' });
+
+      // Check if DeveloperProfile exists; if not, initialize a new one
+      let profile = await DeveloperProfile.findOne({ developerId: loggedInUser })
+      if (!profile) {
+        profile = new DeveloperProfile({ developerId: loggedInUser }); // Create a new profile
+        await profile.save();
       }
+      
+      
+
+      if (updates.education) {
+        if (Array.isArray(updates.education)) {
+            profile.education = updates.education;  // Replace the whole array
+        } else {
+            profile.education = [updates.education]; // Ensure it's wrapped in an array
+        }
+      }
+
+      if (updates.preferredLocations) {
+        if (Array.isArray(updates.preferredLocations)) {
+            profile.preferredLocations = updates.preferredLocations;
+        } else if (typeof updates.preferredLocations === "string") {
+            profile.preferredLocations = [updates.preferredLocations]; // Convert string to array
+        } else {
+            console.error("❌ Invalid preferredLocations format:", updates.preferredLocations);
+            return res.status(400).json({ message: "`preferredLocations` must be an array of strings" });
+        }
+      }
+
+      if (updates.languagesPreferred) {
+          if (Array.isArray(updates.languagesPreferred)) {
+              profile.languagesPreferred = updates.languagesPreferred;
+          } else if (typeof updates.languagesPreferred === "string") {
+              profile.languagesPreferred = [updates.languagesPreferred];
+          } else {
+              console.error(" Invalid languagesPreferred format:", updates.languagesPreferred);
+              return res.status(400).json({ message: "`languagesPreferred` must be an array of strings" });
+          }
+      }
+
+        if (Object.keys(filteredUpdates).length === 0) {
+          return res.status(400).json({ message: 'No valid fields provided for update' });
+        }
   
       // Update `fullName` if provided
       if (filteredUpdates.fullName) {
@@ -153,27 +196,23 @@ const updateProfile = async (req, res) => {
       }
 
   
-      // Check if DeveloperProfile exists; if not, initialize a new one
-      let profile = await DeveloperProfile.findOne({ developerId: loggedInUser });
-  
-      if (!profile) {
-        profile = new DeveloperProfile({ developerId: loggedInUser }); // Create a new profile
-        await profile.save();
-      }
+
       Object.keys(filteredUpdates).forEach((key) => {
-        if (typeof filteredUpdates[key] === "object" && !Array.isArray(filteredUpdates[key])) {
+        if (!["education", "preferredLocations", "languagesPreferred"].includes(key)) {
+          if (typeof filteredUpdates[key] === "object" && !Array.isArray(filteredUpdates[key])) {
             profile[key] = { ...profile[key], ...filteredUpdates[key] };
-        } else {
+          } else {
             profile[key] = filteredUpdates[key]; 
+          }
         }
       });
 
       await profile.save();
-      const updatedProfile = await DeveloperProfile.findOne({ developerId: loggedInUser });
+      // const updatedProfile = await DeveloperProfile.findOne({ developerId: loggedInUser });
 
-      console.log("Updated Profile ", updatedProfile);
+      // console.log("Updated Profile ", updatedProfile);
 
-      res.status(200).json({ message: 'Profile updated successfully', profile: updatedProfile });
+      res.status(200).json({ message: 'Profile updated successfully', profile: profile });
       
     } catch (error) {
       console.error("Backend Error: ", error); 

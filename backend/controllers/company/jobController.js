@@ -146,7 +146,7 @@ const getJobApplications = async (req, res) => {
     const getDeveloperSummary = async (developerId) => {
       const developer = await Developer.findById(developerId).select('fullName').lean();
       const profile = await DeveloperProfile.findOne({ developerId }).select(
-        'profilePhoto linkedIn github portfolio professionalDetails.currentJob professionalDetails.yearsOfExperience professionalDetails.skills education.degree education.graduationYear workExperience.company workExperience.jobTitle languagesPreferred'
+        'profilePhoto linkedIn github portfolio professionalDetails.currentJob professionalDetails.yearsOfExperience professionalDetails.skills education workExperience.company workExperience.jobTitle languagesPreferred'
       ).lean();
 
       if (!developer) return null;
@@ -161,8 +161,11 @@ const getJobApplications = async (req, res) => {
         currentJob: profile?.professionalDetails?.currentJob || null,
         yearsOfExperience: profile?.professionalDetails?.yearsOfExperience || 0,
         skills: profile?.professionalDetails?.skills || [],
-        graduationYear: profile?.education?.graduationYear || null,
-        degree: profile?.education?.degree || null,
+        education: profile?.education?.map(edu => ({
+          college: edu.college || null,
+          degree: edu.degree || null,
+          graduationYear: edu.graduationYear || null
+        })) || [],
         workExperience: profile?.workExperience?.map(exp => ({
           company: exp.company,
           jobTitle: exp.jobTitle,
@@ -172,8 +175,16 @@ const getJobApplications = async (req, res) => {
     };
 
     const populateDevelopers = async (developerIds) => {
-      return Promise.all(developerIds.map(id => getDeveloperSummary(id)));
+      return Promise.all(developerIds.map(async (id) => {
+        const developerSummary = await getDeveloperSummary(id);
+        return {
+          ...developerSummary,
+          degree: developerSummary.education.length > 0 ? developerSummary.education.map(edu => edu.degree).join(", ") : "Not Provided",
+          graduationYear: developerSummary.education.length > 0 ? developerSummary.education.map(edu => edu.graduationYear).join(", ") : "Not Provided",
+        };
+      }));
     };
+    
 
     const rejected = await populateDevelopers(applications.jobApplications.rejected);
     const applied = await populateDevelopers(applications.jobApplications.applied);

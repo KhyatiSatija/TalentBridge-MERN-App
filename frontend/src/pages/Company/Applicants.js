@@ -283,11 +283,19 @@ const fetchDeveloperProfile = async (developerId) => {
                       <td>{applicant.yearsOfExperience} yrs</td>
                       <td>{applicant.skills.join(", ")}</td>
                       <td>
-                        <div className="education">
-                          <p>Degree: {applicant.degree || "Hidden"}</p>
-                          <p>Graduation Year: {applicant.graduationYear || "Hidden"}</p>
-                        </div>
+                          <div className="education">
+                            {Array.isArray(applicant.education) && applicant.education.length > 0 ? (
+                              applicant.education.map((edu, index) => (
+                                <p key={index}>
+                                  <strong>{edu.degree}</strong> from {edu.college} ({edu.graduationYear})
+                                </p>
+                              ))
+                            ) : (
+                              <p>Not Provided</p>
+                            )}
+                          </div>
                       </td>
+
                         
                       <td>
                         <div className="link-icons">

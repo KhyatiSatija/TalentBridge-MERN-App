@@ -1,6 +1,7 @@
 const DeveloperApplications = require('../../models/developerApplications');
 const CompanyJobApplications = require('../../models/companyJobApplications');
 const JobDescriptions = require('../../models/jobDescriptions');
+const Company = require("../../models/company");
 
 // @desc Fetch job cards
 // @route GET /api/developer/jobs
@@ -46,10 +47,19 @@ const getJobCards = async (req, res) => {
       lastDateToApply: { $gte: currentDate },
       acceptingApplications: true,
     })
-      .select('jobTitle jobDescription responsibilities requiredSkills salaryRange workMode location lastDateToApply') 
+      .select('companyId jobTitle jobDescription responsibilities requiredSkills salaryRange workMode location lastDateToApply') 
       .lean();
 
-    res.status(200).json(jobs);
+    // Fetch company names for the jobs
+    const jobWithCompanyNames = await Promise.all(jobs.map(async (job) => {
+      const company = await Company.findById(job.companyId).select('name').lean();
+      return {
+        companyName: company ? company.name : "Unknown Company",
+        ...job
+      };
+    }));
+
+    res.status(200).json(jobWithCompanyNames);
   } catch (error) {
     console.error('Error fetching job cards:', error.message);
     res.status(500).json({ message: 'Error fetching job cards', error: error.message });

@@ -56,9 +56,11 @@ const Profile = () => {
             const childField = fieldParts[1]; 
 
             if (parentField === "education") {
-                updatedData[parentField] = profile.education.map((edu, index) => {
-                    return index === 0 ? { ...edu, [childField]: tempValue } : edu;
-                });
+              updatedData[parentField] = [...(profile.education || [])]; 
+              updatedData[parentField][0] = { 
+                  ...updatedData[parentField][0],
+                  [childField]: tempValue
+              };
             }
             else if (parentField === "professionalDetails" || parentField === "additionalInfo") {
                 updatedData[parentField] = {
@@ -79,13 +81,13 @@ const Profile = () => {
         
         }
 
-        console.log("Updating profile with:", updatedData);
+        console.log("Sending to backend:", updatedData);
 
         const response = await axios.put("http://localhost:5000/api/developer/profile", updatedData, {
             headers: { "developer-id": developerId },
         });
 
-        console.log("Profile updated successfully:", response.data);
+        console.log("Profile updated successfully - Updated profile received from the backend is  :", response.data);
 
         // Instead of merging manually, fetch latest profile from backend
         await fetchProfile();
@@ -107,90 +109,102 @@ const Profile = () => {
   const handleAddToList = async (field, newValue) => {
     if (!newValue.trim()) return;
     try {
-      const updatedProfile = { ...profile };
+        let updateData = {};
 
-      const fieldPath = field.split(".");
-      let listRef = updatedProfile;
+        // Ensure the correct array format
+        if (field === "preferredLocations" || field === "languagesPreferred") {
+            updateData[field] = profile[field] ? [...profile[field], newValue] : [newValue];
+        } else {
+            // Handle nested fields properly
+            const fieldPath = field.split(".");
+            let listRef = profile;
 
-      for (let i = 0; i < fieldPath.length - 1; i++) {
-        listRef = listRef[fieldPath[i]];
-        if (!listRef) {
-          console.error(`Error: Field ${field} does not exist.`);
-          return;
+            for (let i = 0; i < fieldPath.length - 1; i++) {
+                listRef = listRef[fieldPath[i]];
+                if (!listRef) {
+                    console.error(` Error: Field ${field} does not exist.`);
+                    return;
+                }
+            }
+
+            const arrayKey = fieldPath[fieldPath.length - 1];
+
+            if (!Array.isArray(listRef[arrayKey])) {
+                console.error(` Error: ${field} is not an array.`);
+                return;
+            }
+
+            listRef[arrayKey] = [...listRef[arrayKey], newValue];
+
+            updateData[fieldPath[0]] = {
+                ...profile[fieldPath[0]],
+                [arrayKey]: listRef[arrayKey],
+            };
         }
-      }
 
-      const arrayKey = fieldPath[fieldPath.length - 1];
+        console.log("Sending update request with:", updateData);
 
-      if (!Array.isArray(listRef[arrayKey])) {
-        console.error(`Error: ${field} is not an array.`);
-        return;
-      }
-  
-      listRef[arrayKey] = [...listRef[arrayKey], newValue]; 
+        const response = await axios.put("http://localhost:5000/api/developer/profile", updateData, {
+            headers: { "developer-id": developerId },
+        });
 
-      const updateData = {};
-      updateData[fieldPath[0]] = {
-          ...profile[fieldPath[0]],
-          [arrayKey]: listRef[arrayKey],
-      };
-  
-      const response = await axios.put("http://localhost:5000/api/developer/profile", updateData, {
-        headers: { "developer-id": developerId },
-      });
+        console.log("✅ Profile updated successfully:", response.data);
 
-      console.log("Profile updated successfully:", response.data);
-
-      await fetchProfile();
-  
+        await fetchProfile();
     } catch (error) {
-      console.error("Error updating profile:", error);
+        console.error("Error updating profile:", error);
     }
-  };
-  
+};
+
 
   // Handle array updates (removing items)
   const handleRemoveFromList = async (field, index) => {
     try {
-      const updatedProfile = { ...profile };
+        let updateData = {};
 
-      const fieldPath = field.split(".");
-      let listRef = updatedProfile; 
+        if (field === "preferredLocations" || field === "languagesPreferred") {
+            updateData[field] = profile[field]?.filter((_, i) => i !== index) || [];
+        } else {
+            const fieldPath = field.split(".");
+            let listRef = profile;
 
-      for (let i = 0; i < fieldPath.length - 1; i++) {
-        listRef = listRef[fieldPath[i]];
-        if (!listRef) {
-          console.error(`Error: Field ${field} does not exist.`);
-          return;
+            for (let i = 0; i < fieldPath.length - 1; i++) {
+                listRef = listRef[fieldPath[i]];
+                if (!listRef) {
+                    console.error(` Error: Field ${field} does not exist.`);
+                    return;
+                }
+            }
+
+            const arrayKey = fieldPath[fieldPath.length - 1];
+
+            if (!Array.isArray(listRef[arrayKey])) {
+                console.error(` Error: ${field} is not an array.`);
+                return;
+            }
+
+            listRef[arrayKey] = listRef[arrayKey].filter((_, i) => i !== index);
+
+            updateData[fieldPath[0]] = {
+                ...profile[fieldPath[0]],
+                [arrayKey]: listRef[arrayKey],
+            };
         }
-      }
 
-      const arrayKey = fieldPath[fieldPath.length - 1];
-  
-      if (!Array.isArray(listRef[arrayKey])) {
-        console.error(`Error: ${field} is not an array.`);
-        return;
-      }
-  
-      listRef[arrayKey] = listRef[arrayKey].filter((_, i) => i !== index);
+        console.log(" Sending update request with:", JSON.stringify(updateData, null, 2));
 
-      const updateData = {};
-      updateData[fieldPath[0]] = {
-        ...profile[fieldPath[0]], // Preserve existing fields
-        [arrayKey]: listRef[arrayKey], // Update only the specific array
-     }; 
+        const response = await axios.put("http://localhost:5000/api/developer/profile", updateData, {
+            headers: { "developer-id": developerId },
+        });
 
-      await axios.put("http://localhost:5000/api/developer/profile", updateData, {
-        headers: { "developer-id": developerId },
-      });
+        console.log("✅ Profile updated successfully:", response.data);
 
-      await fetchProfile();
-  
+        await fetchProfile();
     } catch (error) {
-      console.error("Error updating profile:", error);
+        console.error(" Error updating profile:", error);
     }
-  };
-  
+};
+
 // Handle Profile Photo Upload
 const handleProfilePhotoUpload = async (e) => {
     const file = e.target.files[0];

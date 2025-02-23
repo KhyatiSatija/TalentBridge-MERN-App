@@ -198,6 +198,17 @@
     margin-left: auto !important;
     margin-right: auto !important;
   }
+.delete-confirm-btn {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 15% !important;
+  border: none  !important;
+  cursor: pointer !important;
+  align-items: center !important;
+  text-align: center !important;
+  display: flex !important;
+  justify-content: center !important;
+}
   
 .lastDate {
     display: flex;

@@ -88,16 +88,17 @@ const Apply = () => {
   return (
     <div>
         <div>
-      <Header />
-    </div>
+          <Header />
+        </div>
+
+        {message && <div className="info-message">{message}</div>}
+        {error && <div className="error-message">{error}</div>}
     
     <div className="apply-container">
-      {message && <div className="info-message">{message}</div>}
-      {error && <div className="error-message">{error}</div>}
-
       {jobs.length > 0 && currentIndex < jobs.length ? (
         <div className="job-card">
           <h3>{jobs[currentIndex].jobTitle}</h3>
+          <p className="company-name">Company: {jobs[currentIndex].companyName}</p> 
           <p className="job-description">{jobs[currentIndex].jobDescription}</p>
 
           <div className="job-details">
