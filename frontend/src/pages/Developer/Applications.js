@@ -2,7 +2,7 @@ import React, {useEffect, useState, useCallback, useRef} from "react";
 import api from '../../api';
 import "../../tailwind.css"; 
 import "../../assets/css/Developer/Applications.css";
-import { FaEllipsisV, FaTrashAlt, FaRedo, FaBookmark, FaTimes  } from "react-icons/fa";
+import { FaEllipsisV } from "react-icons/fa";
 import Header from "../../components/Header";
 
 const Applications = () => {
