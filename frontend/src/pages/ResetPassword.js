@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import api from './api';
+import api from '../api';
 import "../assets/css/ResetPassword.css";
 
 const ResetPassword = () => {

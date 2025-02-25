@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaHouseUser, FaUsers, FaBriefcase, FaLink, FaFileAlt, FaCog, FaUserCircle } from "react-icons/fa";
 import "../assets/css/Header.css";
-import api from './api';
+import api from '../api';
 
 const Header = () => {
   const navigate = useNavigate();

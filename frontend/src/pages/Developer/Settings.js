@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import api from './api';
+import api from '../../api';
 import { FaEnvelope, FaLock, FaPhone, FaTrash, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../../assets/css/Developer/Settings.css"

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import api from './api';
+import api from '../../api';
 import "../../assets/css/Developer/Apply.css";
 import { FaBookmark, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import Header from "../../components/Header"

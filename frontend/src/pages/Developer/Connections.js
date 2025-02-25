@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from './api';
+import api from '../../api';
 import "../../assets/css/Developer/Connections.css";
 import { FaLinkedin, FaGithub, FaGlobe, FaEnvelope, FaPhone, FaCheck, FaTimes, FaUndo, FaUserCircle } from "react-icons/fa";
 import Header from "../../components/Header"

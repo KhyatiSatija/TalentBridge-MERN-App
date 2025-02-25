@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 5000;
 //Middleware
 app.use(cors(
   {
-    origin: ["https://talent-bridge-frontend.vercel.app/", "http://localhost:3000"], 
+    origin: ["https://talent-bridge-frontend.vercel.app", "http://localhost:3000"], 
     methods: ["POST", "GET", "PUT", "DELETE", "PATCH"], 
     credentials: true,  
 }

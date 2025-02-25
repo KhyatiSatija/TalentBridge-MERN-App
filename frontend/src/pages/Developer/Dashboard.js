@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from './api'; 
+import api from '../../api';
 import "../../assets/css/Developer/Dashboard.css";  // Importing CSS for styling
 import Header from "../../components/Header"
 const DeveloperDashboard = () => {

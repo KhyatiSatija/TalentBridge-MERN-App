@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import api from './api';
+import api from '../../api';
 import "../../assets/css/Developer/Connect.css";
 import { FaLinkedin, FaGithub, FaGlobe, FaUserCircle } from "react-icons/fa";  // Social icons
 import Header from "../../components/Header"

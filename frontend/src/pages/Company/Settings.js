@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import "../../assets/css/Company/Settings.css";
 import { FaEnvelope, FaLock, FaTrash, FaSignOutAlt, FaBuilding } from "react-icons/fa";
-import api from './api';
+import api from '../../api';
 Modal.setAppElement("#root"); 
 
 

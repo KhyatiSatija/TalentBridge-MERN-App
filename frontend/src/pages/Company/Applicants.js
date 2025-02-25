@@ -4,7 +4,7 @@ import { FaUserCircle, FaLinkedin, FaGithub, FaExternalLinkAlt, FaSpinner, FaSea
 import "../../assets/css/Company/Applicants.css";
 import  CompanyHeader from "../../components/CompanyHeader";
 import * as XLSX from "xlsx";
-import api from '.api';
+import api from '../../api';
 const Applicants = () => {
   const { jobId } = useParams();
   const [applications, setApplications] = useState({

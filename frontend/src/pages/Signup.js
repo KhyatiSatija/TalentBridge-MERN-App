@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../assets/css/Auth.css";
 import { Link, useNavigate } from "react-router-dom";
-import api from './api';
+import api from '../api';
 
 const Signup = () => {
     //Initialize the useNavigate Hook

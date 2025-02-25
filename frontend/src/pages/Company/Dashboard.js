@@ -3,7 +3,7 @@ import { FaEdit, FaTrash, FaPlus, FaEye} from "react-icons/fa";
 import "../../assets/css/Company/Dashboard.css";
 import { useNavigate  } from "react-router-dom";
 import  CompanyHeader from "../../components/CompanyHeader";
-import api from './api';
+import api from '../../api';
 
 const CompanyDashboard = () => {
   const [jobs, setJobs] = useState([]);
