@@ -2,24 +2,16 @@
     "version": 2,
     "builds": [
       {
-        "src": "backend/server.js",
+        "src": "server.js",
         "use": "@vercel/node"
-      },
-      {
-        "src": "frontend/package.json",
-        "use": "@vercel/static"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "backend/server.js"
+        "dest": "server.js"
       }
-    ],
-    "env": {
-      "MONGO_URI": "@mongo_uri",
-      "JWT_SECRET": "@jwt_secret",
-      "NODE_ENV": "production"
-    }
+    ]
+
   }
   
