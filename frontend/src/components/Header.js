@@ -78,7 +78,7 @@ const Header = () => {
       >
         {profile?.profilePhoto ? (
           <img 
-            src={`https://talent-bridge-rho.vercel.app${profile.profilePhoto}`} 
+            src={`http://localhost:5000/${profile.profilePhoto}`} 
             alt="Profile" 
             className="profile-photo-header" 
           />

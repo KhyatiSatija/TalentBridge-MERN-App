@@ -259,7 +259,7 @@ const fetchDeveloperProfile = async (developerId) => {
                       <td>
                         <div className="candidate-info">
                           {applicant.profilePhoto ? (
-                            <img src={`https://talent-bridge-rho.vercel.app/api${applicant.profilePhoto}`} alt="Profile" className="profile-photo" />
+                            <img src={`http://localhost:5000/${applicant.profilePhoto}`} alt="Profile" className="profile-photo" />
                           ) : (
                             <FaUserCircle className="profile-icon" />
                           )}
@@ -373,7 +373,7 @@ const fetchDeveloperProfile = async (developerId) => {
         {/* Profile Picture & Name */}
         <div className="profile-header">
           {selectedProfile.profilePhoto ? (
-            <img src={`https://talent-bridge-rho.vercel.app/api${selectedProfile.profilePhoto}`} alt="Profile" className="modal-profile-photo" />
+            <img src={`http://localhost:5000/${selectedProfile.profilePhoto}`} alt="Profile" className="modal-profile-photo" />
           ) : (
             <FaUserCircle className="profile-icon" />
           )}

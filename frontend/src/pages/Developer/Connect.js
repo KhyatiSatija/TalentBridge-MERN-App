@@ -105,7 +105,7 @@ const Connect = () => {
               {/* Profile Header */}
               {developers[currentIndex]?.profilePhoto ? (
                 <img 
-                  src={`https://talent-bridge-rho.vercel.app${developers[currentIndex].profilePhoto}`} 
+                  src={`http://localhost:5000/${developers[currentIndex].profilePhoto}`} 
                   alt="Profile" 
                   className="profile-photo-connect" 
                 />

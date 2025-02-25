@@ -117,7 +117,7 @@ const Connections = () => {
       <div key={dev.developerId} className={`connection-card ${activeTab === 'matched' ? 'matched' : ''}`}>
         {dev?.profilePhoto ? (
           <img 
-            src={`https://talent-bridge-rho.vercel.app${dev.profilePhoto}`} 
+            src={`http://localhost:5000/${dev.profilePhoto}`} 
             alt="Profile" 
             className="profile-photo-connections" 
           />

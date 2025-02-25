@@ -277,7 +277,7 @@ const handleProfilePhotoUpload = async (e) => {
                 <div className="profile-photo-box">
                   {profile?.profilePhoto ? (
                     <img 
-                      src={`https://talent-bridge-rho.vercel.app${profile.profilePhoto}`} 
+                      src={`http://localhost:5000/${profile.profilePhoto}`} 
                       alt="Profile" 
                       className="profile-photo-profile" 
                     />
