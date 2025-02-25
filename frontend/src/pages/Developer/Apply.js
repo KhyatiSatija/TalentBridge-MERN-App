@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import axios from "axios";
+import api from './api';
 import "../../assets/css/Developer/Apply.css";
 import { FaBookmark, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import Header from "../../components/Header"
@@ -16,7 +16,7 @@ const Apply = () => {
     const fetchJobs = async () => {
       const developerId = localStorage.getItem("developerId");
       try {
-        const response = await axios.get("http://localhost:5000/api/developer/jobs", {
+        const response = await api.get("/api/developer/jobs", {
           headers: { "developer-id": developerId }
         });
         console.log(response.data);
@@ -36,7 +36,7 @@ const Apply = () => {
     const jobId = jobs[currentIndex]._id; //confirm if _id is present
 
     try {
-      const response = await axios.post("http://localhost:5000/api/developer/jobs", {
+      const response = await api.post("/api/developer/jobs", {
         jobId,
         action,
       }, {
@@ -59,7 +59,7 @@ const Apply = () => {
     const jobId = jobs[currentIndex]._id;
 
     try {
-      await axios.post("http://localhost:5000/api/developer/jobs", {
+      await api.post("/api/developer/jobs", {
         jobId,
         action: "underHold",
       }, {

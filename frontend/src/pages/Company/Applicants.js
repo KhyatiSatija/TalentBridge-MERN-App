@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { FaUserCircle, FaLinkedin, FaGithub, FaExternalLinkAlt, FaSpinner, FaSearch,FaFileExcel,  FaEye } from "react-icons/fa";
 import "../../assets/css/Company/Applicants.css";
 import  CompanyHeader from "../../components/CompanyHeader";
 import * as XLSX from "xlsx";
-
+import api from '.api';
 const Applicants = () => {
   const { jobId } = useParams();
   const [applications, setApplications] = useState({
@@ -34,7 +33,7 @@ const Applicants = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/company/jobs/${jobId}/applications`);
+        const response = await api.get(`/api/company/jobs/${jobId}/applications`);
         const { rejected, applied, underProcess, hired } = response.data.data.jobApplications;
   
         // Ensure there are no duplicate records
@@ -56,7 +55,7 @@ const Applicants = () => {
     };
     const getJobTitle  = async () => {
       try{
-        const response = await axios.get(`http://localhost:5000/api/company/jobs/${jobId}`);
+        const response = await api.get(`/api/company/jobs/${jobId}`);
         setJobTitle(response.data.jobTitle);
       }catch(error) {
         setError("Failed to load job title");
@@ -74,15 +73,15 @@ const Applicants = () => {
       // Define API endpoints based on status transition
       const apiEndpoints = {
         applied: {
-          underProcess: "http://localhost:5000/api/company/applications/process",
-          rejected: "http://localhost:5000/api/company/applications/reject",
+          underProcess: "/api/company/applications/process",
+          rejected: "/api/company/applications/reject",
         },
         underProcess: {
-          hired: "http://localhost:5000/api/company/applications/hire",
-          rejected: "http://localhost:5000/api/company/applications/reject-under-process",
+          hired: "/api/company/applications/hire",
+          rejected: "/api/company/applications/reject-under-process",
         },
         rejected: {
-          underProcess: "http://localhost:5000/api/company/applications/move-rejected-to-under-process",
+          underProcess: "/api/company/applications/move-rejected-to-under-process",
         }
       };
   
@@ -98,7 +97,7 @@ const Applicants = () => {
       }
   
       // Make API call
-      await axios.put(apiUrl, { jobId, developerId });
+      await api.put(apiUrl, { jobId, developerId });
   
       // Update frontend state (move applicant to new status category)
       setApplications(prevApplications => {
@@ -193,7 +192,7 @@ const downloadExcel = () => {
 
 const fetchDeveloperProfile = async (developerId) => {
   try {
-    const response = await axios.get(`http://localhost:5000/api/company/applications/developer/${developerId}`, { params: { jobId }});
+    const response = await api.get(`/api/company/applications/developer/${developerId}`, { params: { jobId }});
     setSelectedProfile(response.data);
     setModalOpen(true);
   } catch (error) {
@@ -260,7 +259,7 @@ const fetchDeveloperProfile = async (developerId) => {
                       <td>
                         <div className="candidate-info">
                           {applicant.profilePhoto ? (
-                            <img src={`http://localhost:5000${applicant.profilePhoto}`} alt="Profile" className="profile-photo" />
+                            <img src={`https://talent-bridge-rho.vercel.app/api${applicant.profilePhoto}`} alt="Profile" className="profile-photo" />
                           ) : (
                             <FaUserCircle className="profile-icon" />
                           )}
@@ -374,7 +373,7 @@ const fetchDeveloperProfile = async (developerId) => {
         {/* Profile Picture & Name */}
         <div className="profile-header">
           {selectedProfile.profilePhoto ? (
-            <img src={`http://localhost:5000${selectedProfile.profilePhoto}`} alt="Profile" className="modal-profile-photo" />
+            <img src={`https://talent-bridge-rho.vercel.app/api${selectedProfile.profilePhoto}`} alt="Profile" className="modal-profile-photo" />
           ) : (
             <FaUserCircle className="profile-icon" />
           )}

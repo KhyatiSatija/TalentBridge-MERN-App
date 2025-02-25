@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from './api';
 import "../../assets/css/Developer/Connections.css";
 import { FaLinkedin, FaGithub, FaGlobe, FaEnvelope, FaPhone, FaCheck, FaTimes, FaUndo, FaUserCircle } from "react-icons/fa";
 import Header from "../../components/Header"
@@ -8,7 +8,7 @@ import { io } from 'socket.io-client';
 // const POLL_INTERVAL = 100000000000000000000000000000000000000000000; // 10 seconds
 
 // Connect to the WebSocket server
-const socket = io("http://localhost:5000", {  
+const socket = io("https://talent-bridge-rho.vercel.app", {  
   transports: ["websocket"], 
   reconnectionAttempts: 5, // Retry up to 5 times if disconnected
   reconnectionDelay: 3000 // wait for 3 seconds before retrying
@@ -63,7 +63,7 @@ const Connections = () => {
     try {
       const loggedInDeveloperId = localStorage.getItem("developerId");  
       
-      const response = await axios.get('http://localhost:5000/api/developer/connections', {
+      const response = await api.get('/api/developer/connections', {
         headers: {
           "developer-id": loggedInDeveloperId
         }
@@ -85,7 +85,7 @@ const Connections = () => {
 
       const loggedInDeveloperId = localStorage.getItem("developerId");
 
-      const response = await axios.put('http://localhost:5000/api/developer/connections', {
+      const response = await api.put('/api/developer/connections', {
         targetDeveloperId,
         action
       }, {
@@ -117,7 +117,7 @@ const Connections = () => {
       <div key={dev.developerId} className={`connection-card ${activeTab === 'matched' ? 'matched' : ''}`}>
         {dev?.profilePhoto ? (
           <img 
-            src={`http://localhost:5000${dev.profilePhoto}`} 
+            src={`https://talent-bridge-rho.vercel.app${dev.profilePhoto}`} 
             alt="Profile" 
             className="profile-photo-connections" 
           />

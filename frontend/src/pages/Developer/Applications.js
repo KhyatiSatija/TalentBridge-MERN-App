@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback, useRef} from "react";
-import axios from "axios";
+import api from './api';
 import "../../tailwind.css"; 
 import "../../assets/css/Developer/Applications.css";
 import { FaEllipsisV, FaTrashAlt, FaRedo, FaBookmark, FaTimes  } from "react-icons/fa";
@@ -16,7 +16,7 @@ const Applications = () => {
 
     const fetchApplications = useCallback(async () => {
         try{
-            const response = await axios.get('http://localhost:5000/api/developer/applications',{
+            const response = await api.get('/api/developer/applications',{
                 headers : {
                     "developer-id" : loggedInDeveloperId
                 },
@@ -88,7 +88,7 @@ const Applications = () => {
     const updateStatus = async (jobId, action) => {
         try{
             console.log("job ID", jobId);
-            const response = await axios.put('http://localhost:5000/api/developer/applications', {
+            const response = await api.put('/api/developer/applications', {
                 jobId,
                 action
              },

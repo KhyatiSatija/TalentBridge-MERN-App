@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from './api';
 import { FaEdit, FaCheck, FaTimes, FaPlus, FaTrash, FaUpload, FaUserCircle } from "react-icons/fa";
 import "../../assets/css/Developer/Profile.css"; // Import styles
 import Header from "../../components/Header";
@@ -13,7 +13,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/developer/profile", {
+        const response = await api.get("/api/developer/profile", {
           headers: { "developer-id": developerId },
         });
         setProfile(response.data);
@@ -27,7 +27,7 @@ const Profile = () => {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/developer/profile", {
+      const response = await api.get("/api/developer/profile", {
         headers: { "developer-id": developerId },
       });
       console.log("Fetched Profile:", response.data);
@@ -83,7 +83,7 @@ const Profile = () => {
 
         console.log("Sending to backend:", updatedData);
 
-        const response = await axios.put("http://localhost:5000/api/developer/profile", updatedData, {
+        const response = await api.put("/api/developer/profile", updatedData, {
             headers: { "developer-id": developerId },
         });
 
@@ -144,7 +144,7 @@ const Profile = () => {
 
         console.log("Sending update request with:", updateData);
 
-        const response = await axios.put("http://localhost:5000/api/developer/profile", updateData, {
+        const response = await api.put("/api/developer/profile", updateData, {
             headers: { "developer-id": developerId },
         });
 
@@ -193,7 +193,7 @@ const Profile = () => {
 
         console.log(" Sending update request with:", JSON.stringify(updateData, null, 2));
 
-        const response = await axios.put("http://localhost:5000/api/developer/profile", updateData, {
+        const response = await api.put("/api/developer/profile", updateData, {
             headers: { "developer-id": developerId },
         });
 
@@ -214,7 +214,7 @@ const handleProfilePhotoUpload = async (e) => {
     formData.append("profilePhoto", file);
 
     try {
-      const response = await axios.put("http://localhost:5000/api/developer/uploadProfilePhoto", formData, {
+      const response = await api.put("/api/developer/uploadProfilePhoto", formData, {
         headers: { "developer-id": developerId, "Content-Type": "multipart/form-data" },
       });
       setProfile((prev) => ({ ...prev, profilePhoto: response.data.profilePhoto }));
@@ -239,7 +239,7 @@ const handleProfilePhotoUpload = async (e) => {
       const updatedData = {
         workExperience: [...(profile.workExperience || []), newExperience],
       };
-      await axios.put("http://localhost:5000/api/developer/profile", updatedData, {
+      await api.put("/api/developer/profile", updatedData, {
         headers: { "developer-id": developerId },
       });
       fetchProfile();
@@ -254,7 +254,7 @@ const handleProfilePhotoUpload = async (e) => {
       const updatedData = {
         workExperience: profile.workExperience.filter((_, i) => i !== index),
       };
-      await axios.put("http://localhost:5000/api/developer/profile", updatedData, {
+      await api.put("/api/developer/profile", updatedData, {
         headers: { "developer-id": developerId },
       });
       fetchProfile();
@@ -277,7 +277,7 @@ const handleProfilePhotoUpload = async (e) => {
                 <div className="profile-photo-box">
                   {profile?.profilePhoto ? (
                     <img 
-                      src={`http://localhost:5000${profile.profilePhoto}`} 
+                      src={`https://talent-bridge-rho.vercel.app${profile.profilePhoto}`} 
                       alt="Profile" 
                       className="profile-photo-profile" 
                     />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios"; // Importing icons
+import api from './api'; 
 import "../../assets/css/Developer/Dashboard.css";  // Importing CSS for styling
 import Header from "../../components/Header"
 const DeveloperDashboard = () => {
@@ -10,7 +10,7 @@ const DeveloperDashboard = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/developer/dashboard");
+        const response = await api.get("/api/developer/dashboard");
         setTechNews(response.data.techNews);
       } catch (err) {
         setError("Failed to load tech news. Please try again later.");
