@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import "../../assets/css/Developer/Connections.css";
 import { FaLinkedin, FaGithub, FaGlobe, FaEnvelope, FaPhone, FaCheck, FaTimes, FaUndo, FaUserCircle } from "react-icons/fa";
-import Header from "../../components/Header"
+import Header from "../../components/Header";
 import { io } from 'socket.io-client';
 
 // const POLL_INTERVAL = 100000000000000000000000000000000000000000000; // 10 seconds
@@ -107,109 +107,116 @@ const Connections = () => {
     console.log(activeTab);
     const currentConnections = connections[activeTab];
     console.log(currentConnections);
-
+  
     if (!currentConnections || currentConnections.length === 0) {
       return <p className="no-connections">No connections in this category.</p>;
     }
-
+  
     return currentConnections.map((dev) => (
-      
       <div key={dev.developerId} className={`connection-card ${activeTab === 'matched' ? 'matched' : ''}`}>
-        {dev?.profilePhoto ? (
-          <img 
-            src={`http://localhost:5000${dev.profilePhoto}`} 
-            alt="Profile" 
-            className="profile-photo-connections" 
-          />
-        ) : (
-          <FaUserCircle className="default-profile-icon-connections" />
-        )}
-        <h4>{dev.fullName}</h4>
-        <p className="bio">{dev.bio || "No bio provided"}</p>
-
-        <div className="location">{dev.location || "Location not specified"}</div>
-
-        {/* Professional Details */}
-        <div className="professional-details"> 
-          <p><strong>Current Job:</strong> {dev.professionalDetails?.currentJob || "N/A"}</p>
-          <p><strong>Skills:</strong> {dev.professionalDetails?.skills?.join(", ") || "N/A"}</p>
-        </div>
-
-        {/* Education */}
-        {dev.education && dev.education.length > 0 && (
-          <div className="education">
-            <p><strong>Education:</strong></p>
-            {dev.education.map((edu, idx) => (
-              <p key={idx}>{edu.degree} from {edu.college} ({edu.graduationYear})</p>
-            ))}
-          </div>
-        )}
-
-        {/* Work Experience */}
-        {dev.workExperience && dev.workExperience.length > 0 && (
-          <div className="work-experience">
-            <p><strong>Work Experience:</strong></p>
-            {dev.workExperience.map((exp, idx) => (
-              <div key={idx}>
-                <p>{exp.jobTitle} at {exp.company}</p>
-                <p><em>{new Date(exp.startDate).getFullYear()} - {exp.endDate ? new Date(exp.endDate).getFullYear() : 'Present'}</em></p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Certifications */}
-        {dev.certifications && dev.certifications.length > 0 && (
-          <div className="certifications">
-            <p><strong>Certifications:</strong></p>
-            {dev.certifications.map((cert, idx) => (
-              <p key={idx}>{cert}</p>
-            ))}
-          </div>
-        )}
-
-        {/* Achievements */}
-        {dev.achievements && dev.achievements.length > 0 && (
-          <div className="achievements">
-            <p><strong>Achievements:</strong></p>
-            {dev.achievements.map((ach, idx) => (
-              <p key={idx}>{ach}</p>
-            ))}
-          </div>
-        )}
-
-        {/* Languages */}
-        {dev.languages && dev.languages.length > 0 && (
-          <div className="languages">
-            <p><strong>Languages:</strong></p>
-            {dev.languages.map((lang, idx) => (
-              <p key={idx}>{lang}</p>
-            ))}
-          </div>
-        )}
-
         
-        {/* Social Links */}
-        <div className="social-links">
-          {dev.linkedIn && (
-            <a href={dev.linkedIn} target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
+        {/* Left Section */}
+        <div className="profile-left">
+          {dev?.profilePhoto ? (
+            <img src={`http://localhost:5000${dev.profilePhoto}`} alt="Profile" className="profile-photo-connections" />
+          ) : (
+            <FaUserCircle className="default-profile-icon-connections" />
           )}
-          {dev.github && (
-            <a href={dev.github} target="_blank" rel="noopener noreferrer"><FaGithub /></a>
-          )}
-          {dev.portfolio && (
-            <a href={dev.portfolio} target="_blank" rel="noopener noreferrer"><FaGlobe /></a>
+          <h4>{dev.fullName}</h4>
+          <p className="location">{dev.location || "Location not specified"}</p>
+  
+          {/* Social Links */}
+          <div className="social-links">
+            {dev.linkedIn && (
+              <a href={dev.linkedIn} target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
+            )}
+            {dev.github && (
+              <a href={dev.github} target="_blank" rel="noopener noreferrer"><FaGithub /></a>
+            )}
+            {dev.portfolio && (
+              <a href={dev.portfolio} target="_blank" rel="noopener noreferrer"><FaGlobe /></a>
+            )}
+          </div>
+  
+          {/* Education */}
+          {dev.education && dev.education.length > 0 && (
+            <div className="education">
+              <p><strong>Education:</strong></p>
+              {dev.education.map((edu, idx) => (
+                <p key={idx}>{edu.degree} from {edu.college} ({edu.graduationYear})</p>
+              ))}
+            </div>
           )}
         </div>
-        
+  
+        {/* Right Section */}
+        <div className="profile-right">
+          <p className="bio">{dev.bio || "No bio provided"}</p>
+          
+          <div className="section">
+            <strong>Current Job:</strong>
+            <p>{dev.professionalDetails?.currentJob || "N/A"}</p>
+          </div>
+  
+          {/* Work Experience */}
+          {dev.workExperience && dev.workExperience.length > 0 && (
+            <div className="work-experience">
+              <strong>Work Experience:</strong>
+              {dev.workExperience.map((exp, idx) => (
+                <p key={idx}>{exp.jobTitle} at {exp.company} ({new Date(exp.startDate).getFullYear()} - {exp.endDate ? new Date(exp.endDate).getFullYear() : 'Present'})</p>
+              ))}
+            </div>
+          )}
+  
+          {/* Skills */}
+          <div className="skills">
+            <strong>Skills:</strong>
+            <p>{dev.professionalDetails?.skills?.join(", ") || "N/A"}</p>
+          </div>
+  
+          {/* Certifications */}
+          {dev.certifications && dev.certifications.length > 0 && (
+            <div className="certifications">
+              <strong>Certifications:</strong>
+              {dev.certifications.map((cert, idx) => (
+                <p key={idx}>{cert}</p>
+              ))}
+            </div>
+          )}
+  
+          {/* Achievements */}
+          {dev.achievements && dev.achievements.length > 0 && (
+            <div className="achievements">
+              <strong>Achievements:</strong>
+              {dev.achievements.map((ach, idx) => (
+                <p key={idx}>{ach}</p>
+              ))}
+            </div>
+          )}
+  
+          {/* Languages */}
+          {dev.languages && dev.languages.length > 0 && (
+            <div className="languages">
+              <strong>Languages:</strong>
+              {dev.languages.map((lang, idx) => (
+                <p key={idx}>{lang}</p>
+              ))}
+            </div>
+          )}
+        </div>
+  
         {/* Contact Info for Matched Developers */}
         {activeTab === 'matched' && (
           <div className="contact-info">
-            <p><FaEnvelope /> {dev.email}</p>
-            <p><FaPhone /> {dev.phoneNumber}</p>
+            <div className="contact-info-row">
+              <p><FaEnvelope /> {dev.email}</p>
+            </div>
+            <div className="contact-info-row">
+              <p><FaPhone /> {dev.phoneNumber}</p>
+            </div>
           </div>
         )}
-
+  
         {/* Action Buttons */}
         <div className="action-buttons">
           {activeTab === 'connectionRequests' && (
@@ -231,46 +238,47 @@ const Connections = () => {
       </div>
     ));
   };
+  
 
   if (loading) return <div className="loading-message"> <Header/> Loading connections...</div>;
   if (error) return <div className="error-message">{error}</div>;
 
   return (
     <div>
-        <div>
-          <Header />
+      <div>
+        <Header />
+      </div>
+  
+      <div className="connections-container">
+        <div className="connections-tabs">
+          <button
+            className={activeTab === 'connectionRequests' ? 'active-tab' : ''}
+            onClick={() => setActiveTab('connectionRequests')}
+          >
+            Connection Requests
+          </button>
+          <button
+            className={activeTab === 'requested' ? 'active-tab' : ''}
+            onClick={() => setActiveTab('requested')}
+          >
+            Requested
+          </button>
+          <button
+            className={activeTab === 'matched' ? 'active-tab' : ''}
+            onClick={() => setActiveTab('matched')}
+          >
+            Matched Developers
+          </button>
         </div>
-    <div className="connections-container">
-
-      <div className="connections-tabs">
-        <button 
-          className={activeTab === 'connectionRequests' ? 'active' : ''} 
-          onClick={() => setActiveTab('connectionRequests')}
-        >
-          Connection Requests
-        </button>
-        <button 
-          className={activeTab === 'requested' ? 'active' : ''} 
-          onClick={() => setActiveTab('requested')}
-        >
-          Requested
-        </button>
-        <button 
-          className={activeTab === 'matched' ? 'active' : ''} 
-          onClick={() => setActiveTab('matched')}
-        >
-          Matched Developers
-        </button>
-      </div>
-
-      {/* Display corresponding connections */}
-      <div className="connections-section">
-        {renderConnections()}
+  
+        {/* Display corresponding connections */}
+        <div className="connections-list">
+          {renderConnections()}
+        </div>
       </div>
     </div>
-    </div>
-    
   );
+  
 };
 
 export default Connections;

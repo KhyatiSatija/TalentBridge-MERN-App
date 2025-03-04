@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { FaUserCircle, FaLinkedin, FaGithub, FaExternalLinkAlt, FaSpinner, FaSearch,FaFileExcel,  FaEye } from "react-icons/fa";
+import { FaUserCircle, FaLinkedin, FaGithub, FaExternalLinkAlt, FaSpinner, FaSearch,FaFileExcel,  FaEye, FaGlobe } from "react-icons/fa";
 import "../../assets/css/Company/Applicants.css";
 import  CompanyHeader from "../../components/CompanyHeader";
 import * as XLSX from "xlsx";
@@ -365,97 +365,117 @@ const fetchDeveloperProfile = async (developerId) => {
               </>
       )}
     </div>
-      {/* modal code */}
-      {modalOpen && selectedProfile && (
-      <div className="modal-overlay">
-      <div className="modal-content">
-        <span className="close-button" onClick={() => setModalOpen(false)}>&times;</span>
+        {/* modal code */}
+        {modalOpen && selectedProfile && (
+            <div className="company-applicant-modal-overlay">
+              <div className="company-applicant-modal-content">
+                <span className="company-applicant-close-button" onClick={() => setModalOpen(false)}>&times;</span>
 
-        {/* Profile Picture & Name */}
-        <div className="profile-header">
-          {selectedProfile.profilePhoto ? (
-            <img src={`http://localhost:5000${selectedProfile.profilePhoto}`} alt="Profile" className="modal-profile-photo" />
-          ) : (
-            <FaUserCircle className="profile-icon" />
-          )}
-          <h2>{selectedProfile.fullName}</h2>
-        </div>
-        
-        {/* Basic Details */}
-        <p><strong>Bio:</strong> {selectedProfile.bio || "No bio available"}</p>
-        <p><strong>Location:</strong> {selectedProfile.location || "Not Available"}</p>
-        <p><strong>Email:</strong> {selectedProfile.email}</p>
-        <p><strong>Phone:</strong> {selectedProfile.phoneNumber}</p>
-        
-        {/* Professional Details */}
-        <h3>Professional Details</h3>
-        <p><strong>Current Job:</strong> {selectedProfile.professionalDetails?.currentJob || "Not currently employed"}</p>
-        <p><strong>Years of Experience:</strong> {selectedProfile.professionalDetails?.yearsOfExperience || 0} years</p>
-        <p><strong>Skills:</strong> {selectedProfile.professionalDetails?.skills?.join(", ") || "No skills listed"}</p>
-        <p><strong>Job Roles Interested:</strong> {selectedProfile.professionalDetails?.jobRolesInterested?.join(", ") || "Not specified"}</p>
-        
-        {/* Social Media & Portfolio Links */}
-        <h3>Online Presence</h3>
-        <p>
-          {selectedProfile.linkedIn && <a href={selectedProfile.linkedIn} target="_blank" rel="noopener noreferrer"> <FaLinkedin />LinkedIn</a>}
-        </p>
-        <p>
-          {selectedProfile.github && <a href={selectedProfile.github} target="_blank" rel="noopener noreferrer"><FaGithub/> Github </a>}
-        </p>
-        <p>
-          {selectedProfile.portfolio && <a href={selectedProfile.portfolio} target="_blank" rel="noopener noreferrer"><FaExternalLinkAlt /> Portfolio</a>}
-        </p>
-        
-        {/* Education Details */}
-        <h3>Education</h3>
-        {selectedProfile.education?.length > 0 ? (
-          <ul>
-            {selectedProfile.education.map((edu, index) => (
-              <li key={index}><strong>{edu.degree}</strong> from {edu.college} ({edu.graduationYear})</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No education details provided</p>
-        )}
+                <div className="company-applicant-modal-body">
 
-        {/* Work Experience */}
-        <h3>Work Experience</h3>
-        {selectedProfile.workExperience?.length > 0 ? (
-          <ul>
-            {selectedProfile.workExperience.map((exp, index) => (
-              <li key={index}>
-                <strong>{exp.jobTitle}</strong> at {exp.company} ({exp.startDate?.substring(0, 10)} - {exp.endDate?.substring(0, 10)})
-                <p><strong>Responsibilities:</strong></p>
-                <ul>
-                  {exp.responsibilities?.length > 0
-                    ? exp.responsibilities.map((resp, idx) => <li key={idx}>{resp}</li>)
-                    : <li>No responsibilities listed</li>}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No work experience available</p>
-        )}
+                  {/* 🔹 Left Column */}
+                  <div className="company-applicant-left-column">
 
-        {/* Additional Information */}
-        <h3>Additional Information</h3>
-        <p><strong>Certifications:</strong> {selectedProfile.additionalInfo?.certifications?.join(", ") || "No certifications listed"}</p>
-        <p><strong>Achievements:</strong> {selectedProfile.additionalInfo?.achievements?.join(", ") || "No achievements listed"}</p>
-        <p><strong>Languages:</strong> {selectedProfile.additionalInfo?.languages?.join(", ") || "No languages listed"}</p>
-      
-        {/* Preferences */}
-        <h3>Preferences</h3>
-        <p><strong>Expected Stipend (in LPA): </strong> {selectedProfile.expectedStipend?.join(", ")  || "Not specified"}</p>
-        <p><strong>Work Mode:</strong> {selectedProfile.workMode || "Not specified"}</p>
-        <p><strong>Preferred Locations:</strong> {selectedProfile.preferredLocations?.join(", ") || "Not specified"}</p>
-        <p><strong>Languages Preferred:</strong> {selectedProfile.languagesPreferred?.join(", ") || "Not specified"}</p>
-      </div>
-</div>
-)}
-
-
+                    {/* Profile Header */}
+                    <div className="company-applicant-profile-header">
+                      {selectedProfile.profilePhoto ? (
+                        <img src={`http://localhost:5000${selectedProfile.profilePhoto}`} alt="Profile" className="company-applicant-profile-photo" />
+                      ) : (
+                        <FaUserCircle className="company-applicant-profile-icon" />
+                      )}
+                      <div className="company-applicant-basic-info">
+                        <h2>{selectedProfile.fullName}</h2>
+                        <p className="company-applicant-location">{selectedProfile.location || "Location not provided"}</p>
+                        <p className="company-applicant-bio">{selectedProfile.bio || "No bio available"}</p>
+                        <p className="company-applicant-email"><strong>Email:</strong> {selectedProfile.email}</p>
+                        <p className="company-applicant-phone"><strong>Phone:</strong> {selectedProfile.phoneNumber}</p>
+                      </div>
+                    </div>
+                    
+                    {/* Social Links */}
+                    <div className="company-applicant-social-links">
+                      {selectedProfile.linkedIn && <a href={selectedProfile.linkedIn} target="_blank" rel="noopener noreferrer"><FaLinkedin /> </a>}
+                      {selectedProfile.github && <a href={selectedProfile.github} target="_blank" rel="noopener noreferrer"><FaGithub /> </a>}
+                      {selectedProfile.portfolio && <a href={selectedProfile.portfolio} target="_blank" rel="noopener noreferrer"><FaGlobe /> </a>}
+                    </div>
+                    
+                    {/* Professional Details */}
+                    <div className="company-applicant-section">
+                      <h3>Professional Details</h3>
+                      <p><strong>Current Job:</strong> {selectedProfile.professionalDetails?.currentJob || "Not currently employed"}</p>
+                      <p><strong>Years of Experience:</strong> {selectedProfile.professionalDetails?.yearsOfExperience || 0} years</p>
+                      <p><strong>Skills:</strong> {selectedProfile.professionalDetails?.skills?.join(", ") || "No skills listed"}</p>
+                      <p><strong>Job Roles Interested:</strong> {selectedProfile.professionalDetails?.jobRolesInterested?.join(", ") || "Not specified"}</p>
+                    </div>
+                    
+                    {/* Education */}
+                    <div className="company-applicant-section">
+                      <h3>Education</h3>
+                      {selectedProfile.education?.length > 0 ? (
+                        <ul>
+                          {selectedProfile.education.map((edu, index) => (
+                            <li key={index}><strong>{edu.degree}</strong> from {edu.college} ({edu.graduationYear})</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p>No education details provided</p>
+                      )}
+                    </div>
+                    
+                  </div>
+                    
+                  {/* 🔹 Right Column */}
+                  <div className="company-applicant-right-column">
+                    
+                    {/* Work Experience */}
+                    <div className="company-applicant-section">
+                      <h3>Work Experience</h3>
+                      {selectedProfile.workExperience?.length > 0 ? (
+                        <ul>
+                          {selectedProfile.workExperience.map((exp, index) => (
+                            <li key={index}>
+                              <strong>{exp.jobTitle}</strong> at {exp.company} ({exp.startDate?.substring(0, 10)} - {exp.endDate?.substring(0, 10)})
+                              <p><strong>Responsibilities:</strong></p>
+                              <ul>
+                                {exp.responsibilities?.length > 0
+                                  ? exp.responsibilities.map((resp, idx) => <li key={idx}>{resp}</li>)
+                                  : <li>No responsibilities listed</li>}
+                              </ul>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p>No work experience available</p>
+                      )}
+                    </div>
+                    
+                    {/* Additional Information */}
+                    <div className="company-applicant-section">
+                      <h3>Additional Information</h3>
+                      <p><strong>Certifications:</strong> {selectedProfile.additionalInfo?.certifications?.join(", ") || "No certifications listed"}</p>
+                      <p><strong>Achievements:</strong> {selectedProfile.additionalInfo?.achievements?.join(", ") || "No achievements listed"}</p>
+                      <p><strong>Languages:</strong> {selectedProfile.additionalInfo?.languages?.join(", ") || "No languages listed"}</p>
+                    </div>
+                    
+                    {/* Preferences */}
+                    <div className="company-applicant-section">
+                      <h3>Preferences</h3>
+                      <p><strong>Expected Stipend (in LPA): </strong> {selectedProfile.expectedStipend?.join(", ")  || "Not specified"}</p>
+                      <p><strong>Work Mode:</strong> {selectedProfile.workMode || "Not specified"}</p>
+                      <p><strong>Preferred Locations:</strong> {selectedProfile.preferredLocations?.join(", ") || "Not specified"}</p>
+                      <p><strong>Languages Preferred:</strong> {selectedProfile.languagesPreferred?.join(", ") || "Not specified"}</p>
+                    </div>
+                    
+                  </div>
+                    
+                </div>
+              </div>
             </div>
+          )}
+
+
+
+        </div>
     </div>
 
   );

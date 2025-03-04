@@ -1,5 +1,5 @@
 .job-applications-page {
-    margin-top: 20px;
+    margin-top: 10px;
   }
   
   .loading-spinner {
@@ -27,7 +27,7 @@
   }
   
   .applications-table {
-    width: 100%;
+    width: 115%;
     border-collapse: collapse;
     margin-top: 20px;
     margin-left: -7%;
@@ -118,6 +118,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+    height: 25px !important;
   }
   
   .search-bar:focus {
@@ -211,67 +212,197 @@
   color: #0056b3;
   transform: scale(1.1);
 }
-.modal-overlay {
+
+/* 🔹 Full-Screen Modal Overlay */
+.company-applicant-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay */
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
-.modal-content {
+/* 🔹 Modal Content */
+.company-applicant-modal-content {
   background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 70% !important;
-  text-align: left;
-  max-height: 90vh;
+  padding: 5px;
+  border-radius: 12px;
+  /* text-align: center; */
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+  width: 1200px; /* Adjusted for better spacing */
+  max-width: 90%;
+  max-height: 95vh; /* Prevents overflow */
   overflow-y: auto;
   position: relative;
 }
 
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 26px;
+/* 🔹 Close Button */
+.company-applicant-close-button {
+  font-size: 24px;
+  color: #333;
   cursor: pointer;
+  position: absolute;
+  right: 15px;
+  top: 10px;
 }
 
-.profile-header {
+/* 🔹 Modal Layout */
+.company-applicant-modal-body {
   display: flex;
-  align-items: center !important;
-  gap: 15px;
-  margin-left: 40%;
+  flex-direction: row;
+  gap: 30px;
+  padding: 15px;
 }
 
-.modal-profile-photo {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+/* 🔹 Left Column */
+.company-applicant-left-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* text-align: center; */
+  padding: 15px;
+  border-right: 2px solid #ddd;
+}
+
+/* 🔹 Right Column */
+.company-applicant-right-column {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 15px;
+}
+
+/* 🔹 Profile Header */
+.company-applicant-profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 10px;
+  text-align: center;
 }
 
-h3 {
-  margin-top: 15px;
-  font-size: 18px;
-  border-bottom: 2px solid #007bff;
-  padding-bottom: 5px;
+/* 🔹 Profile Image */
+.company-applicant-profile-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #007bff;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
+/* 🔹 Basic Info */
+.company-applicant-basic-info h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 8px 0;
+  color: #333;
 }
 
-ul li {
+.company-applicant-location {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.company-applicant-bio {
+  font-size: 14px;
+  color: #555;
+  font-style: italic;
+}
+.company-applicant-email {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+}
+.company-applicant-phone {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+/* 🔹 Social Links */
+.company-applicant-social-links {
+  display: flex;
+  gap: 25px;
+  justify-content: center;
   margin: 5px 0;
 }
 
+.company-applicant-social-links a {
+  color: #007bff;
+  font-size: 22px;
+  transition: transform 0.2s ease;
+}
+
+.company-applicant-social-links a:hover {
+  color: #0056b3;
+  transform: scale(1.2);
+}
+
+/* 🔹 Section Headings */
+.company-applicant-section h3 {
+  color: #0a0aa5;
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+  font-weight: bold;
+}
+
+/* 🔹 Section Content */
+.company-applicant-section p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 2px;
+}
+
+/* 🔹 Remove Bullet Points from Lists */
+.company-applicant-section ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+.company-applicant-section ul li {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+/* 🔹 Job & Education Highlights */
+.company-applicant-section strong {
+  font-weight: bold;
+  color: #222;
+}
+
+/* 🔹 Responsive Design */
+@media (max-width: 768px) {
+  .company-applicant-modal-content {
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .company-applicant-modal-body {
+    flex-direction: column;
+  }
+
+  .company-applicant-left-column {
+    border-right: none;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+  }
+}
+
+/* 🔹 Hyperlink Styling */
 a {
   color: #007bff;
   text-decoration: none;

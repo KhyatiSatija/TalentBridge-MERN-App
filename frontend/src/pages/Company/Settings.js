@@ -111,52 +111,104 @@ const CompanySettings = () => {
   return (
     <div>
       <CompanyHeader />
-      <div className="settings-container">
-        <h2>Company Settings</h2>
-
-        {message && <p className={`message-${messageType}`}>{message}</p>}
-
-        <div className="settings-section">
-          <h3><FaEnvelope /> Update Email</h3>
-          <input type="email" placeholder="Enter new email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <button onClick={handleUpdateEmail} disabled={loading}>Update Email</button>
+      <div className="company-settings-container">
+        {message && <p className={`company-message-${messageType}`}>{message}</p>}
+  
+        <div className="company-settings-grid">
+  
+          {/* Update Email */}
+          <div className="company-settings-item">
+            <div className="company-settings-left">
+              <FaEnvelope className="company-settings-icon" />
+              <h3>Update Email</h3>
+            </div>
+            <div className="company-settings-right">
+              <input 
+                type="email" 
+                placeholder="Enter new email" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+              />
+              <button onClick={handleUpdateEmail} disabled={loading}>Update Email</button>
+            </div>
+          </div>
+  
+          {/* Change Password */}
+          <div className="company-settings-item">
+            <div className="company-settings-left">
+              <FaLock className="company-settings-icon" />
+              <h3>Change Password</h3>
+            </div>
+            <div className="company-settings-right">
+              <input 
+                type="password" 
+                placeholder="Current password" 
+                value={currentPassword} 
+                onChange={(e) => setCurrentPassword(e.target.value)} 
+              />
+              <input 
+                type="password" 
+                placeholder="New password" 
+                value={newPassword} 
+                onChange={(e) => setNewPassword(e.target.value)} 
+              />
+              <button onClick={handleChangePassword} disabled={loading}>Change Password</button>
+            </div>
+          </div>
+  
+          {/* Update Company Name */}
+          <div className="company-settings-item">
+            <div className="company-settings-left">
+              <FaBuilding className="company-settings-icon" />
+              <h3>Update Company Name</h3>
+            </div>
+            <div className="company-settings-right">
+              <input 
+                type="text" 
+                placeholder="Enter new company name" 
+                value={companyName} 
+                onChange={(e) => setCompanyName(e.target.value)} 
+              />
+              <button onClick={handleUpdateCompanyName} disabled={loading}>Update Name</button>
+            </div>
+          </div>
+  
+          {/* Delete Account */}
+          <div className="company-settings-item company-settings-delete">
+            <div className="company-settings-left">
+              <FaTrash className="company-settings-icon" />
+              <h3>Delete Account</h3>
+            </div>
+            <div className="company-settings-right">
+              <button onClick={openModal} className="company-delete-button">Delete Account</button>
+            </div>
+          </div>
+  
+          {/* Logout */}
+          <div className="company-settings-item company-settings-logout">
+            <div className="company-settings-left">
+              <FaSignOutAlt className="company-settings-icon" />
+              <h3>Logout</h3>
+            </div>
+            <div className="company-settings-right">
+              <button onClick={handleLogout} className="company-logout-button">Logout</button>
+            </div>
+          </div>
         </div>
-
-        <div className="settings-section">
-          <h3><FaLock /> Change Password</h3>
-          <input type="password" placeholder="Current password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
-          <input type="password" placeholder="New password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-          <button onClick={handleChangePassword} disabled={loading}>Change Password</button>
-        </div>
-
-        <div className="settings-section">
-          <h3><FaBuilding /> Update Company Name</h3>
-          <input type="text" placeholder="Enter new company name" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
-          <button onClick={handleUpdateCompanyName} disabled={loading}>Update Name</button>
-        </div>
-
-        <div className="settings-section delete">
-          <h3><FaTrash /> Delete Account</h3>
-          <button onClick={openModal} className="delete-button">Delete Account</button>
-        </div>
-
+  
         {/* Modal for account deletion confirmation */}
-        <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="modal-content" overlayClassName="modal-overlay">
+        <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="company-modal-content" overlayClassName="company-modal-overlay">
           <h3>Are you sure?</h3>
           <p>This action is irreversible. Your company account along with all job descriptions and corresponding applications will be permanently deleted.</p>
-          <div className="modal-buttons">
-            <button onClick={handleDeleteAccount} disabled={loading} className="confirm-delete">Yes, Delete</button>
-            <button onClick={closeModal} className="cancel-delete">Cancel</button>
+          <div className="company-modal-buttons">
+            <button onClick={handleDeleteAccount} disabled={loading} className="company-confirm-delete">Yes, Delete</button>
+            <button onClick={closeModal} className="company-cancel-delete">Cancel</button>
           </div>
         </Modal>
-
-        <div className="settings-section logout">
-          <h3><FaSignOutAlt /> Logout</h3>
-          <button onClick={handleLogout} className="logout-button">Logout</button>
-        </div>
       </div>
     </div>
   );
+  
 };
 
 export default CompanySettings;

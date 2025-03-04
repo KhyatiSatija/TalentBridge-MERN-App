@@ -59,6 +59,17 @@
     color: #007bff !important;
 }
 
+.nav-item.active-tab {
+    color: #007bff !important; /* Highlighted text */
+    font-weight: 600 !important; /* Make it bold */
+    border-bottom: 2px solid #007bff !important; /* Underline effect */
+    padding-bottom: 4px !important;
+}
+
+.nav-item.active-tab .icon {
+    color: #007bff !important;
+}
+
 .icon {
     font-size: 18px !important;
 }
