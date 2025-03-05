@@ -112,54 +112,103 @@ const Settings = () => {
 
   return (
     <div>
-        <Header/>
-        <div className="settings-container">
+      <Header />
+      <div className="settings-container">
 
-          {message && <p className={`message-${messageType}`}>{message}</p>}
+        <div className="settings-grid">
 
-
-          <div className="settings-section">
-            <h3><FaEnvelope /> Update Email</h3>
-            <input type="email" placeholder="Enter new email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <button onClick={handleUpdateEmail} disabled={loading}>Update Email</button>
+          {/* Update Email */}
+          <div className="settings-item">
+            <div className="settings-left">
+              <FaEnvelope className="settings-icon" />
+              <h3>Update Email</h3>
+            </div>
+            <div className="settings-right">
+              <input 
+                type="email" 
+                placeholder="Enter new email" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+              />
+              <button onClick={handleUpdateEmail}>Update Email</button>
+            </div>
           </div>
 
-          <div className="settings-section">
-            <h3><FaLock /> Change Password</h3>
-            <input type="password" placeholder="Current password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
-            <input type="password" placeholder="New password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-            <button onClick={handleChangePassword} disabled={loading}>Change Password</button>
+          {/* Change Password */}
+          <div className="settings-item">
+            <div className="settings-left">
+              <FaLock className="settings-icon" />
+              <h3>Change Password</h3>
+            </div>
+            <div className="settings-right">
+              <input 
+                type="password" 
+                placeholder="Current password" 
+                value={currentPassword} 
+                onChange={(e) => setCurrentPassword(e.target.value)} 
+              />
+              <input 
+                type="password" 
+                placeholder="New password" 
+                value={newPassword} 
+                onChange={(e) => setNewPassword(e.target.value)} 
+              />
+              <button onClick={handleChangePassword}>Change Password</button>
+            </div>
           </div>
 
-          <div className="settings-section">
-            <h3><FaPhone /> Update Phone Number</h3>
-            <input type="text" placeholder="Enter new phone number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-            <button onClick={handleUpdatePhoneNumber} disabled={loading}>Update Phone</button>
+          {/* Update Phone Number */}
+          <div className="settings-item">
+            <div className="settings-left">
+              <FaPhone className="settings-icon" />
+              <h3>Update Phone Number</h3>
+            </div>
+            <div className="settings-right">
+              <input 
+                type="text" 
+                placeholder="Enter new phone number" 
+                value={phoneNumber} 
+                onChange={(e) => setPhoneNumber(e.target.value)} 
+              />
+              <button onClick={handleUpdatePhoneNumber}>Update Phone</button>
+            </div>
           </div>
 
-          <div className="settings-section delete">
-            <h3><FaTrash /> Delete Account</h3>
-            <button onClick={openModal} className="delete-button">Delete Account</button>
+          {/* Delete Account */}
+          <div className="settings-item delete">
+            <div className="settings-left">
+              <FaTrash className="settings-icon" />
+              <h3>Delete Account</h3>
+            </div>
+            <div className="settings-right">
+              <button onClick={openModal} className="delete-button">Delete Account</button>
+            </div>
           </div>
 
-            {/* Popup Modal for Account Deletion Confirmation */}
-            <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="modal-content" overlayClassName="modal-overlay">
-              <h3>Are you sure?</h3>
-              <p>This action is irreversible. Your account will be permanently deleted.</p>
-              <div className="modal-buttons">
-                <button onClick={handleDeleteAccount} disabled={loading} className="confirm-delete">Yes, Delete</button>
-                <button onClick={closeModal} className="cancel-delete">Cancel</button>
-              </div>
-            </Modal>
-
-          <div className="settings-section logout">
-            <h3><FaSignOutAlt /> Logout</h3>
-            <button onClick={handleLogout} className="logout-button">Logout</button>
+          {/* Logout */}
+          <div className="settings-item logout">
+            <div className="settings-left">
+              <FaSignOutAlt className="settings-icon" />
+              <h3>Logout</h3>
+            </div>
+            <div className="settings-right">
+              <button onClick={handleLogout} className="logout-button">Logout</button>
+            </div>
           </div>
         </div>
+
+        {/* Popup Modal for Account Deletion Confirmation */}
+        <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="modal-content-settings" overlayClassName="modal-overlay-settings">
+          <h3>Are you sure?</h3>
+          <p>This action is irreversible. Your account will be permanently deleted.</p>
+          <div className="modal-buttons">
+            <button onClick={handleDeleteAccount} className="confirm-delete">Yes, Delete</button>
+            <button onClick={closeModal} className="cancel-delete">Cancel</button>
+          </div>
+        </Modal>
+      </div>
     </div>
 
-    
   );
 };
 

@@ -1,363 +1,327 @@
-/* 🔹 General Profile Container */
+/* 🔹 General Profile Layout */
 .profile-container {
-    max-width: 90%;
-    margin: 40px auto;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: "Arial", sans-serif;
-  }
-  
-  .profile-heading {
-    text-align: center;
-    font-size: 24px;
-    color: #333;
-    font-weight: bold;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-  }
-  
-  /* 🔹 Profile Sections */
-  .profile-section {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  /* 🔹 Profile Fields */
-  .profile-field {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .profile-field strong {
-    flex: 1;
-    color: #444;
-    font-size: 16px;
-  }
-  
-  .field-value {
-    flex: 2;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #222;
-    font-size: 15px;
-  }
-  
-  /* 🔹 Edit Mode (Input Fields) */
-  .edit-mode {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    width: 70%;
-  }
-  
-  .edit-mode input,
-  .edit-mode select {
-    border: 1px solid #ddd;
-    padding: 6px;
-    border-radius: 5px;
-    font-size: 14px;
-    width: 400px;
-    margin-left: 30px;
-  }
-  
-  .edit-mode select {
-    cursor: pointer;
-  }
-  
-  /* 🔹 Icons Styling */
-  .edit-icon {
-    color: #007bff;
-    cursor: pointer;
-    margin-left: 8px;
-    transition: 0.2s ease-in-out;
-  }
-  
-  .edit-icon:hover {
-    color: #0056b3;
-  }
-  
-  .save-icon {
-    color: green;
-    cursor: pointer;
-    transition: 0.2s ease-in-out;
-  }
-  
-  .save-icon:hover {
-    color: darkgreen;
-  }
-  
-  .cancel-icon {
-    color: red;
-    cursor: pointer;
-    transition: 0.2s ease-in-out;
-  }
-  
-  .cancel-icon:hover {
-    color: darkred;
-  }
-  
-  /* 🔹 List Fields (Skills, Certifications, etc.) */
-  .list-container {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-    padding: 5px 0;
-  }
-  
-  .list-item {
-    background: #f1f1f1;
-    padding: 6px 12px;
-    border-radius: 5px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  
-  .delete-icon {
-    color: rgb(58, 34, 34);
-    cursor: pointer;
-    margin-left: 6px;
-    font-size: 13px;
-  }
-  
-  .delete-icon:hover {
-    color: darkred;
-  }
-  
-  /* 🔹 Add New Item Input */
-  .add-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-    margin-left: auto;
-  }
-  
-  .add-item input {
-    border: 1px solid #ddd;
-    padding: 6px;
-    border-radius: 5px;
-    font-size: 14px;
-    flex: 1;
-    width: 120px;
-    margin-left: 10px;
-  }
-  
-  .add-icon {
-    color: green;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .add-icon:hover {
-    color: darkgreen;
-  }
-  
-  /* 🔹 Loading Animation */
-  .loading {
-    text-align: center;
-    font-size: 18px;
-    color: #555;
-    margin-top: 20px;
-  }
-  
+  display: flex;
+  height: 100vh;
+  max-width: 1500px;
+  margin: auto;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+}
+
+/* 🔹 Sidebar Styling */
+.sidebar {
+  width: 280px;
+  background: #f8f9fa;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 2px solid #e0e0e0;
+}
+
+/* 🔹 Profile Photo Box */
+.profile-photo-profile {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  margin-bottom: 15px;
+}
+
+.profile-photo-profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.default-profile-icon {
+  font-size: 80px;
+  color: #888;
+}
+
+/* 🔹 Upload Icon */
+.upload-icon {
+  position: absolute;
+  bottom: 5px; 
+  right: 5px;   
+  background: #007bff;
+  color: white;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.upload-icon:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+/* 🔹 Sidebar Navigation */
+.sidebar-nav {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-nav button {
+  width: 100% !important;
+  padding: 12px !important;
+  font-size: 16px !important;
+  color: #333 !important;
+  background: none !important;
+  border: none !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+  transition: 0.2s !important;
+  border-radius: 6px !important;
+}
+
+
+.sidebar-nav button:hover,
+.sidebar-nav .active {
+  background: #007bff !important;
+  color: white !important;
+  font-weight: 600 !important;
+}
+/* 🔹 Profile Details Section */
+.profile-details {
+  flex: 1;
+  padding: 80px 100px !important;
+  overflow-y: auto;
+}
+
+/* 🔹 Section Headings */
+.profile-details h2 {
+  font-size: 24px !important;
+  color: #333 !important;
+  font-weight: 600 !important;
+  margin-bottom: 20px !important;
+  border-bottom: 2px solid #ddd !important;
+  padding-bottom: 10px !important;
+}
+
+
+/* 🔹 Profile Fields */
+.profile-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.profile-field strong {
+  flex: 1;
+  color: #444;
+  font-size: 16px;
+}
+
+.field-value {
+  flex: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #222;
+  font-size: 15px;
+}
+
+/* 🔹 Edit Mode Input */
+.edit-mode {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+
+.edit-mode input,
+.edit-mode select {
+  border: 1px solid #ddd !important;
+  padding: 8px !important;
+  border-radius: 5px !important;
+  font-size: 14px !important;
+  width: 350px !important;
+}
+.edit-mode select {
+  cursor: pointer;
+}
+
+/* 🔹 Icons Styling */
+.edit-icon {
+  color: #007bff !important;
+  cursor: pointer !important;
+  margin-left: 8px !important;
+  transition: 0.2s !important;
+}
+.edit-icon:hover {
+  color: #0056b3;
+}
+
+.save-icon {
+  color: green;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.save-icon:hover {
+  color: darkgreen;
+}
+
+.cancel-icon {
+  color: red;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.cancel-icon:hover {
+  color: darkred;
+}
+
 /* 🔹 Work Experience Section */
 .work-experience {
-    background: #f9f9f9;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    border-left: 5px solid #007bff;
-    transition: 0.3s;
-  }
-  
-  .work-experience:hover {
-    background: #f1f1f1;
-  }
-  
-  .work-experience strong {
-    font-size: 16px;
-    color: #333;
-  }
-  
-  .work-experience p {
-    font-size: 14px;
-    color: #666;
-  }
-  
-  
+  background: #f9f9f9;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border-left: 5px solid #007bff;
+  transition: 0.3s;
+}
+
+.work-experience:hover {
+  background: #f1f1f1;
+}
+
+.work-experience strong {
+  font-size: 16px;
+  color: #333;
+}
+
+.work-experience p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 🔹 Work Experience Add & Remove */
+.delete-icon {
+  color: darkred;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-icon:hover {
+  color: red;
+}
+
 /* 🔹 Add Work Experience Form */
 .add-experience {
-    background: #ffffff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 10px;
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
 }
 
 .add-experience h4 {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  
-  .add-experience form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  /* 🔹 Input Fields */
-  .add-experience input,
-  .add-experience select {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    width: 100%;
-  }
-  
-  /* 🔹 Responsibilities Section */
-  .responsibilities {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  
-  .add-icon {
-    color: green;
-    cursor: pointer;
-    font-size: 18px;
-  }
-  
-  .add-icon:hover {
-    color: darkgreen;
-  }
-  
-  /* 🔹 Responsibility List */
-  .responsibility-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 5px;
-  }
-  
-  .responsibility-list li {
-    background: #e7f3ff;
-    padding: 6px 10px;
-    border-radius: 5px;
-    font-size: 13px;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .responsibility-list .delete-icon {
-    font-size: 12px;
-    margin-left: 10px;
-  }
-  
-  /* 🔹 Submit Button */
-  button {
-    padding: 10px;
-    border: none;
-    background: #007bff;
-    color: white;
-    font-size: 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
-    width: 100%;
-  }
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
 
-  button:hover {
-    background: #0056b3;
-  }
+.add-experience form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-/* Profile Photo Container */
-.profile-photo-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .profile-photo-label {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 5px;
-  }
-  
-  .profile-photo-box {
-    position: relative;
-    width: 120px !important;
-    height: 120px !important;
-    border-radius: 50%;
-    overflow: hidden !important;
-    border: 2px solid #ddd;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f0f0f0;
-  }
-  
-  .profile-photo-profile {
-    width: 100% !important ;
-    height: 100% !important;
-    object-fit: cover !important;
-    border-radius: 50% !important;
-  }
+/* 🔹 Input Fields */
+.add-experience input,
+.add-experience select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+}
 
-  .default-profile-icon-profile {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f4f4f4;
-    color: #888;
-    font-size: 14px;
-  }
-  
-  .profile-photo-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f4f4f4;
-    color: #888;
-    font-size: 14px;
-  }
-  
-  .upload-icon {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 8px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 14px;
-    transition: 0.3s;
-    z-index: 10;
-  }
-  .upload-icon:hover{
-    background-color: rgba(0, 0, 0 , 0.9);
-  }
-  
+/* 🔹 Add Item Fields */
+.add-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  margin-left: auto;
+}
+
+.add-item input {
+  border: 1px solid #ddd;
+  padding: 6px;
+  border-radius: 5px;
+  font-size: 14px;
+  flex: 1;
+  width: 120px;
+}
+
+.add-icon {
+  color: green;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-icon:hover {
+  color: darkgreen;
+}
+
+/* 🔹 Skills, Certifications, etc. */
+.list-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.list-item {
+  background: #f1f1f1;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* 🔹 Submit Button */
+button {
+  padding: 10px;
+  border: none;
+  background: #007bff;
+  color: white;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+}
+
+button:hover {
+  background: #0056b3;
+}

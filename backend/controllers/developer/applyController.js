@@ -2,6 +2,8 @@ const DeveloperApplications = require('../../models/developerApplications');
 const CompanyJobApplications = require('../../models/companyJobApplications');
 const JobDescriptions = require('../../models/jobDescriptions');
 const Company = require("../../models/company");
+const DeveloperProfile = require('../../models/developerProfile');
+const { sortJobsByMatchScore } = require('../../utils/jobMatch');
 
 // @desc Fetch job cards
 // @route GET /api/developer/jobs
@@ -59,7 +61,9 @@ const getJobCards = async (req, res) => {
       };
     }));
 
-    res.status(200).json(jobWithCompanyNames);
+    const sortedJobCards = await sortJobsByMatchScore(loggedInUserId, jobWithCompanyNames);
+
+    res.status(200).json(sortedJobCards);
   } catch (error) {
     console.error('Error fetching job cards:', error.message);
     res.status(500).json({ message: 'Error fetching job cards', error: error.message });

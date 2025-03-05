@@ -1,283 +1,308 @@
-/* Container for the entire connections page */
+/* Main Container */
 .connections-container {
-    display: flex;
-    flex-direction: column;
-    max-width: 1450px;  /* Full-width up to 1450px */
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1500px;
+  margin: 10px auto;
+  padding: 10px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Main Heading */
-.connections-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 2rem;
-    color: #333;
-}
-
-/* Tabs container */
 .connections-tabs {
-    display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  gap: 40px;
 }
 
-/* Individual tab buttons */
 .connections-tabs button {
-    padding: 10px 20px;
-    margin: 0 5px;
-    border: none;
-    border-radius: 8px;
-    background-color: #e0e0e0;
-    color: #333;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #666;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  position: relative;
 }
 
-/* Active tab styles */
-.connections-tabs button.active {
-    background-color: #4caf50;
-    color: white;
+.connections-tabs button.active-tab {
+  color: #0056b3; /* Blue highlight color */
+  font-weight: 600;
 }
 
-/* Hover effect for tabs */
+/* Blue Underline for Active Tab */
+.connections-tabs button.active-tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: #0056b3;
+}
 .connections-tabs button:hover {
-    background-color: #c8e6c9;
+  color: white !important;
+  background-color: #0044cc;
+  border-radius: 5px;
 }
-
-/* Sections for different connection types */
-.connections-section {
-    margin-bottom: 30px;
-}
-
-/* Subheadings for each section */
-.connections-section h3 {
-    font-size: 1.5rem;
-    color: #555;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 5px;
-    margin-bottom: 15px;
-}
-
-/* Individual connection cards */
+/* Profile Card */
 .connection-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px 20px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  gap: 20px;
 }
 
-/* Hover effect on cards */
 .connection-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Matched developers have a special color */
-.connection-card.matched {
-    border: 2px solid #4caf50;
-    background-color: #e8f5e9;
+/* Left Section - Profile Details */
+.profile-left {
+  width: 35%;
+  text-align: center;
 }
 
-/* Developer name */
-.connection-card h4 {
-    font-size: 1.3rem;
-    margin-bottom: 8px;
-    color: #333;
+.profile-photo-connections {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 3px solid #ddd !important;
+  display: block;
+  margin: 0 auto;
 }
 
-/* Developer bio */
-.connection-card p {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 8px;
+.default-profile-icon-connections {
+  font-size: 100px !important;
+  color: #bbb !important;
+}
+
+.profile-left h4 {
+  font-size: 1.2rem !important;
+  color: #333 !important;
+  margin-top: 5px !important;
+}
+
+.profile-left .location {
+  font-size: 0.9rem !important;
+  color: #666 !important;
+  margin-top: 5px !important;
+}
+
+/* Social Links */
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.social-links a {
+  font-size: 18px !important;
+  color: #007bff !important;
+  transition: color 0.3s ease-in-out !important;
+}
+
+.social-links a:hover {
+  color: #0056b3 !important;
+}
+
+/* Education Section */
+.education {
+  text-align: left;
+  margin-top: 5px;
+}
+
+.education p {
+  font-size: 0.9rem !important;
+  color: #444 !important;
+  margin: 3px 0 !important;
+}
+
+/* Right Section - Developer Details */
+.profile-right {
+  width: 100%;
+  text-align: left;
+}
+
+.profile-right .bio {
+  font-size: 1rem !important;
+  color: #333 !important;
+  margin-bottom: 5px !important;
+  font-style: italic;
+}
+
+.profile-right .section {
+  padding: 4px 0;
+}
+
+.profile-right .section strong {
+  display: block;
+  font-size: 1rem;
+  color: #222;
+  margin-bottom: 5px;
+}
+
+/* Work Experience, Skills, Certifications, Achievements, Languages */
+.work-experience, .skills, .certifications, .achievements, .languages {
+  text-align: left;
+  padding: 4px 5px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.work-experience p, .skills p, .certifications p, .achievements p, .languages p {
+  font-size: 0.9rem !important;
+  margin: 5px 0 !important;
+  color: #555;
+}
+
+/* Contact Info (only for matched developers) */
+.contact-info {
+  background-color: #e8f5e9;
+  font-size: 0.9rem;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 30%;
+  width: fit-content;
+  min-width: 250px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.contact-info-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  color: #2e7d32;
+  margin-bottom: 8px;
+}
+
+/* Icon Styling */
+.contact-info-row svg {
+  font-size: 1.2rem;
+  color: #2e7d32;
 }
 
 /* Action Buttons */
-.connection-card button {
-    margin-right: 10px;
-    padding: 8px 14px;
-    font-size: 0.9rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.action-buttons {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  margin-top: 15px !important;
 }
 
-/* Accept Button */
-.connection-card button.accept {
-    background-color: #4caf50;
-    color: white;
+.accept-btn, .reject-btn, .cancel-btn {
+  padding: 8px 28px !important;
+  font-size: 0.8rem !important;
+  border: none !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 2px !important;
+  transition: background 0.3s ease-in-out !important;
+  width: 100%;
 }
 
-.connection-card button.accept:hover {
-    background-color: #388e3c;
+.accept-btn {
+  background-color: #4caf50 !important;
+  color: white !important;
 }
 
-/* Reject Button */
-.connection-card button.reject {
-    background-color: #f44336;
-    color: white;
+.accept-btn:hover {
+  background-color: #388e3c !important;
 }
 
-.connection-card button.reject:hover {
-    background-color: #d32f2f;
+.reject-btn {
+  background-color: #f44336 !important;
+  color: white !important;
 }
 
-/* Cancel Request Button */
-.connection-card button.cancelRequest {
-    background-color: #ff9800;
-    color: white;
+.reject-btn:hover {
+  background-color: #d32f2f !important;
 }
 
-.connection-card button.cancelRequest:hover {
-    background-color: #f57c00;
+.cancel-btn {
+  background-color: #ff9800 !important;
+  color: white !important;
 }
 
-/* No data message */
-.connections-section p {
-    font-style: italic;
-    color: #888;
-    text-align: center;
+.cancel-btn:hover {
+  background-color: #f57c00 !important;
 }
 
-/* Responsive Design */
+/* No connections message */
+.no-connections {
+  text-align: center !important;
+  font-style: italic !important;
+  color: #777 !important;
+  margin-top: 20px !important;
+}
+
+/* Loading & Error Messages */
+.loading-message, .error-message {
+  font-size: 1.2rem !important;
+  color: #555 !important;
+  text-align: center !important;
+  margin: 20px 0 !important;
+}
+
+.error-message {
+  background-color: #ffebee !important;
+  color: #c62828 !important;
+  padding: 10px 20px !important;
+  border-radius: 5px !important;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-    .connections-container {
-        padding: 15px;
-    }
+  .connections-tabs {
+      gap: 20px;
+      flex-wrap: wrap;
+  }
 
-    .connections-tabs button {
-        padding: 8px 12px;
-        font-size: 0.9rem;
-    }
+  .connections-tabs button {
+      font-size: 0.9rem;
+      padding: 8px 12px;
+  }
+  .connection-card {
+      flex-direction: column !important;
+      text-align: center !important;
+      padding: 15px !important;
+  }
 
-    .connection-card {
-        padding: 12px 15px;
-    }
-}
+  .profile-left {
+      width: 100% !important;
+  }
 
-/* Profile Photo */
-.profile-photo-connections {
-    width: 120px !important;
-    height: 120px !important;
-    border-radius: 50% !important;
-    object-fit: cover !important;
-    border: 3px solid #ddd;
-    margin: 10px auto;
-    display: block;
+  .profile-right {
+      width: 100% !important;
+      margin-top: 15px !important;
   }
-  
-.default-profile-icon-connections {
-  font-size: 120px;
-  text-align: center;
-}
-  /* Social Links */
-  .social-links {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 15px 0;
+
+  .profile-photo-connections, .default-profile-icon-connections {
+      width: 80px !important;
+      height: 80px !important;
   }
-  
-  .social-links a {
-    color: #007bff;
-    font-size: 20px;
-    transition: color 0.3s ease;
-  }
-  
-  .social-links a:hover {
-    color: #0056b3;
-  }
-  
-  /* Contact Info for Matched Developers */
-  .contact-info {
-    background-color: #e8f5e9;
-    padding: 10px;
-    border-radius: 8px;
-    margin-top: 15px;
-    font-size: 14px;
-    text-align: left;
-  }
-  
-  .contact-info p {
-    margin: 5px 0;
-    color: #2e7d32;
-  }
-  
-  /* Action Buttons */
+
   .action-buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+      justify-content: center !important;
   }
-  
-  .accept-btn, .reject-btn, .cancel-btn {
-    margin: 0 8px;
-    padding: 8px 14px;
-    font-size: 0.9rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .accept-btn {
-    background-color: #4caf50;
-    color: white;
-  }
-  
-  .accept-btn:hover {
-    background-color: #388e3c;
-  }
-  
-  .reject-btn {
-    background-color: #f44336;
-    color: white;
-  }
-  
-  .reject-btn:hover {
-    background-color: #d32f2f;
-  }
-  
-  .cancel-btn {
-    background-color: #ff9800;
-    color: white;
-  }
-  
-  .cancel-btn:hover {
-    background-color: #f57c00;
-  }
-  
-  /* No connections message */
-  .no-connections {
-    font-style: italic;
-    color: #888;
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  /* Loading and Error Messages */
-  .loading-message, .error-message {
-    font-size: 1.2rem;
-    color: #555;
-    text-align: center;
-    margin: 20px 0;
-  }
-  
-  .error-message {
-    background-color: #ffebee;
-    color: #c62828;
-    padding: 10px 20px;
-    border-radius: 5px;
-  }
+}
