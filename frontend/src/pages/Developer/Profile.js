@@ -7,6 +7,7 @@ const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [editingField, setEditingField] = useState(null);
   const [tempValue, setTempValue] = useState("");
+  const [activeSection, setActiveSection] = useState("profile");
   const developerId = localStorage.getItem("developerId"); 
 
   // Fetch developer profile
@@ -266,224 +267,102 @@ const handleProfilePhotoUpload = async (e) => {
 
   return (
     <div>
-        <div>
-            <Header/>
-        </div>
-        <div className="profile-container">
-          <h2 className="profile-heading">My Profile</h2>
-
-            <div className="profile-photo-container">
-                <label className="profile-photo-label">Profile Photo:</label>
-                <div className="profile-photo-box">
-                  {profile?.profilePhoto ? (
-                    <img 
-                      src={`http://localhost:5000${profile.profilePhoto}`} 
-                      alt="Profile" 
-                      className="profile-photo-profile" 
-                    />
-                  ) : (
-                    <FaUserCircle className="default-profile-icon-profile" />
-                  )}
-                  <label htmlFor="photo-upload" className="upload-icon">
-                    <FaUpload />
-                  </label>  
-                  <input type="file" id="photo-upload" accept="image/*" onChange={handleProfilePhotoUpload} hidden />
-                </div>
-            </div>
-
-            
-          <div className="profile-section">
-
-
-            <ProfileField
-              label="Full Name"
-              value={profile.fullName}
-              field="fullName"
-              editingField={editingField}
-              tempValue={tempValue}
-              onEdit={handleEdit}
-              onChange={(e) => setTempValue(e.target.value)}
-              onSave={handleSave}
-              onCancel={handleCancel}
-            />
-            <ProfileField
-              label="Bio"
-              value={profile.bio}
-              field="bio"
-              editingField={editingField}
-              tempValue={tempValue}
-              onEdit={handleEdit}
-              onChange={(e) => setTempValue(e.target.value)}
-              onSave={handleSave}
-              onCancel={handleCancel}
-            />
-            <ProfileField
-              label="Location"
-              value={profile.location}
-              field="location"
-              editingField={editingField}
-              tempValue={tempValue}
-              onEdit={handleEdit}
-              onChange={(e) => setTempValue(e.target.value)}
-              onSave={handleSave}
-              onCancel={handleCancel}
-            />
-
-            <ProfileField
-                label="College"
-                value={profile.education?.[0]?.college} 
-                field="education.college"
-                editingField={editingField}
-                tempValue={tempValue}
-                onEdit={handleEdit}
-                onChange={(e) => setTempValue(e.target.value)}
-                onSave={handleSave}
-                onCancel={handleCancel}
-            />
-
-            <ProfileField
-                label="Degree"
-                value={profile.education?.[0]?.degree}
-                field="education.degree"
-                editingField={editingField}
-                tempValue={tempValue}
-                onEdit={handleEdit}
-                onChange={(e) => setTempValue(e.target.value)}
-                onSave={handleSave}
-                onCancel={handleCancel}
-            />
-
-            
-            <ProfileField
-                label="Graduation year"
-                value={profile.education?.[0]?.graduationYear}
-                field="education.graduationYear"
-                editingField={editingField}
-                tempValue={tempValue}
-                onEdit={handleEdit}
-                onChange={(e) => setTempValue(e.target.value)}
-                onSave={handleSave}
-                onCancel={handleCancel}
-            />  
-
-
-
-            <ProfileField
-              label="LinkedIn"
-              value={profile.linkedIn}
-              field="linkedIn"
-              editingField={editingField}
-              tempValue={tempValue}
-              onEdit={handleEdit}
-              onChange={(e) => setTempValue(e.target.value)}
-              onSave={handleSave}
-              onCancel={handleCancel}
-            />
-            <ProfileField
-              label="GitHub"
-              value={profile.github}
-              field="github"
-              editingField={editingField}
-              tempValue={tempValue}
-              onEdit={handleEdit}
-              onChange={(e) => setTempValue(e.target.value)}
-              onSave={handleSave}
-              onCancel={handleCancel}
-            />
-            <ProfileField
-                label="Portfolio"
-                value={profile.portfolio }
-                field="portfolio"
-                editingField={editingField}
-                tempValue={tempValue}
-                onEdit={handleEdit}
-                onChange={(e) => setTempValue(e.target.value)}
-                onSave={handleSave}
-                onCancel={handleCancel}
-            />
-            <ProfileField
-                label="Current Job"
-                value={profile.professionalDetails?.currentJob}
-                field="professionalDetails.currentJob"
-                editingField={editingField}
-                tempValue={tempValue}
-                onEdit={handleEdit}
-                onChange={(e) => setTempValue(e.target.value)}
-                onSave={handleSave}
-                onCancel={handleCancel}
-            />
-
-            <ProfileField
-                label="Years of Experience"
-                value={profile.professionalDetails?.yearsOfExperience }
-                field="professionalDetails.yearsOfExperience"
-                editingField={editingField}
-                tempValue={tempValue}
-                onEdit={handleEdit}
-                onChange={(e) => setTempValue(e.target.value)}
-                onSave={handleSave}
-                onCancel={handleCancel}
-            />
-
-            {profile.workExperience.length > 0 ? (
-                profile.workExperience.map((exp, index) => (
-                  <div key={index} className="work-experience">
-                    <strong>{exp.company}</strong> - {exp.jobTitle}
-                    <p>
-                      {new Date(exp.startDate).toLocaleDateString()} -{" "}
-                      {exp.endDate ? new Date(exp.endDate).toLocaleDateString() : "Present"}
-                    </p>
-                    <ul>
-                      {exp.responsibilities.map((res, i) => (
-                        <li key={i}>{res}</li>
-                      ))}
-                    </ul>
-                    <FaTrash className="delete-icon" onClick={() => handleRemoveExperience(index)} />
-                  </div>
-                ))
-                ) : (
-                  <p>No work experience added yet.</p>
+      <Header />
+      <div className="profile-container">
+        {/* 🔹 Sidebar Navigation */}
+        <aside className="sidebar">
+          <div className="profile-photo-profile">
+            {profile.profilePhoto ? (
+              <img src={`http://localhost:5000${profile.profilePhoto}`} alt="Profile" />
+            ) : (
+              <FaUserCircle className="default-profile-icon" />
             )}
-
-            {/* 🔹 Add Work Experience Form */}
-            <AddExperienceForm onAddExperience={handleAddExperience} />
-            
-            <ProfileDropdown
-                label="Work Mode"
-                field="workMode"
-                value={profile.workMode}
-                options={["Remote", "Hybrid", "Onsite"]}
-                editingField={editingField}
-                tempValue={tempValue}
-                onEdit={handleEdit}
-                onChange={(e) => setTempValue(e.target.value)}
-                onSave={handleSave}
-                onCancel={handleCancel}
-            />
-            <ProfileList label="Preferred Work Locations" field="preferredLocations" values={profile.preferredLocations || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
-            <ProfileList label="Programming Languages I know" field="languagesPreferred" values={profile.languagesPreferred || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
-            <ProfileField
-                label="Expected Stipend in LPA"
-                field="expectedStipend"
-                value={profile.expectedStipend}
-                editingField={editingField}
-                tempValue={tempValue}
-                onEdit={handleEdit}
-                onChange={(e) => setTempValue(e.target.value)}
-                onSave={handleSave}
-                onCancel={handleCancel}
-            />
-            {/* Multi-Value Fields */}
-            <ProfileList label="Skills" field="professionalDetails.skills" values={profile.professionalDetails?.skills || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
-            <ProfileList label="Job Roles Interested" field="professionalDetails.jobRolesInterested" values={profile.professionalDetails?.jobRolesInterested || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
-            <ProfileList label="Certifications" field="additionalInfo.certifications" values={profile.additionalInfo?.certifications || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
-            <ProfileList label="Achievements" field="additionalInfo.achievements" values={profile.additionalInfo?.achievements || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
-            <ProfileList label="Languages I Speak" field="additionalInfo.languages" values={profile.additionalInfo?.languages || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
+            <label htmlFor="photo-upload" className="upload-icon">
+              <FaUpload />
+            </label>
+            <input type="file" id="photo-upload" accept="image/*" onChange={handleProfilePhotoUpload} hidden />
           </div>
-        </div>
+  
+          <nav className="sidebar-nav">
+            <button className={activeSection === "profile" ? "active" : ""} onClick={() => setActiveSection("profile")}>Profile</button>
+            <button className={activeSection === "education" ? "active" : ""} onClick={() => setActiveSection("education")}>Education</button>
+            <button className={activeSection === "socials" ? "active" : ""} onClick={() => setActiveSection("socials")}>Socials</button>
+            <button className={activeSection === "experience" ? "active" : ""} onClick={() => setActiveSection("experience")}>Work Experience</button>
+            <button className={activeSection === "preferences" ? "active" : ""} onClick={() => setActiveSection("preferences")}>Preferences</button>
+            <button className={activeSection === "additional" ? "active" : ""} onClick={() => setActiveSection("additional")}>Additional Info</button>
+          </nav>
+        </aside>
+  
+        {/* 🔹 Profile Details Section */}
+        <main className="profile-details">
+          {activeSection === "profile" && (
+            <>
+              <h2>Profile</h2>
+              <ProfileField label="Full Name" field="fullName" value={profile.fullName} editingField={editingField} tempValue={tempValue} onEdit={handleEdit} onChange={setTempValue} onSave={handleSave} onCancel={handleCancel} />
+              <ProfileField label="Bio" field="bio" value={profile.bio} editingField={editingField} tempValue={tempValue} onEdit={handleEdit} onChange={setTempValue} onSave={handleSave} onCancel={handleCancel} />
+              <ProfileField label="Location" field="location" value={profile.location} editingField={editingField} tempValue={tempValue} onEdit={handleEdit} onChange={setTempValue} onSave={handleSave} onCancel={handleCancel} />
+            </>
+          )}
+  
+          {activeSection === "education" && (
+            <>
+              <h2>Education</h2>
+              <ProfileField label="College" field="education.college" value={profile.education?.[0]?.college} editingField={editingField} tempValue={tempValue} onEdit={handleEdit} onChange={setTempValue} onSave={handleSave} onCancel={handleCancel} />
+              <ProfileField label="Degree" field="education.degree" value={profile.education?.[0]?.degree} editingField={editingField} tempValue={tempValue} onEdit={handleEdit} onChange={setTempValue} onSave={handleSave} onCancel={handleCancel} />
+              <ProfileField label="Graduation Year" field="education.graduationYear" value={profile.education?.[0]?.graduationYear} editingField={editingField} tempValue={tempValue} onEdit={handleEdit} onChange={setTempValue} onSave={handleSave} onCancel={handleCancel} />
+            </>
+          )}
+  
+          {activeSection === "socials" && (
+            <>
+              <h2>Social Links</h2>
+              <ProfileField label="LinkedIn" field="linkedIn" value={profile.linkedIn} editingField={editingField} tempValue={tempValue} onEdit={handleEdit} onChange={setTempValue} onSave={handleSave} onCancel={handleCancel} />
+              <ProfileField label="GitHub" field="github" value={profile.github} editingField={editingField} tempValue={tempValue} onEdit={handleEdit} onChange={setTempValue} onSave={handleSave} onCancel={handleCancel} />
+              <ProfileField label="Portfolio" field="portfolio" value={profile.portfolio} editingField={editingField} tempValue={tempValue} onEdit={handleEdit} onChange={setTempValue} onSave={handleSave} onCancel={handleCancel} />
+            </>
+          )}
+  
+          {activeSection === "experience" && (
+            <>
+              <h2>Work Experience</h2>
+              <ProfileField label="Current Job" field="professionalDetails.currentJob" value={profile.professionalDetails?.currentJob} editingField={editingField} tempValue={tempValue} onEdit={handleEdit} onChange={setTempValue} onSave={handleSave} onCancel={handleCancel} />
+              <ProfileField label="Years of Experience" field="professionalDetails.yearsOfExperience" value={profile.professionalDetails?.yearsOfExperience} editingField={editingField} tempValue={tempValue} onEdit={handleEdit} onChange={setTempValue} onSave={handleSave} onCancel={handleCancel} />
+              {profile.workExperience?.map((exp, index) => (
+                <div key={index} className="work-experience">
+                  <strong>{exp.company}</strong> - {exp.jobTitle}
+                  <p>{exp.startDate} - {exp.endDate || "Present"}</p>
+                  <FaTrash className="delete-icon" onClick={() => handleRemoveExperience(index)} />
+                </div>
+              ))}
+              <AddExperienceForm onAddExperience={handleAddExperience} />
+            </>
+          )}
+  
+          {activeSection === "preferences" && (
+            <>
+              <h2>Preferences</h2>
+              <ProfileDropdown label="Work Mode" field="workMode" value={profile.workMode}  options={["Remote", "Hybrid", "Onsite"]} editingField={editingField} tempValue={tempValue} onEdit={handleEdit} onChange={(e) => setTempValue(e.target.value)} onSave={handleSave} onCancel={handleCancel} />
+              <ProfileList label="Work Locations" field="preferredLocations" values={profile.preferredLocations || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
+              <ProfileList label="Programming Languages" field="languagesPreferred" values={profile.languagesPreferred || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
+              <ProfileField label="Expected Stipend (LPA)" field="expectedStipend" value={profile.expectedStipend} editingField={editingField} tempValue={tempValue} onEdit={handleEdit} onChange={setTempValue} onSave={handleSave} onCancel={handleCancel} />
+              <ProfileList label="Job Roles Interested" field="professionalDetails.jobRolesInterested" values={profile.professionalDetails?.jobRolesInterested || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
+            </>
+          )}
+  
+          {activeSection === "additional" && (
+            <>
+              <h2>Additional Information</h2>
+              <ProfileList label="Achievements" field="additionalInfo.achievements" values={profile.additionalInfo?.achievements || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
+              <ProfileList label="Certifications" field="additionalInfo.certifications" values={profile.additionalInfo?.certifications || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
+              <ProfileList label="Skills" field="professionalDetails.skills" values={profile.professionalDetails?.skills || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
+              <ProfileList label="Languages I Speak" field="additionalInfo.languages" values={profile.additionalInfo?.languages || []} onAdd={handleAddToList} onRemove={handleRemoveFromList} />
+            </>
+          )}
+        </main>
+      </div>
     </div>
-    
   );
+  
 };
 
 // Reusable field component
