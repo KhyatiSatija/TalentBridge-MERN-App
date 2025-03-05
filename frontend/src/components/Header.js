@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaHouseUser, FaUsers, FaBriefcase, FaLink, FaFileAlt, FaCog, FaUserCircle } from "react-icons/fa";
 import "../assets/css/Header.css";
-import axios from "axios";
+import api from '../api';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Header = () => {
     const fetchProfile = async () => {
       if (!developerId) return;
       try {
-        const response = await axios.get("http://localhost:5000/api/developer/profile", {
+        const response = await api.get("/api/developer/profile", {
           headers: { "developer-id": developerId },
         });
         setProfile(response.data);
@@ -78,7 +78,7 @@ const Header = () => {
       >
         {profile?.profilePhoto ? (
           <img 
-            src={`http://localhost:5000${profile.profilePhoto}`} 
+            src={`http://localhost:5000/${profile.profilePhoto}`} 
             alt="Profile" 
             className="profile-photo-header" 
           />

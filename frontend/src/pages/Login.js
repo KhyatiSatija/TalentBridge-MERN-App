@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from '../api';
 import "../assets/css/Auth.css";
 
 const Login = () => {
@@ -52,14 +52,14 @@ const Login = () => {
     try {
         let response;
         if (role === "developer"){
-          response = await axios.post("http://localhost:5000/api/auth/developer/login", {
+          response = await api.post("/api/auth/developer/login", {
             email,
             password,
           });
           localStorage.setItem("developerId", response.data.developerId); // Store JWT token in local storage
         }
         else if (role === "company") {
-          response  = await axios.post("http://localhost:5000/api/auth/company/login", {
+          response  = await api.post("/api/auth/company/login", {
             email,
             password,
           });
@@ -98,7 +98,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/forgot-password", {
+      const response = await api.post("/api/auth/forgot-password", {
         email,
         type: role,
       });

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from '../../api';
 import { FaEnvelope, FaLock, FaPhone, FaTrash, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../../assets/css/Developer/Settings.css"
@@ -23,8 +23,8 @@ const Settings = () => {
   const handleUpdateEmail = async () => {
     try {
       setLoading(true);
-      const response = await axios.put(
-        "http://localhost:5000/api/developer/settings/update-email",
+      const response = await api.put(
+        "/api/developer/settings/update-email",
         { newEmail: email },
         {
             headers: { "developer-id": developerId },
@@ -43,8 +43,8 @@ const Settings = () => {
   const handleChangePassword = async () => {
     try {
       setLoading(true);
-      const response = await axios.put(
-        "http://localhost:5000/api/developer/settings/change-password",
+      const response = await api.put(
+        "/api/developer/settings/change-password",
         { currentPassword, newPassword },
         {
             headers: { "developer-id": developerId },
@@ -63,8 +63,8 @@ const Settings = () => {
   const handleUpdatePhoneNumber = async () => {
     try {
       setLoading(true);
-      const response = await axios.put(
-        "http://localhost:5000/api/developer/settings/update-phone",
+      const response = await api.put(
+        "/api/developer/settings/update-phone",
         { newPhoneNumber: phoneNumber },
         {
             headers: { "developer-id": developerId },
@@ -87,7 +87,7 @@ const Settings = () => {
 
     try {
       setLoading(true);
-      const response = await axios.delete("http://localhost:5000/api/developer/settings/delete-account", 
+      const response = await api.delete("/api/developer/settings/delete-account", 
         {
             headers: { "developer-id": developerId },
         }

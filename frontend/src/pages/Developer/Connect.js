@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import axios from "axios";
+import api from '../../api';
 import "../../assets/css/Developer/Connect.css";
 import { FaLinkedin, FaGithub, FaGlobe, FaUserCircle } from "react-icons/fa";  // Social icons
 import Header from "../../components/Header"
@@ -17,7 +17,7 @@ const Connect = () => {
   useEffect(() => {
     const fetchDevelopers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/developer/connect", {
+        const response = await api.get("/api/developer/connect", {
           headers: { 
             "developer-id": loggedInDeveloperId
           }
@@ -42,7 +42,7 @@ const Connect = () => {
 
     console.log("Swiping on Developer ID:", swipedDeveloperId, "Direction:", direction);
     try {
-      const response = await axios.post("http://localhost:5000/api/developer/connect", {
+      const response = await api.post("/api/developer/connect", {
         developerId : swipedDeveloperId,
         action,
       }, {
@@ -105,7 +105,7 @@ const Connect = () => {
               {/* Profile Header */}
               {developers[currentIndex]?.profilePhoto ? (
                 <img 
-                  src={`http://localhost:5000${developers[currentIndex].profilePhoto}`} 
+                  src={`http://localhost:5000/${developers[currentIndex].profilePhoto}`} 
                   alt="Profile" 
                   className="profile-photo-connect" 
                 />
