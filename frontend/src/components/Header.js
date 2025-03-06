@@ -83,7 +83,7 @@ const Header = () => {
             className="profile-photo-header" 
           />
         ) : (
-          <FaUserCircle className="default-profile-icon" />
+          <FaUserCircle className="default-profile-icon-header" />
         )}
         {(profile?.fullName) || "My  Profile"}
       </button>
