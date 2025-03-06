@@ -197,7 +197,7 @@ const CompanySettings = () => {
         </div>
   
         {/* Modal for account deletion confirmation */}
-        <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="company-modal-content" overlayClassName="company-modal-overlay">
+        <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="company-modal-content-settings" overlayClassName="company-modal-overlay-settings">
           <h3>Are you sure?</h3>
           <p>This action is irreversible. Your company account along with all job descriptions and corresponding applications will be permanently deleted.</p>
           <div className="company-modal-buttons">

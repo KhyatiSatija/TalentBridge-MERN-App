@@ -63,14 +63,7 @@ const Header = () => {
       >
         <FaFileAlt /> My Applications
       </button>
-
-      <button 
-        onClick={() => navigate("/developer/settings")}
-        className={location.pathname === "/developer/settings" ? "active" : ""}
-      >
-        <FaCog /> Settings
-      </button>
-
+      
       {/* Profile Button with Fallback for Profile Picture and Name */}
       <button 
         onClick={() => navigate("/developer/profile")}
@@ -86,6 +79,13 @@ const Header = () => {
           <FaUserCircle className="default-profile-icon-header" />
         )}
         {(profile?.fullName) || "My  Profile"}
+      </button>
+
+      <button 
+        onClick={() => navigate("/developer/settings")}
+        className={location.pathname === "/developer/settings" ? "active" : ""}
+      >
+        <FaCog /> Settings
       </button>
     </nav>
   );
