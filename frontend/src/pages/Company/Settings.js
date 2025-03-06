@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import axios from "axios";
 import  CompanyHeader from "../../components/CompanyHeader";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import "../../assets/css/Company/Settings.css";
 import { FaEnvelope, FaLock, FaTrash, FaSignOutAlt, FaBuilding } from "react-icons/fa";
-import api from '../../api';
+
 Modal.setAppElement("#root"); 
 
 
@@ -23,8 +24,8 @@ const CompanySettings = () => {
   const handleUpdateEmail = async () => {
     try {
       setLoading(true);
-      const response = await api.put(
-        "/api/company/settings/update-email",
+      const response = await axios.put(
+        "http://localhost:5000/api/company/settings/update-email",
         { newEmail: email },
         {
           headers: { companyid: companyId },
@@ -43,8 +44,8 @@ const CompanySettings = () => {
   const handleChangePassword = async () => {
     try {
       setLoading(true);
-      const response = await api.put(
-        "/api/company/settings/update-password",
+      const response = await axios.put(
+        "http://localhost:5000/api/company/settings/update-password",
         { currentPassword, newPassword },
         {
           headers: { companyid: companyId },
@@ -63,8 +64,8 @@ const CompanySettings = () => {
   const handleUpdateCompanyName = async () => {
     try {
       setLoading(true);
-      const response = await api.put(
-        "/api/company/settings/change-name",
+      const response = await axios.put(
+        "http://localhost:5000/api/company/settings/change-name",
         { newName: companyName },
         {
           headers: { companyid: companyId },
@@ -86,7 +87,7 @@ const CompanySettings = () => {
   const handleDeleteAccount = async () => {
     try {
       setLoading(true);
-      const response = await api.delete("/api/company/settings/delete-account", {
+      const response = await axios.delete("http://localhost:5000/api/company/settings/delete-account", {
         headers: { companyid: companyId },
       });
       setMessage(response.data.message);
@@ -196,7 +197,7 @@ const CompanySettings = () => {
         </div>
   
         {/* Modal for account deletion confirmation */}
-        <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="company-modal-content" overlayClassName="company-modal-overlay">
+        <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="company-modal-content-settings" overlayClassName="company-modal-overlay-settings">
           <h3>Are you sure?</h3>
           <p>This action is irreversible. Your company account along with all job descriptions and corresponding applications will be permanently deleted.</p>
           <div className="company-modal-buttons">

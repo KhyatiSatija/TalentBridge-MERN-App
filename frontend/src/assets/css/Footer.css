@@ -1,35 +1,35 @@
 .footer {
-    background-color: #2c3e50;
-    color: white;
-    padding: 2rem;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    text-align: center;
-  }
-  
-  .footer-section {
-    margin: 1rem;
-  }
-  
-  .footer-section h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-  }
-  
-  .footer-section p {
-    margin: 0.5rem 0;
-    font-size: 1rem;
-    transition: color 0.3s;
-    cursor: pointer;
-  }
-  
-  .footer-section p:hover {
-    color: #3498db;
-  }
-  
-  .footer-section h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    color: aqua /* This changes the h3 text color to yellow */
-  }
+  background-color: #2c3e50;
+  color: white;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.footer-section {
+  margin: 1rem;
+}
+
+.footer-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.footer-section p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  transition: color 0.3s;
+  cursor: pointer;
+}
+
+.footer-section p:hover {
+  color: #3498db;
+}
+
+.footer-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: aqua /* This changes the h3 text color to yellow */
+}

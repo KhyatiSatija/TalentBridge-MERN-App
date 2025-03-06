@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../assets/css/Auth.css";
 import { Link, useNavigate } from "react-router-dom";
-import api from '../api';
+import axios from 'axios';
 
 const Signup = () => {
     //Initialize the useNavigate Hook
@@ -61,8 +61,8 @@ const Signup = () => {
 
     const apiUrl =
       role === "developer"
-        ? "/api/auth/developer/signup"
-        : "/api/auth/company/signup";
+        ? "http://localhost:5000/api/auth/developer/signup"
+        : "http://localhost:5000/api/auth/company/signup";
 
     //request
     const payload =
@@ -71,7 +71,7 @@ const Signup = () => {
         : { name: formData.fullName, email: formData.email, password: formData.password };
 
     try {
-      const response = await api.post(apiUrl, payload);
+      const response = await axios.post(apiUrl, payload);
 
       //store response.data.developerId and response.data.companyId in local storage
       if (role === "developer") {

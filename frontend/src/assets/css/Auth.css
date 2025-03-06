@@ -1,444 +1,444 @@
 .auth-container {
-    width: 300px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .auth-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .auth-container input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  
-  .auth-container button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .auth-container button:hover {
-    background-color: #0056b3;
-  }
-  
-  .auth-link {
-    color: #3498db;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .auth-link:hover {
-    text-decoration: underline;
-  }
-  
-  .role-toggle {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .role-toggle button {
-    padding: 10px 20px;
-    margin: 0 10px;
-    border: 1px solid #3498db;
-    background-color: white;
-    color: #3498db;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: 0.3s;
-  }
-  
-  .role-toggle button.active,
-  .role-toggle button:hover {
-    background-color: #3498db;
-    color: white;
-  }
-  
-  .forgot-password-link {
-    color: #e74c3c;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .forgot-password-link:hover {
-    text-decoration: underline;
-  }
-  /* Modal Background */
-.forgot-password-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  /* Modal Content */
-  .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Role Toggle Buttons */
-  .role-toggle {
-    display: flex;
-    justify-content: space-around;
-    margin: 10px 0;
-  }
-  
-  .role-toggle button {
-    padding: 8px 16px;
-    border: 1px solid #3498db;
-    background-color: white;
-    color: #3498db;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .role-toggle button.active,
-  .role-toggle button:hover {
-    background-color: #3498db;
-    color: white;
-  }
-  
-  /* Input Field */
-  .modal-content input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  /* Action Buttons */
-  .modal-content button {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: none;
-    border-radius: 4px;
-    background-color: #3498db;
-    color: white;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .modal-content .close-modal-btn {
-    background-color: #e74c3c;
-  }
-  
-  .modal-content button:hover {
-    background-color: #2980b9;
-  }
-  
-  .modal-content .close-modal-btn:hover {
-    background-color: #c0392b;
-  }
-  
-  /* Forgot Password Link */
-  .forgot-password-link {
-    color: #3498db;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  
-  .forgot-password-link:hover {
-    color: #2980b9;
-  }
+  width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.auth-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.auth-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.auth-container button:hover {
+  background-color: #0056b3;
+}
+
+.auth-link {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.role-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.role-toggle button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: 1px solid #3498db;
+  background-color: white;
+  color: #3498db;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.role-toggle button.active,
+.role-toggle button:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+.forgot-password-link {
+  color: #e74c3c;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
 /* Modal Background */
 .forgot-password-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Role Toggle Buttons */
+.role-toggle {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.role-toggle button {
+  padding: 8px 16px;
+  border: 1px solid #3498db;
+  background-color: white;
+  color: #3498db;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.role-toggle button.active,
+.role-toggle button:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Input Field */
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Action Buttons */
+.modal-content button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 4px;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-content .close-modal-btn {
+  background-color: #e74c3c;
+}
+
+.modal-content button:hover {
+  background-color: #2980b9;
+}
+
+.modal-content .close-modal-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Forgot Password Link */
+.forgot-password-link {
+  color: #3498db;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.forgot-password-link:hover {
+  color: #2980b9;
+}
+/* Modal Background */
+.forgot-password-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Role Toggle Buttons */
+.role-toggle {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.role-toggle button {
+  padding: 8px 16px;
+  border: 1px solid #3498db;
+  background-color: white;
+  color: #3498db;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.role-toggle button.active,
+.role-toggle button:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Input Field */
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Action Buttons */
+.modal-content button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 4px;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-content .close-modal-btn {
+  background-color: #e74c3c;
+}
+
+.modal-content button:hover {
+  background-color: #2980b9;
+}
+
+.modal-content .close-modal-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Forgot Password Link */
+.forgot-password-link {
+  color: #3498db;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.forgot-password-link:hover {
+  color: #2980b9;
+}
   
-  /* Modal Content */
-  .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Role Toggle Buttons */
-  .role-toggle {
-    display: flex;
-    justify-content: space-around;
-    margin: 10px 0;
-  }
-  
-  .role-toggle button {
-    padding: 8px 16px;
-    border: 1px solid #3498db;
-    background-color: white;
-    color: #3498db;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .role-toggle button.active,
-  .role-toggle button:hover {
-    background-color: #3498db;
-    color: white;
-  }
-  
-  /* Input Field */
-  .modal-content input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  /* Action Buttons */
-  .modal-content button {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: none;
-    border-radius: 4px;
-    background-color: #3498db;
-    color: white;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .modal-content .close-modal-btn {
-    background-color: #e74c3c;
-  }
-  
-  .modal-content button:hover {
-    background-color: #2980b9;
-  }
-  
-  .modal-content .close-modal-btn:hover {
-    background-color: #c0392b;
-  }
-  
-  /* Forgot Password Link */
-  .forgot-password-link {
-    color: #3498db;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  
-  .forgot-password-link:hover {
-    color: #2980b9;
-  }
-    
-  .message-container {
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 16px;
-    opacity: 1;
-    transition: opacity 2s ease-in-out;
-  }
-  
-  .message-container.hidden {
-    opacity: 0;
-  }
-  
-  /* Success Message */
+.message-container {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+  opacity: 1;
+  transition: opacity 2s ease-in-out;
+}
+
+.message-container.hidden {
+  opacity: 0;
+}
+
+/* Success Message */
 .message-container.success {
-  background-color: #d4edda;  /* Light green */
-  color: #155724;             /* Dark green */
-  border: 1px solid #c3e6cb;
+background-color: #d4edda;  /* Light green */
+color: #155724;             /* Dark green */
+border: 1px solid #c3e6cb;
 }
 
 /* Info Message */
 .message-container.info {
-  background-color: #cce5ff;  /* Light blue */
-  color: #004085;             /* Dark blue */
-  border: 1px solid #b8daff;
+background-color: #cce5ff;  /* Light blue */
+color: #004085;             /* Dark blue */
+border: 1px solid #b8daff;
 }
 
 /* Error Message */
 .message-container.error {
-  background-color: #f8d7da;  /* Light red */
-  color: #721c24;             /* Dark red */
-  border: 1px solid #f5c6cb;
+background-color: #f8d7da;  /* Light red */
+color: #721c24;             /* Dark red */
+border: 1px solid #f5c6cb;
 }
 
 /* Message Container */
 .message-container {
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-  font-size: 16px;
-  transition: opacity 2s ease-in-out;
+margin: 10px 0;
+padding: 10px;
+border-radius: 5px;
+text-align: center;
+font-size: 16px;
+transition: opacity 2s ease-in-out;
 }
 
 .message-container.success {
-  background-color: #d4edda;  /* Light green */
-  color: #155724;             /* Dark green */
-  border: 1px solid #c3e6cb;
+background-color: #d4edda;  /* Light green */
+color: #155724;             /* Dark green */
+border: 1px solid #c3e6cb;
 }
 
 .message-container.error {
-  background-color: #f8d7da;  /* Light red */
-  color: #721c24;             /* Dark red */
-  border: 1px solid #f5c6cb;
+background-color: #f8d7da;  /* Light red */
+color: #721c24;             /* Dark red */
+border: 1px solid #f5c6cb;
 }
 
 .message-container.info {
-  background-color: #cce5ff;  /* Light blue */
-  color: #004085;             /* Dark blue */
-  border: 1px solid #b8daff;
+background-color: #cce5ff;  /* Light blue */
+color: #004085;             /* Dark blue */
+border: 1px solid #b8daff;
 }
 
 /* Forgot Password Section */
 .forgot-password-section {
-  margin-top: 20px;
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+margin-top: 20px;
+padding: 15px;
+border: 1px solid #ccc;
+border-radius: 8px;
+background-color: #f9f9f9;
 }
 
 .role-toggle button {
-  margin: 5px;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
+margin: 5px;
+padding: 10px 20px;
+border: none;
+cursor: pointer;
+border-radius: 5px;
 }
 
 .role-toggle .active {
-  background-color: #007bff;
-  color: white;
+background-color: #007bff;
+color: white;
 }
 
 /* Error Highlight for Inputs */
 .input-error {
-  border: 2px solid #e74c3c;  /* Red border for errors */
-  background-color: #fcebea;  /* Light red background */
+border: 2px solid #e74c3c;  /* Red border for errors */
+background-color: #fcebea;  /* Light red background */
 }
 
 /* Message Container */
 .message-container {
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-  font-size: 16px;
-  transition: opacity 2s ease-in-out;
+margin: 10px 0;
+padding: 10px;
+border-radius: 5px;
+text-align: center;
+font-size: 16px;
+transition: opacity 2s ease-in-out;
 }
 
 .message-container.success {
-  background-color: #d4edda;  /* Light green for success */
-  color: #155724;
-  border: 1px solid #c3e6cb;
+background-color: #d4edda;  /* Light green for success */
+color: #155724;
+border: 1px solid #c3e6cb;
 }
 
 .message-container.error {
-  background-color: #f8d7da;  /* Light red for errors */
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+background-color: #f8d7da;  /* Light red for errors */
+color: #721c24;
+border: 1px solid #f5c6cb;
 }
 
 .message-container.info {
-  background-color: #cce5ff;  /* Light blue for info */
-  color: #004085;
-  border: 1px solid #b8daff;
+background-color: #cce5ff;  /* Light blue for info */
+color: #004085;
+border: 1px solid #b8daff;
 }
 
 /* Role Toggle Buttons */
 .role-toggle button {
-  margin: 5px;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
+margin: 5px;
+padding: 10px 20px;
+border: none;
+cursor: pointer;
+border-radius: 5px;
 }
 
 .role-toggle .active {
-  background-color: #007bff;  /* Blue for active role */
-  color: white;
+background-color: #007bff;  /* Blue for active role */
+color: white;
 }
 
 /* Forgot Password Section */
 .forgot-password-section {
-  margin-top: 20px;
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+margin-top: 20px;
+padding: 15px;
+border: 1px solid #ccc;
+border-radius: 8px;
+background-color: #f9f9f9;
 }
 
 
 /* Message Container */
 .message-container {
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-  text-align: left; 
-  font-size: 16px;
-  transition: opacity 0.5s ease-in-out;
-  line-height: 1.5; 
+margin: 10px 0;
+padding: 10px;
+border-radius: 5px;
+text-align: center;
+text-align: left; 
+font-size: 16px;
+transition: opacity 0.5s ease-in-out;
+line-height: 1.5; 
 }
 
 .message-container.success {
-  background-color: #d4edda;  /* Light green for success */
-  color: #155724;
-  border: 1px solid #c3e6cb;
+background-color: #d4edda;  /* Light green for success */
+color: #155724;
+border: 1px solid #c3e6cb;
 }
 
 .message-container.error {
-  background-color: #f8d7da;  /* Light red for errors */
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+background-color: #f8d7da;  /* Light red for errors */
+color: #721c24;
+border: 1px solid #f5c6cb;
 }
 
 /* Role Toggle Buttons */
 .role-toggle button {
-  margin: 5px;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  background-color: #f1f1f1;
-  transition: background-color 0.3s ease;
+margin: 5px;
+padding: 10px 20px;
+border: none;
+cursor: pointer;
+border-radius: 5px;
+background-color: #f1f1f1;
+transition: background-color 0.3s ease;
 }
 
 .role-toggle .active {
-  background-color: #007bff;  /* Blue for active role */
-  color: white;
+background-color: #007bff;  /* Blue for active role */
+color: white;
 }

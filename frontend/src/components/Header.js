@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaHouseUser, FaUsers, FaBriefcase, FaLink, FaFileAlt, FaCog, FaUserCircle } from "react-icons/fa";
 import "../assets/css/Header.css";
-import api from '../api';
+import axios from "axios";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Header = () => {
     const fetchProfile = async () => {
       if (!developerId) return;
       try {
-        const response = await api.get("/api/developer/profile", {
+        const response = await axios.get("http://localhost:5000/api/developer/profile", {
           headers: { "developer-id": developerId },
         });
         setProfile(response.data);
@@ -63,14 +63,7 @@ const Header = () => {
       >
         <FaFileAlt /> My Applications
       </button>
-
-      <button 
-        onClick={() => navigate("/developer/settings")}
-        className={location.pathname === "/developer/settings" ? "active" : ""}
-      >
-        <FaCog /> Settings
-      </button>
-
+      
       {/* Profile Button with Fallback for Profile Picture and Name */}
       <button 
         onClick={() => navigate("/developer/profile")}
@@ -78,14 +71,21 @@ const Header = () => {
       >
         {profile?.profilePhoto ? (
           <img 
-            src={`http://localhost:5000/${profile.profilePhoto}`} 
+            src={`http://localhost:5000${profile.profilePhoto}`} 
             alt="Profile" 
             className="profile-photo-header" 
           />
         ) : (
-          <FaUserCircle className="default-profile-icon" />
+          <FaUserCircle className="default-profile-icon-header" />
         )}
         {(profile?.fullName) || "My  Profile"}
+      </button>
+
+      <button 
+        onClick={() => navigate("/developer/settings")}
+        className={location.pathname === "/developer/settings" ? "active" : ""}
+      >
+        <FaCog /> Settings
       </button>
     </nav>
   );

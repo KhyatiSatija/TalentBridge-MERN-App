@@ -1,414 +1,414 @@
 .job-applications-page {
-    margin-top: 10px;
-  }
-  
-  .loading-spinner {
-    text-align: center;
-    font-size: 18px;
-  }
-  
-  .spinner-icon {
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  .error-message {
-    text-align: center;
-    color: red;
-  }
-  
-  .no-applications {
-    text-align: center;
-    font-style: italic;
-  }
-  
-  .applications-table {
-    width: 115%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    margin-left: -7%;
-    margin-right: -5%;
-  }
-  
-  .applications-table th, .applications-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .applications-table th {
-    background-color: #f4f4f4;
-  }
-  
-  .candidate-info {
-    display: flex;
-    /* flex-direction: column; */
-    align-items: center;
-    text-align: center;
-    justify-content:center;
-    width: 200px;
-    min-height: 80px;
-    gap: 10px;
-  }
-  
-  .profile-photo {
-    width: 50px !important;
-    height: 50px !important;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .profile-icon {
-    font-size: 50px;
-    color: gray;
-  }
-  
-  .link-icons a {
-    margin-right: 8px;
-    font-size: 20px;
-  }
-  
-  .status-applied {
-    color: blue;
-    font-weight: bold;
-  }
-  
-  .status-underProcess {
-    color: orange;
-    font-weight: bold;
-  }
-  
-  .status-hired {
-    color: green;
-    font-weight: bold;
-  }
-  
-  .status-rejected {
-    color: red;
-    font-weight: bold;
-  }
-  .status-dropdown {
-    padding: 5px;
-    border-radius: 5px;
-    background: white;
-    border: 1px solid #ccc;
-    cursor: pointer;
-  }
-  
-  .status-dropdown:hover {
-    border-color: #007bff;
-  }
-  
-  .status-dropdown:focus {
-    outline: none;
-    border-color: #0056b3;
-  }
-  
-  .status-dropdown option {
-    background: white;
-  }
-  .search-bar {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    height: 25px !important;
-  }
-  
-  .search-bar:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-  .download-btn {
-    padding: 10px 15px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  .download-btn:hover {
-    background-color: #218838;
-  }
+  margin-top: 10px;
+}
+
+.loading-spinner {
+  text-align: center;
+  font-size: 18px;
+}
+
+.spinner-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  text-align: center;
+  color: red;
+}
+
+.no-applications {
+  text-align: center;
+  font-style: italic;
+}
+
+.applications-table {
+  width: 115%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-left: -7%;
+  margin-right: -5%;
+}
+
+.applications-table th, .applications-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.applications-table th {
+  background-color: #f4f4f4;
+}
+
+.candidate-info {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  text-align: center;
+  justify-content:center;
+  width: 200px;
+  min-height: 80px;
+  gap: 10px;
+}
+
+.profile-photo {
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-icon {
+  font-size: 50px;
+  color: gray;
+}
+
+.link-icons a {
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+.status-applied {
+  color: blue;
+  font-weight: bold;
+}
+
+.status-underProcess {
+  color: orange;
+  font-weight: bold;
+}
+
+.status-hired {
+  color: green;
+  font-weight: bold;
+}
+
+.status-rejected {
+  color: red;
+  font-weight: bold;
+}
+.status-dropdown {
+  padding: 5px;
+  border-radius: 5px;
+  background: white;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.status-dropdown:hover {
+  border-color: #007bff;
+}
+
+.status-dropdown:focus {
+  outline: none;
+  border-color: #0056b3;
+}
+
+.status-dropdown option {
+  background: white;
+}
+.search-bar {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  height: 25px !important;
+}
+
+.search-bar:focus {
+  border-color: #007bff;
+  outline: none;
+}
+.download-btn {
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.download-btn:hover {
+  background-color: #218838;
+}
 /* Make search bar and button align in a single line */
 .search-download-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 15px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+width: 100%;
+margin-bottom: 15px;
 }
 
 /* Style for search input container */
 .search-input {
-  display: flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 6px 10px;
-  width: 60%;
-  background: white;
-  height: 50%;
+display: flex;
+align-items: center;
+border: 1px solid #ccc;
+border-radius: 5px;
+padding: 6px 10px;
+width: 60%;
+background: white;
+height: 50%;
 }
 
 /* Search Icon inside input */
 .search-icon {
-  color: #555;
-  font-size: 18px;
-  margin-right: 8px;
+color: #555;
+font-size: 18px;
+margin-right: 8px;
 }
 
 /* Search Bar */
 .search-bar {
-  width: 100%;
-  height: 60%;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  padding: 2px;
+width: 100%;
+height: 60%;
+border: none;
+outline: none;
+font-size: 16px;
+padding: 2px;
 }
 
 /* Button styling */
 .download-btn {
-  display: flex;
-  align-items: center;
-  background-color: green;
-  color: white;
-  padding: 8px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  width: 15%;
+display: flex;
+align-items: center;
+background-color: green;
+color: white;
+padding: 8px 15px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+font-size: 16px;
+width: 15%;
 }
 
 /* Excel Icon inside button */
 .excel-icon {
-  margin-right: 8px;
-  font-size: 18px;
+margin-right: 8px;
+font-size: 18px;
 }
 
 /* Hover effect for button */
 .download-btn:hover {
-  background-color: darkgreen;
+background-color: darkgreen;
 }
 .view-profile-icon {
-  font-size: 20px;
-  color: #007bff;
-  cursor: pointer;
-  transition: 0.2s;
+font-size: 20px;
+color: #007bff;
+cursor: pointer;
+transition: 0.2s;
 }
 
 .view-profile-icon:hover {
-  color: #0056b3;
-  transform: scale(1.1);
+color: #0056b3;
+transform: scale(1.1);
 }
 
 /* 🔹 Full-Screen Modal Overlay */
 .company-applicant-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Dark overlay */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 1000;
 }
 
 /* 🔹 Modal Content */
 .company-applicant-modal-content {
-  background: white;
-  padding: 5px;
-  border-radius: 12px;
-  /* text-align: center; */
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
-  width: 1200px; /* Adjusted for better spacing */
-  max-width: 90%;
-  max-height: 95vh; /* Prevents overflow */
-  overflow-y: auto;
-  position: relative;
+background: white;
+padding: 5px;
+border-radius: 12px;
+/* text-align: center; */
+box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+width: 1200px; /* Adjusted for better spacing */
+max-width: 90%;
+max-height: 95vh; /* Prevents overflow */
+overflow-y: auto;
+position: relative;
 }
 
 /* 🔹 Close Button */
 .company-applicant-close-button {
-  font-size: 24px;
-  color: #333;
-  cursor: pointer;
-  position: absolute;
-  right: 15px;
-  top: 10px;
+font-size: 24px;
+color: #333;
+cursor: pointer;
+position: absolute;
+right: 15px;
+top: 10px;
 }
 
 /* 🔹 Modal Layout */
 .company-applicant-modal-body {
-  display: flex;
-  flex-direction: row;
-  gap: 30px;
-  padding: 15px;
+display: flex;
+flex-direction: row;
+gap: 30px;
+padding: 15px;
 }
 
 /* 🔹 Left Column */
 .company-applicant-left-column {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* text-align: center; */
-  padding: 15px;
-  border-right: 2px solid #ddd;
+flex: 1;
+display: flex;
+flex-direction: column;
+align-items: center;
+/* text-align: center; */
+padding: 15px;
+border-right: 2px solid #ddd;
 }
 
 /* 🔹 Right Column */
 .company-applicant-right-column {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 15px;
+flex: 2;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 15px;
 }
 
 /* 🔹 Profile Header */
 .company-applicant-profile-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 10px;
-  text-align: center;
+display: flex;
+flex-direction: column;
+align-items: center;
+margin-bottom: 10px;
+text-align: center;
 }
 
 /* 🔹 Profile Image */
 .company-applicant-profile-photo {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #007bff;
+width: 100px;
+height: 100px;
+border-radius: 50%;
+object-fit: cover;
+border: 3px solid #007bff;
 }
 
 /* 🔹 Basic Info */
 .company-applicant-basic-info h2 {
-  font-size: 22px;
-  font-weight: bold;
-  margin: 8px 0;
-  color: #333;
+font-size: 22px;
+font-weight: bold;
+margin: 8px 0;
+color: #333;
 }
 
 .company-applicant-location {
-  font-size: 14px;
-  color: #777;
-  margin-bottom: 5px;
+font-size: 14px;
+color: #777;
+margin-bottom: 5px;
 }
 
 .company-applicant-bio {
-  font-size: 14px;
-  color: #555;
-  font-style: italic;
+font-size: 14px;
+color: #555;
+font-style: italic;
 }
 .company-applicant-email {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 5px;
+font-size: 14px;
+color: #555;
+margin-bottom: 5px;
 }
 .company-applicant-phone {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 5px;
+font-size: 14px;
+color: #555;
+margin-bottom: 5px;
 }
 
 /* 🔹 Social Links */
 .company-applicant-social-links {
-  display: flex;
-  gap: 25px;
-  justify-content: center;
-  margin: 5px 0;
+display: flex;
+gap: 25px;
+justify-content: center;
+margin: 5px 0;
 }
 
 .company-applicant-social-links a {
-  color: #007bff;
-  font-size: 22px;
-  transition: transform 0.2s ease;
+color: #007bff;
+font-size: 22px;
+transition: transform 0.2s ease;
 }
 
 .company-applicant-social-links a:hover {
-  color: #0056b3;
-  transform: scale(1.2);
+color: #0056b3;
+transform: scale(1.2);
 }
 
 /* 🔹 Section Headings */
 .company-applicant-section h3 {
-  color: #0a0aa5;
-  font-size: 18px;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  border-bottom: 2px solid #007bff;
-  padding-bottom: 5px;
-  font-weight: bold;
+color: #0a0aa5;
+font-size: 18px;
+margin-top: 10px;
+margin-bottom: 5px;
+border-bottom: 2px solid #007bff;
+padding-bottom: 5px;
+font-weight: bold;
 }
 
 /* 🔹 Section Content */
 .company-applicant-section p {
-  font-size: 14px;
-  color: #555;
-  line-height: 1.5;
-  margin-bottom: 2px;
+font-size: 14px;
+color: #555;
+line-height: 1.5;
+margin-bottom: 2px;
 }
 
 /* 🔹 Remove Bullet Points from Lists */
 .company-applicant-section ul {
-  padding-left: 0;
-  list-style: none;
+padding-left: 0;
+list-style: none;
 }
 
 .company-applicant-section ul li {
-  font-size: 14px;
-  color: #444;
-  margin-bottom: 5px;
+font-size: 14px;
+color: #444;
+margin-bottom: 5px;
 }
 
 /* 🔹 Job & Education Highlights */
 .company-applicant-section strong {
-  font-weight: bold;
-  color: #222;
+font-weight: bold;
+color: #222;
 }
 
 /* 🔹 Responsive Design */
 @media (max-width: 768px) {
-  .company-applicant-modal-content {
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
+.company-applicant-modal-content {
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
 
-  .company-applicant-modal-body {
-    flex-direction: column;
-  }
+.company-applicant-modal-body {
+  flex-direction: column;
+}
 
-  .company-applicant-left-column {
-    border-right: none;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-  }
+.company-applicant-left-column {
+  border-right: none;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
 }
 
 /* 🔹 Hyperlink Styling */
 a {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: bold;
+color: #007bff;
+text-decoration: none;
+font-weight: bold;
 }
 
 a:hover {
-  text-decoration: underline;
+text-decoration: underline;
 }

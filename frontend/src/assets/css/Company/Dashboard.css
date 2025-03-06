@@ -1,256 +1,256 @@
 .container {
-    max-width: 900px;
-    margin: 5%;
-  }
-  
-  .card {
-    border-radius: 10px;
-    transition: 0.3s ease;
-  }
-  
-  .card:hover {
-    transform: scale(1.02);
-  }
-  
-  .btn {
-    border-radius: 8px;
-  }
-  
+  max-width: 900px;
+  margin: 5%;
+}
+
+.card {
+  border-radius: 10px;
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.btn {
+  border-radius: 8px;
+}
+
 /* Main container styling */
 .company-dashboard {
-    max-width: 1100px;
-    margin: -2%;
-  }
-  
-  /* Dashboard title */
-  .dashboard-title {
-    margin-top : 0%;
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  /* Post Job Button */
-  .post-job-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 8px;
-    width: 20%;
-    margin: 30px auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: 0.3s ease;
-  }
-  
-  .post-job-btn:hover {
-    background-color: #0056b3;
-  }
-  
-  /* No jobs message */
-  .no-jobs-message {
-    text-align: center;
-    background-color: #e3f2fd;
-    color: #0277bd;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 16px;
-  }
-  
-  /* Job Card */
-  .job-card {
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: 0.3s ease;
-  }
-  
-  .job-card:hover {
-    transform: scale(1.02);
-  }
-  
-  /* Job Title */
-  .job-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 8px;
-  }
-  
-  /* Job Description */
-  .job-description {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 12px;
-  }
-  
-  /* Job Actions */
-  .job-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    
-  }
-  .job-actions button {
-    margin: 0px 3px;
+  max-width: 1100px;
+  margin: -2%;
+}
 
-  }
-  
-  /* Edit & Delete Buttons */
-  .edit-btn, .delete-btn {
-    border: none !important;
-    padding: 4px 10px !important;
-    font-size: 14px !important;
-    cursor: pointer !important;
-    border-radius: 6px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    transition: 0.3s ease !important;
-    width: 20%;
-  }
-  
-  .edit-btn {
-    background-color: #ffc107 !important;
-    color: #000 !important;
-  }
-  
-  .edit-btn:hover {
-    background-color: #e0a800 !important;
-  }
-  
-  .delete-btn {
-    background-color: #dc3545 !important;
-    color: white !important;
-  }
-  
-  .delete-btn:hover {
-    background-color: #c82333 !important;
-  }
+/* Dashboard title */
+.dashboard-title {
+  margin-top : 0%;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
 
-  .view-applications-btn {
-    border-radius: 6px;
-  }
+/* Post Job Button */
+.post-job-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  width: 20%;
+  margin: 30px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.post-job-btn:hover {
+  background-color: #0056b3;
+}
+
+/* No jobs message */
+.no-jobs-message {
+  text-align: center;
+  background-color: #e3f2fd;
+  color: #0277bd;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+/* Job Card */
+.job-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.3s ease;
+}
+
+.job-card:hover {
+  transform: scale(1.02);
+}
+
+/* Job Title */
+.job-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Job Description */
+.job-description {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+/* Job Actions */
+.job-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
   
+}
+.job-actions button {
+  margin: 0px 3px;
+
+}
+
+/* Edit & Delete Buttons */
+.edit-btn, .delete-btn {
+  border: none !important;
+  padding: 4px 10px !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  border-radius: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: 0.3s ease !important;
+  width: 20%;
+}
+
+.edit-btn {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+.edit-btn:hover {
+  background-color: #e0a800 !important;
+}
+
+.delete-btn {
+  background-color: #dc3545 !important;
+  color: white !important;
+}
+
+.delete-btn:hover {
+  background-color: #c82333 !important;
+}
+
+.view-applications-btn {
+  border-radius: 6px;
+}
+
 /* Modal Overlay */
 .modal-overlay {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    background: rgba(0, 0, 0, 0.4) !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-  
-  /* Modal Content */
-  .modal-content {
-    background: white !important;
-    padding: 20px !important;
-    border-radius: 8px !important;
-    width: 400px !important;
-    text-align: center !important;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
-  }
-  
-  /* Form Fields */
-  .modal-content input,
-  .modal-content textarea,
-  .modal-content select {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  /* Submit and Cancel Buttons */
-  .submit-btn {
-    background-color: #007bff !important;
-    color: white;
-    padding: 10px  !important;
-    border: none  !important;
-    cursor: pointer  !important;
-    width: 15%  !important;
-  }
-  
-  .cancel-btn {
-    background-color: #dc3545  !important;
-    color: white;
-    padding: 10px  !important;
-    border: none  !important;
-    cursor: pointer !important;
-    width: 15% !important;
-    margin-top: 10px !important;
-    align-items: center !important;
-    text-align: center !important;
-    display: flex !important;
-    justify-content: center !important;
-    font-size: 17px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-.delete-confirm-btn {
-  margin-left: auto !important;
-  margin-right: auto !important;
-  width: 15% !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Modal Content */
+.modal-content {
+  background: white !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+  width: 800px !important;
+  text-align: center !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Form Fields */
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Submit and Cancel Buttons */
+.submit-btn {
+  background-color: #007bff !important;
+  color: white;
+  padding: 10px  !important;
+  border: none  !important;
+  cursor: pointer  !important;
+  width: 15%  !important;
+}
+
+.cancel-btn {
+  background-color: #dc3545  !important;
+  color: white;
+  padding: 10px  !important;
   border: none  !important;
   cursor: pointer !important;
+  width: 15% !important;
+  margin-top: 10px !important;
   align-items: center !important;
   text-align: center !important;
   display: flex !important;
   justify-content: center !important;
+  font-size: 17px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
-  
+.delete-confirm-btn {
+margin-left: auto !important;
+margin-right: auto !important;
+width: 15% !important;
+border: none  !important;
+cursor: pointer !important;
+align-items: center !important;
+text-align: center !important;
+display: flex !important;
+justify-content: center !important;
+}
+
 .lastDate {
-    display: flex;
-    flex-direction: column;
-    align-items : flex-start;
-    width: 100%;
-    margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items : flex-start;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 /* Styling the label */
 label {
-    text-align: left !important;
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 5px;
-    display: block;
+  text-align: left !important;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
 }
 
 /* Styling the date input field */
 input[type="date"] {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f8f9fa;
-  transition: all 0.3s ease-in-out;
+width: 100%;
+padding: 10px;
+font-size: 14px;
+border: 1px solid #ccc;
+border-radius: 5px;
+background-color: #f8f9fa;
+transition: all 0.3s ease-in-out;
 }
 
 /* When the user clicks inside the date input */
 input[type="date"]:focus {
-  border-color: #007bff;
-  background-color: white;
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+border-color: #007bff;
+background-color: white;
+outline: none;
+box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
 /* Styling for better mobile experience */
 @media (max-width: 768px) {
-  input[type="date"] {
-    font-size: 16px;
-    padding: 12px;
-  }
+input[type="date"] {
+  font-size: 16px;
+  padding: 12px;
+}
 }

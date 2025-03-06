@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { FaEdit, FaTrash, FaPlus, FaEye} from "react-icons/fa";
 import "../../assets/css/Company/Dashboard.css";
 import { useNavigate  } from "react-router-dom";
 import  CompanyHeader from "../../components/CompanyHeader";
-import api from '../../api';
 
 const CompanyDashboard = () => {
   const [jobs, setJobs] = useState([]);
@@ -34,7 +34,7 @@ const CompanyDashboard = () => {
   useEffect(() => {
     const getCompanyName  = async () => {
       try {
-        const response = await api.get("/api/company/jobs/companyname", {
+        const response = await axios.get("http://localhost:5000/api/company/jobs/companyname", {
           headers : { "company-id" : companyId },
         })
         setCompanyName(response.data.companyName);
@@ -45,7 +45,7 @@ const CompanyDashboard = () => {
     }
     const fetchJobs = async () => {
       try {
-        const response = await api.get("/api/company/jobs", {
+        const response = await axios.get("http://localhost:5000/api/company/jobs", {
           headers: { "company-id" : companyId},
         });
         setJobs(response.data);
@@ -78,7 +78,7 @@ const CompanyDashboard = () => {
       try {
         console.log(formattedJob);
         console.log(companyId);
-        const response = await api.post("/api/company/jobs/create", formattedJob, {
+        const response = await axios.post("http://localhost:5000/api/company/jobs/create", formattedJob, {
           headers: { "company-id" : companyId }, //express treats headers as case insensitive
         });
         setJobs([...jobs, response.data.job]); // Update UI
@@ -109,7 +109,7 @@ const CompanyDashboard = () => {
     // Delete a job posting
   const deleteJob = async () => {
     try {
-      await api.delete(`/api/company/jobs/${jobToDelete._id}`);
+      await axios.delete(`http://localhost:5000/api/company/jobs/${jobToDelete._id}`);
       setJobs(jobs.filter((job) => job._id !== jobToDelete._id)); // Remove from UI
       setShowDeleteModal(false);
       setJobToDelete(null);
@@ -129,7 +129,7 @@ const handleEditInputChange = (e) => {
 const handleEditSubmit = async (e) => {
   e.preventDefault();
   try {
-    const response = await api.put(`/api/company/jobs/${editJobData._id}`, editJobData);
+    const response = await axios.put(`http://localhost:5000/api/company/jobs/${editJobData._id}`, editJobData);
     setJobs(jobs.map(job => (job._id === editJobData._id ? response.data.job : job)));
     setShowEditModal(false);
   }catch(error){
@@ -139,7 +139,7 @@ const handleEditSubmit = async (e) => {
 
 const toggleJobApplicationStatus = async (jobId, currentStatus) => {
   try {
-    const response = await api.patch(`/api/company/jobs/${jobId}`, {
+    const response = await axios.patch(`http://localhost:5000/api/company/jobs/${jobId}`, {
       acceptingApplications: !currentStatus,
     });
 
