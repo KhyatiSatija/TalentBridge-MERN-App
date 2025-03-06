@@ -53,7 +53,6 @@
 - Bootstrap
 - React Router
 - Axios
-- Socket.io (for real-time updates)
 
 ### **Backend**
 - Node.js
@@ -63,7 +62,7 @@
 - Nodemailer (for email notifications)
 - Multer (for file uploads)
 - Validator (for input validation)
-- Natural (for text processing)
+- Natural (for text processing -> gives relevant jobs to the developers first)
 - NewsAPI (for fetching relevant developer news)
 
 ---
@@ -119,21 +118,7 @@ To run the entire project using Docker:
 ---
 
 ## 📜 **API Endpoints**
-The company list of API endpoints is present at API_Guid.md
-
----
-
-## 🔥 **Future Scope**
-- **Real-time Chat**: Developers can chat with matched connections.
-- **Company-Developer Messaging**: HRs can communicate with developers.
-- **AI-Based Matching**: Improve job and connection recommendations using ML.
-
----
-
-## 🤝 **Contributors**
-- Khyati Satija 
-- Aanya 
-- Ameena
+The company list of API endpoints is present at API_Guide.md at the root of the directory.
 
 ---
 
