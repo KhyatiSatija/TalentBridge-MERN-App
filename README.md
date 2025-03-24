@@ -118,7 +118,7 @@ To run the entire project using Docker:
 ---
 
 ## 📜 **API Endpoints**
-The company list of API endpoints is present at API_Guide.md at the root of the directory.
+The complete list of API endpoints is present at API_Guide.md at the root of the directory.
 
 ---
 
